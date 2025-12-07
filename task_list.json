@@ -1,0 +1,256 @@
+{
+  "project": "brochure-starter-kit",
+  "created": "2025-12-07",
+  "context_source": "PROJECT_PLAN.md",
+  "tasks": [
+    {
+      "id": 1,
+      "category": "harness",
+      "file": "CLAUDE.md",
+      "description": "Master instructions for Claude Code. Defines INITIALIZER and BUILDER modes, architectural rules, quality gate requirements, sub-agent delegation, error handling.",
+      "priority": "high",
+      "dependencies": [],
+      "passes": true
+    },
+    {
+      "id": 2,
+      "category": "harness",
+      "file": ".claude/skills/brochure-design/SKILL.md",
+      "description": "Design system skill. Aesthetic directions, typography pairings, color system, component patterns, accessibility requirements, schema.org templates, anti-patterns.",
+      "priority": "high",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 3,
+      "category": "harness",
+      "file": "onboarding-template.json",
+      "description": "Discovery questionnaire schema. Business info, audience, brand, local SEO, social profiles, pages, features, content status.",
+      "priority": "high",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 4,
+      "category": "harness",
+      "file": "feature_list.json",
+      "description": "Empty feature list template with structure comment. Will be populated by INITIALIZER mode.",
+      "priority": "medium",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 5,
+      "category": "harness",
+      "file": "claude-progress.txt",
+      "description": "Empty session handoff file with header comment explaining purpose.",
+      "priority": "low",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 6,
+      "category": "scripts",
+      "file": "init.sh",
+      "description": "Dev server startup script. Installs composer/npm deps if needed, starts PHP built-in server on localhost:8000.",
+      "priority": "high",
+      "dependencies": ["composer.json", "package.json"],
+      "passes": false
+    },
+    {
+      "id": 7,
+      "category": "scripts",
+      "file": "analyze.sh",
+      "description": "Quality gate script. Runs PHP lint, PHPStan, PHPCS, Stylelint, ESLint, html-validate, pa11y, Lighthouse. Exits non-zero on failure.",
+      "priority": "high",
+      "dependencies": ["composer.json", "package.json"],
+      "passes": false
+    },
+    {
+      "id": 8,
+      "category": "config",
+      "file": "composer.json",
+      "description": "PHP dependencies: phpstan/phpstan, squizlabs/php_codesniffer, friendsofphp/php-cs-fixer, wildbit/postmark-php (Postmark email).",
+      "priority": "high",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 9,
+      "category": "config",
+      "file": "package.json",
+      "description": "Node dependencies: stylelint, eslint, html-validate, pa11y, lighthouse, browser-sync (optional).",
+      "priority": "high",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 10,
+      "category": "config",
+      "file": "phpstan.neon",
+      "description": "PHPStan config. Level 9, strict mode, paths to src/.",
+      "priority": "medium",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 11,
+      "category": "config",
+      "file": "phpcs.xml",
+      "description": "PHPCS config. PSR-12 standard, paths to src/.",
+      "priority": "medium",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 12,
+      "category": "config",
+      "file": ".php-cs-fixer.php",
+      "description": "PHP-CS-Fixer config. Matches PHPCS rules for auto-fixing.",
+      "priority": "medium",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 13,
+      "category": "config",
+      "file": ".stylelintrc.json",
+      "description": "Stylelint config. Standard rules, no !important, property order.",
+      "priority": "medium",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 14,
+      "category": "config",
+      "file": ".eslintrc.json",
+      "description": "ESLint config. ES6+, browser globals, no jQuery, Alpine.js globals allowed.",
+      "priority": "medium",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 15,
+      "category": "config",
+      "file": ".htmlvalidate.json",
+      "description": "HTML validator config. WCAG rules, semantic HTML requirements.",
+      "priority": "medium",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 16,
+      "category": "config",
+      "file": "src/.htaccess",
+      "description": "Apache config. Security headers (X-Frame-Options, X-Content-Type-Options, etc.), clean URLs, PHP error hiding, directory listing disabled.",
+      "priority": "medium",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 17,
+      "category": "scaffolding",
+      "file": "src/includes/schema.php.example",
+      "description": "JSON-LD template for LocalBusiness, Organization, WebSite schema. Commented example.",
+      "priority": "medium",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 18,
+      "category": "scaffolding",
+      "file": "src/includes/meta.php.example",
+      "description": "Meta tags template for OG, Twitter cards, geo tags. Commented example with variables.",
+      "priority": "medium",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 19,
+      "category": "scaffolding",
+      "file": "src/assets/css/_variables.css",
+      "description": "CSS custom properties skeleton. Colors, typography scale, breakpoints, spacing. Empty/placeholder values.",
+      "priority": "medium",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 20,
+      "category": "scaffolding",
+      "file": "src/includes/.gitkeep",
+      "description": "Placeholder to keep empty directory in git.",
+      "priority": "low",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 21,
+      "category": "scaffolding",
+      "file": "src/assets/js/.gitkeep",
+      "description": "Placeholder to keep empty directory in git.",
+      "priority": "low",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 22,
+      "category": "scaffolding",
+      "file": "src/assets/images/.gitkeep",
+      "description": "Placeholder to keep empty directory in git.",
+      "priority": "low",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 23,
+      "category": "project",
+      "file": ".gitignore",
+      "description": "Standard ignores: vendor/, node_modules/, .env, *.log, .DS_Store, etc.",
+      "priority": "medium",
+      "dependencies": [],
+      "passes": false
+    },
+    {
+      "id": 24,
+      "category": "project",
+      "file": "README.md",
+      "description": "Human-readable instructions. How to clone template, run init, use Claude, etc.",
+      "priority": "medium",
+      "dependencies": [],
+      "passes": false
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "Q1",
+      "question": "Placeholder content strategy - Lorem Ipsum + Unsplash with REPLACE ME comments?",
+      "status": "resolved",
+      "answer": "AI-generate copy during build. For images: source stock, provide SDXL/Flux prompts, or placeholder as last resort."
+    },
+    {
+      "id": "Q2", 
+      "question": "Include .htaccess for Apache deployment basics?",
+      "status": "resolved",
+      "answer": "Yes, include with security headers and clean URLs."
+    },
+    {
+      "id": "Q3",
+      "question": "Contact form handler - PHP mail(), file log, or both?",
+      "status": "resolved",
+      "answer": "Postmark for email delivery. Prompt for API key and sender domain during onboarding. Local JSON log for failed Postmark attempts."
+    },
+    {
+      "id": "Q4",
+      "question": "Include Puppeteer MCP for visual testing or manual browser check only?",
+      "status": "resolved",
+      "answer": "Manual browser check for now. Puppeteer can be added later."
+    },
+    {
+      "id": "Q5",
+      "question": "Track template version in generated projects?",
+      "status": "resolved",
+      "answer": "Yes, track brochure-starter-version in project-brief.json."
+    }
+  ],
+  "progress_notes": "Plan consolidated from conversation. Open questions resolved. Ready for Claude Code to generate files."
+}
