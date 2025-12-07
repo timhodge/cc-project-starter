@@ -28,7 +28,7 @@
       "description": "Discovery questionnaire schema. Business info, audience, brand, local SEO, social profiles, pages, features, content status.",
       "priority": "high",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 4,

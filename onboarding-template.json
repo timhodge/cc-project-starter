@@ -1,0 +1,430 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Brochure Website Discovery Questionnaire",
+  "description": "Questions to gather requirements for building a small business brochure website",
+  "version": "1.0.0",
+  "sections": [
+    {
+      "id": "business_info",
+      "title": "Business Information",
+      "description": "Basic information about the business",
+      "questions": [
+        {
+          "id": "business_name",
+          "question": "What is the business name?",
+          "type": "text",
+          "required": true,
+          "example": "Smith & Associates Law Firm"
+        },
+        {
+          "id": "tagline",
+          "question": "Does the business have a tagline or slogan?",
+          "type": "text",
+          "required": false,
+          "example": "Your Trusted Legal Partners Since 1985"
+        },
+        {
+          "id": "industry",
+          "question": "What industry or type of business is this?",
+          "type": "text",
+          "required": true,
+          "example": "Legal services, family law, estate planning"
+        },
+        {
+          "id": "year_established",
+          "question": "What year was the business established?",
+          "type": "number",
+          "required": false,
+          "example": 1985
+        },
+        {
+          "id": "business_description",
+          "question": "Provide a brief description of the business (2-3 sentences)",
+          "type": "textarea",
+          "required": true,
+          "example": "Smith & Associates is a family law firm serving the greater Seattle area. We specialize in divorce, custody, and estate planning matters with a compassionate, client-focused approach."
+        }
+      ]
+    },
+    {
+      "id": "audience",
+      "title": "Target Audience",
+      "description": "Understanding who the website is for",
+      "questions": [
+        {
+          "id": "target_customer",
+          "question": "Describe the ideal customer or client",
+          "type": "textarea",
+          "required": true,
+          "example": "Families going through divorce or separation, individuals needing estate planning, middle to upper-middle class, ages 35-65"
+        },
+        {
+          "id": "customer_problems",
+          "question": "What problems or needs do customers have that this business solves?",
+          "type": "textarea",
+          "required": true,
+          "example": "Need legal guidance during difficult family transitions, want to protect assets and plan for the future, seeking compassionate representation"
+        },
+        {
+          "id": "service_area",
+          "question": "What geographic area does the business serve?",
+          "type": "text",
+          "required": true,
+          "example": "Greater Seattle area, King County, Snohomish County"
+        }
+      ]
+    },
+    {
+      "id": "brand",
+      "title": "Brand & Tone",
+      "description": "Visual identity and communication style",
+      "questions": [
+        {
+          "id": "tone",
+          "question": "What tone should the website convey?",
+          "type": "select",
+          "required": true,
+          "options": [
+            "Professional & Trustworthy",
+            "Warm & Friendly",
+            "Modern & Bold",
+            "Classic & Elegant"
+          ],
+          "example": "Professional & Trustworthy"
+        },
+        {
+          "id": "brand_colors",
+          "question": "Does the business have existing brand colors? If yes, provide hex codes",
+          "type": "text",
+          "required": false,
+          "example": "#1a365d (navy), #c9a227 (gold)"
+        },
+        {
+          "id": "has_logo",
+          "question": "Does the business have an existing logo?",
+          "type": "boolean",
+          "required": true,
+          "followup": {
+            "if_true": "logo_formats",
+            "question": "What formats is the logo available in?",
+            "type": "multiselect",
+            "options": ["SVG", "PNG", "JPG", "PDF", "AI/EPS"]
+          }
+        },
+        {
+          "id": "competitor_urls",
+          "question": "List 2-3 competitor websites (URLs)",
+          "type": "array",
+          "required": false,
+          "example": ["https://competitor1.com", "https://competitor2.com"]
+        },
+        {
+          "id": "inspiration_urls",
+          "question": "List any websites you like the look/feel of (URLs)",
+          "type": "array",
+          "required": false,
+          "example": ["https://example.com", "https://another-example.com"]
+        }
+      ]
+    },
+    {
+      "id": "local_seo",
+      "title": "Local SEO & Contact Information",
+      "description": "Information for local search optimization",
+      "questions": [
+        {
+          "id": "full_address",
+          "question": "What is the full business address?",
+          "type": "address",
+          "required": true,
+          "fields": ["street", "suite", "city", "state", "zip"],
+          "example": {
+            "street": "123 Main Street",
+            "suite": "Suite 400",
+            "city": "Seattle",
+            "state": "WA",
+            "zip": "98101"
+          }
+        },
+        {
+          "id": "phone",
+          "question": "What is the business phone number?",
+          "type": "phone",
+          "required": true,
+          "example": "(206) 555-1234"
+        },
+        {
+          "id": "email",
+          "question": "What is the primary contact email?",
+          "type": "email",
+          "required": true,
+          "example": "info@smithlaw.com"
+        },
+        {
+          "id": "business_hours",
+          "question": "What are the business hours?",
+          "type": "hours",
+          "required": true,
+          "example": {
+            "monday": "9:00 AM - 5:00 PM",
+            "tuesday": "9:00 AM - 5:00 PM",
+            "wednesday": "9:00 AM - 5:00 PM",
+            "thursday": "9:00 AM - 5:00 PM",
+            "friday": "9:00 AM - 5:00 PM",
+            "saturday": "Closed",
+            "sunday": "Closed"
+          }
+        },
+        {
+          "id": "google_business_url",
+          "question": "What is the Google Business Profile URL (if exists)?",
+          "type": "url",
+          "required": false,
+          "example": "https://g.page/smith-law-seattle"
+        },
+        {
+          "id": "geo_coordinates",
+          "question": "What are the latitude/longitude coordinates? (for map embed)",
+          "type": "coordinates",
+          "required": false,
+          "example": {
+            "lat": 47.6062,
+            "lng": -122.3321
+          },
+          "note": "Can be looked up from Google Maps"
+        }
+      ]
+    },
+    {
+      "id": "social",
+      "title": "Social Media Profiles",
+      "description": "Links to social media accounts",
+      "questions": [
+        {
+          "id": "facebook",
+          "question": "Facebook page URL",
+          "type": "url",
+          "required": false,
+          "example": "https://facebook.com/smithlawseattle"
+        },
+        {
+          "id": "instagram",
+          "question": "Instagram profile URL",
+          "type": "url",
+          "required": false,
+          "example": "https://instagram.com/smithlawseattle"
+        },
+        {
+          "id": "linkedin",
+          "question": "LinkedIn company page URL",
+          "type": "url",
+          "required": false,
+          "example": "https://linkedin.com/company/smith-law"
+        },
+        {
+          "id": "twitter",
+          "question": "Twitter/X profile URL",
+          "type": "url",
+          "required": false,
+          "example": "https://twitter.com/smithlawseattle"
+        },
+        {
+          "id": "youtube",
+          "question": "YouTube channel URL",
+          "type": "url",
+          "required": false,
+          "example": "https://youtube.com/@smithlawseattle"
+        },
+        {
+          "id": "other_social",
+          "question": "Any other social profiles?",
+          "type": "array",
+          "required": false,
+          "example": ["https://yelp.com/biz/smith-law"]
+        }
+      ]
+    },
+    {
+      "id": "pages",
+      "title": "Pages & Features",
+      "description": "What pages and functionality the site needs",
+      "questions": [
+        {
+          "id": "required_pages",
+          "question": "Which pages are required?",
+          "type": "multiselect",
+          "required": true,
+          "options": [
+            "Home",
+            "About",
+            "Services",
+            "Contact"
+          ],
+          "default": ["Home", "About", "Services", "Contact"]
+        },
+        {
+          "id": "additional_pages",
+          "question": "Any additional pages needed?",
+          "type": "array",
+          "required": false,
+          "example": ["Team", "Testimonials", "FAQ", "Gallery", "Blog", "Pricing"]
+        },
+        {
+          "id": "features",
+          "question": "Which features are needed?",
+          "type": "multiselect",
+          "required": true,
+          "options": [
+            "Contact Form",
+            "Google Map",
+            "Testimonials/Reviews",
+            "Image Gallery",
+            "Team Section",
+            "FAQ Section",
+            "Service Cards",
+            "Call-to-Action Sections",
+            "Social Media Links",
+            "Newsletter Signup"
+          ]
+        },
+        {
+          "id": "services_list",
+          "question": "List the main services/products to feature",
+          "type": "array",
+          "required": true,
+          "example": ["Family Law", "Divorce & Separation", "Child Custody", "Estate Planning", "Wills & Trusts"]
+        }
+      ]
+    },
+    {
+      "id": "content",
+      "title": "Content Status",
+      "description": "What content exists vs needs to be created",
+      "questions": [
+        {
+          "id": "has_copy",
+          "question": "Does existing website copy/content exist?",
+          "type": "boolean",
+          "required": true,
+          "followup": {
+            "if_true": "copy_location",
+            "question": "Where is the copy located?",
+            "type": "text"
+          }
+        },
+        {
+          "id": "needs_ai_copy",
+          "question": "Should AI generate the website copy?",
+          "type": "boolean",
+          "required": true,
+          "note": "If yes, copy will be generated based on discovery answers"
+        },
+        {
+          "id": "has_images",
+          "question": "Does the business have existing photos/images?",
+          "type": "boolean",
+          "required": true,
+          "followup": {
+            "if_true": "images_location",
+            "question": "Where are the images located?",
+            "type": "text"
+          }
+        },
+        {
+          "id": "needs_stock_images",
+          "question": "Should stock images be sourced?",
+          "type": "boolean",
+          "required": false,
+          "note": "If yes, appropriate stock images will be selected"
+        },
+        {
+          "id": "needs_image_prompts",
+          "question": "Should image prompts be generated for AI image generation (SDXL/Flux)?",
+          "type": "boolean",
+          "required": false,
+          "note": "If yes, detailed prompts will be provided for manual image generation"
+        },
+        {
+          "id": "testimonials",
+          "question": "Are there existing customer testimonials to include?",
+          "type": "array",
+          "required": false,
+          "example": [
+            {
+              "quote": "The team was incredibly supportive during a difficult time.",
+              "name": "Jane D.",
+              "role": "Client"
+            }
+          ]
+        },
+        {
+          "id": "team_members",
+          "question": "List team members to feature (if applicable)",
+          "type": "array",
+          "required": false,
+          "example": [
+            {
+              "name": "John Smith",
+              "title": "Founding Partner",
+              "bio": "30 years of family law experience..."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "email_config",
+      "title": "Email Configuration (Postmark)",
+      "description": "Settings for contact form email delivery",
+      "questions": [
+        {
+          "id": "postmark_api_key",
+          "question": "Postmark API key (Server API Token)",
+          "type": "secret",
+          "required": true,
+          "note": "Get this from your Postmark account at https://postmarkapp.com",
+          "env_var": "POSTMARK_API_KEY"
+        },
+        {
+          "id": "sender_email",
+          "question": "Sender email address (must be verified in Postmark)",
+          "type": "email",
+          "required": true,
+          "example": "website@smithlaw.com"
+        },
+        {
+          "id": "sender_name",
+          "question": "Sender name",
+          "type": "text",
+          "required": true,
+          "example": "Smith Law Website"
+        },
+        {
+          "id": "recipient_email",
+          "question": "Where should form submissions be sent?",
+          "type": "email",
+          "required": true,
+          "example": "info@smithlaw.com"
+        },
+        {
+          "id": "recipient_name",
+          "question": "Recipient name",
+          "type": "text",
+          "required": true,
+          "example": "Smith Law Team"
+        }
+      ]
+    }
+  ],
+  "output_files": {
+    "project_brief": "project-brief.json",
+    "feature_list": "feature_list.json"
+  },
+  "notes": [
+    "Ask questions conversationally, not as a rigid form",
+    "Allow skipping optional questions",
+    "Clarify ambiguous answers before proceeding",
+    "Group related questions together",
+    "Secrets should be stored in .env file, not committed"
+  ]
+}
