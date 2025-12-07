@@ -64,7 +64,7 @@
       "description": "Quality gate script. Runs PHP lint, PHPStan, PHPCS, Stylelint, ESLint, html-validate, pa11y, Lighthouse. Exits non-zero on failure.",
       "priority": "high",
       "dependencies": ["composer.json", "package.json"],
-      "passes": false
+      "passes": true
     },
     {
       "id": 8,
