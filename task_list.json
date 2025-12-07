@@ -37,7 +37,7 @@
       "description": "Empty feature list template with structure comment. Will be populated by INITIALIZER mode.",
       "priority": "medium",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 5,
@@ -46,7 +46,7 @@
       "description": "Empty session handoff file with header comment explaining purpose.",
       "priority": "low",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 6,
@@ -252,5 +252,5 @@
       "answer": "Yes, track brochure-starter-version in project-brief.json."
     }
   ],
-  "progress_notes": "Plan consolidated from conversation. Open questions resolved. Ready for Claude Code to generate files."
+  "progress_notes": "All 24 tasks completed. Brochure starter kit template is ready for use."
 }

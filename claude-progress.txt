@@ -1,0 +1,30 @@
+# Claude Progress Log
+
+This file tracks progress across Claude Code sessions.
+Update this at the end of each session to enable smooth handoffs.
+
+## Format
+
+Each session entry should include:
+
+```
+## Session: YYYY-MM-DD HH:MM
+
+### Completed
+- [List of completed features/tasks]
+
+### In Progress
+- [Current feature being worked on]
+
+### Blockers
+- [Any issues preventing progress]
+
+### Next Steps
+- [What the next session should focus on]
+```
+
+---
+
+## Sessions
+
+(No sessions yet - project initialized from template)

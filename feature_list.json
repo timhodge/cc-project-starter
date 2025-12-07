@@ -1,0 +1,5 @@
+{
+  "$comment": "This file tracks features to be built. Populated by INITIALIZER mode based on discovery answers. Each feature has passes: false until implemented and verified.",
+  "template_version": "1.0.0",
+  "features": []
+}
