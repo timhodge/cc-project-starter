@@ -1,0 +1,56 @@
+{
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "void-style": "off",
+    "no-trailing-whitespace": "off",
+    "attr-quotes": "error",
+    "doctype-style": "error",
+    "element-required-attributes": "error",
+    "no-dup-attr": "error",
+    "no-dup-id": "error",
+    "heading-level": "error",
+    "no-missing-references": "error",
+    "require-sri": "off",
+    "tel-non-breaking": "warn",
+    "wcag/h30": "error",
+    "wcag/h32": "error",
+    "wcag/h36": "error",
+    "wcag/h37": "error",
+    "wcag/h63": "error",
+    "wcag/h67": "error",
+    "wcag/h71": "error",
+    "no-implicit-button-type": "error",
+    "no-inline-style": "error",
+    "prefer-native-element": "error",
+    "script-type": "off",
+    "no-unknown-elements": ["error", {
+      "allowCustomElements": false
+    }],
+    "attribute-boolean-style": ["error", "omit"],
+    "class-pattern": {
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      "severity": "warn"
+    },
+    "id-pattern": {
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      "severity": "warn"
+    },
+    "long-title": {
+      "maxlength": 70
+    },
+    "meta-refresh": "error",
+    "no-autoplay": ["error", {
+      "include": ["audio", "video"],
+      "exclude": []
+    }],
+    "unique-landmark": "warn",
+    "input-missing-label": "error",
+    "area-alt": "error",
+    "empty-heading": "error",
+    "empty-title": "error"
+  },
+  "transform": {
+    "^.*\\.php$": "html-validate:transformers/text"
+  },
+  "root": true
+}

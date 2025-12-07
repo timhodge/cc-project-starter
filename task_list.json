@@ -91,7 +91,7 @@
       "description": "PHPStan config. Level 9, strict mode, paths to src/.",
       "priority": "medium",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 11,
@@ -100,7 +100,7 @@
       "description": "PHPCS config. PSR-12 standard, paths to src/.",
       "priority": "medium",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 12,
@@ -109,7 +109,7 @@
       "description": "PHP-CS-Fixer config. Matches PHPCS rules for auto-fixing.",
       "priority": "medium",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 13,
@@ -118,7 +118,7 @@
       "description": "Stylelint config. Standard rules, no !important, property order.",
       "priority": "medium",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 14,
@@ -127,7 +127,7 @@
       "description": "ESLint config. ES6+, browser globals, no jQuery, Alpine.js globals allowed.",
       "priority": "medium",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 15,
@@ -136,7 +136,7 @@
       "description": "HTML validator config. WCAG rules, semantic HTML requirements.",
       "priority": "medium",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 16,
@@ -145,7 +145,7 @@
       "description": "Apache config. Security headers (X-Frame-Options, X-Content-Type-Options, etc.), clean URLs, PHP error hiding, directory listing disabled.",
       "priority": "medium",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 17,
@@ -208,7 +208,7 @@
       "description": "Standard ignores: vendor/, node_modules/, .env, *.log, .DS_Store, etc.",
       "priority": "medium",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 24,
