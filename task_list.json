@@ -19,7 +19,7 @@
       "description": "Design system skill. Aesthetic directions, typography pairings, color system, component patterns, accessibility requirements, schema.org templates, anti-patterns.",
       "priority": "high",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 3,
