@@ -154,7 +154,7 @@
       "description": "JSON-LD template for LocalBusiness, Organization, WebSite schema. Commented example.",
       "priority": "medium",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 18,
@@ -163,7 +163,7 @@
       "description": "Meta tags template for OG, Twitter cards, geo tags. Commented example with variables.",
       "priority": "medium",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 19,
@@ -172,7 +172,7 @@
       "description": "CSS custom properties skeleton. Colors, typography scale, breakpoints, spacing. Empty/placeholder values.",
       "priority": "medium",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 20,
@@ -181,7 +181,7 @@
       "description": "Placeholder to keep empty directory in git.",
       "priority": "low",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 21,
@@ -190,7 +190,7 @@
       "description": "Placeholder to keep empty directory in git.",
       "priority": "low",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 22,
@@ -199,7 +199,7 @@
       "description": "Placeholder to keep empty directory in git.",
       "priority": "low",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 23,
@@ -217,7 +217,7 @@
       "description": "Human-readable instructions. How to clone template, run init, use Claude, etc.",
       "priority": "medium",
       "dependencies": [],
-      "passes": false
+      "passes": true
     }
   ],
   "open_questions": [
