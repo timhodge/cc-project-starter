@@ -55,7 +55,7 @@
       "description": "Dev server startup script. Installs composer/npm deps if needed, starts PHP built-in server on localhost:8000.",
       "priority": "high",
       "dependencies": ["composer.json", "package.json"],
-      "passes": false
+      "passes": true
     },
     {
       "id": 7,
