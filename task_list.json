@@ -73,7 +73,7 @@
       "description": "PHP dependencies: phpstan/phpstan, squizlabs/php_codesniffer, friendsofphp/php-cs-fixer, wildbit/postmark-php (Postmark email).",
       "priority": "high",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 9,
