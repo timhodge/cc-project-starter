@@ -82,7 +82,7 @@
       "description": "Node dependencies: stylelint, eslint, html-validate, pa11y, lighthouse, browser-sync (optional).",
       "priority": "high",
       "dependencies": [],
-      "passes": false
+      "passes": true
     },
     {
       "id": 10,

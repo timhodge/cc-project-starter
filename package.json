@@ -1,0 +1,31 @@
+{
+  "name": "brochure-starter",
+  "version": "1.0.0",
+  "description": "PHP brochure website starter kit with quality gates and Claude Code integration",
+  "private": true,
+  "scripts": {
+    "stylelint": "stylelint \"src/**/*.css\"",
+    "stylelint:fix": "stylelint \"src/**/*.css\" --fix",
+    "eslint": "eslint \"src/**/*.js\"",
+    "eslint:fix": "eslint \"src/**/*.js\" --fix",
+    "html-validate": "html-validate \"src/**/*.php\"",
+    "pa11y": "pa11y http://localhost:8000 --standard WCAG2AA",
+    "lighthouse": "lighthouse http://localhost:8000 --only-categories=accessibility,seo,best-practices --output=json --output-path=./lighthouse-report.json --chrome-flags=\"--headless\"",
+    "lint": "npm run stylelint && npm run eslint",
+    "lint:fix": "npm run stylelint:fix && npm run eslint:fix",
+    "test": "npm run lint && npm run html-validate"
+  },
+  "devDependencies": {
+    "stylelint": "^15.11.0",
+    "stylelint-config-standard": "^34.0.0",
+    "stylelint-order": "^6.0.4",
+    "eslint": "^8.55.0",
+    "html-validate": "^8.7.4",
+    "pa11y": "^6.2.3",
+    "lighthouse": "^11.4.0",
+    "browser-sync": "^2.29.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
