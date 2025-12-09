@@ -1,0 +1,117 @@
+# =============================================================================
+# WordPress Plugin Release
+# =============================================================================
+# Creates a WordPress.org-compatible ZIP when a release is created.
+# Optionally deploys to WordPress.org SVN repository.
+#
+# Required secrets (for WP.org deployment):
+#   WP_ORG_USERNAME   - WordPress.org username
+#   WP_ORG_PASSWORD   - WordPress.org password (or app password)
+#   PLUGIN_SLUG       - Plugin slug on WordPress.org
+#
+# Usage:
+#   1. Copy this file to .github/workflows/release.yml
+#   2. Update PLUGIN_SLUG in the env section
+#   3. Configure secrets if deploying to WordPress.org
+# =============================================================================
+
+name: WordPress Plugin Release
+
+env:
+  PLUGIN_SLUG: 'your-plugin-slug'  # Change this to your plugin slug
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Composer dependencies
+        if: hashFiles('composer.json') != ''
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
+      - name: Install npm dependencies
+        if: hashFiles('package.json') != ''
+        run: npm ci
+
+      - name: Build assets
+        if: hashFiles('package.json') != ''
+        run: npm run build --if-present
+
+      - name: Create plugin directory
+        run: |
+          mkdir -p build/${{ env.PLUGIN_SLUG }}
+
+          # Copy plugin files
+          rsync -av \
+            --exclude='.git*' \
+            --exclude='node_modules' \
+            --exclude='tests' \
+            --exclude='bin' \
+            --exclude='.wordpress-org' \
+            --exclude='*.md' \
+            --exclude='.env*' \
+            --exclude='phpstan.neon' \
+            --exclude='phpcs.xml' \
+            --exclude='.php-cs-fixer.php' \
+            --exclude='.eslintrc*' \
+            --exclude='.stylelintrc*' \
+            --exclude='composer.json' \
+            --exclude='composer.lock' \
+            --exclude='package.json' \
+            --exclude='package-lock.json' \
+            --exclude='webpack.config.js' \
+            --exclude='build' \
+            . build/${{ env.PLUGIN_SLUG }}/
+
+          # Include vendor if using Composer
+          if [ -d "vendor" ]; then
+            cp -r vendor build/${{ env.PLUGIN_SLUG }}/
+          fi
+
+      - name: Create ZIP
+        run: |
+          cd build
+          zip -r ../${{ env.PLUGIN_SLUG }}-${{ github.ref_name }}.zip ${{ env.PLUGIN_SLUG }}
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./${{ env.PLUGIN_SLUG }}-${{ github.ref_name }}.zip
+          asset_name: ${{ env.PLUGIN_SLUG }}-${{ github.ref_name }}.zip
+          asset_content_type: application/zip
+
+  # Uncomment this job to deploy to WordPress.org
+  # deploy-to-wporg:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #
+  #     - name: WordPress Plugin Deploy
+  #       uses: 10up/action-wordpress-plugin-deploy@stable
+  #       env:
+  #         SVN_PASSWORD: ${{ secrets.WP_ORG_PASSWORD }}
+  #         SVN_USERNAME: ${{ secrets.WP_ORG_USERNAME }}
+  #         SLUG: ${{ env.PLUGIN_SLUG }}

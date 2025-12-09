@@ -1,0 +1,64 @@
+# =============================================================================
+# Deploy to RunCloud VPS
+# =============================================================================
+# Deploys code to a RunCloud-managed server via SSH.
+#
+# Required secrets:
+#   RUNCLOUD_HOST     - Server hostname or IP
+#   RUNCLOUD_USER     - SSH username
+#   RUNCLOUD_SSH_KEY  - Private SSH key
+#   DEPLOY_PATH       - Absolute path on server (e.g., /home/runcloud/webapps/mysite)
+#
+# Usage:
+#   1. Copy this file to .github/workflows/deploy.yml
+#   2. Configure the secrets in your repo settings
+#   3. Adjust the trigger branch and deploy commands as needed
+# =============================================================================
+
+name: Deploy to RunCloud
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.RUNCLOUD_HOST }}
+          username: ${{ secrets.RUNCLOUD_USER }}
+          key: ${{ secrets.RUNCLOUD_SSH_KEY }}
+          script: |
+            cd ${{ secrets.DEPLOY_PATH }}
+
+            # Pull latest changes
+            git pull origin main
+
+            # Install/update PHP dependencies (if using Composer)
+            if [ -f "composer.json" ]; then
+              composer install --no-dev --optimize-autoloader --no-interaction
+            fi
+
+            # Install/update Node dependencies (if using npm)
+            if [ -f "package.json" ]; then
+              npm ci --production
+            fi
+
+            # Clear any caches (customize as needed)
+            # php artisan cache:clear  # Laravel
+            # php artisan config:cache # Laravel
+            # php artisan route:cache  # Laravel
+
+            echo "Deployment complete!"
+
+      - name: Notify on failure
+        if: failure()
+        run: echo "Deployment failed! Check the logs above."

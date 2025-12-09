@@ -1,0 +1,250 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Laravel App - Type-Specific Onboarding",
+  "description": "Discovery questions specific to Laravel application development",
+  "version": "2.0.0",
+  "parent_onboarding": "initial-onboarding.json",
+  "project_type": "laravel-app",
+  "sections": [
+    {
+      "id": "laravel_version",
+      "title": "Laravel Configuration",
+      "description": "Core Laravel setup decisions",
+      "questions": [
+        {
+          "id": "laravel_version",
+          "question": "Which Laravel version?",
+          "type": "select",
+          "required": true,
+          "default": "11",
+          "options": [
+            { "value": "11", "label": "Laravel 11 (Latest, recommended)" },
+            { "value": "10", "label": "Laravel 10 (LTS until 2025)" },
+            { "value": "9", "label": "Laravel 9 (Legacy)" }
+          ]
+        },
+        {
+          "id": "app_type",
+          "question": "What type of Laravel app is this?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "fullstack", "label": "Full-Stack Web App", "description": "Traditional web application with views" },
+            { "value": "api-only", "label": "API Only", "description": "Backend API for mobile/SPA clients" },
+            { "value": "api-spa", "label": "API + SPA", "description": "Laravel API with Vue/React SPA in same repo" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "database",
+      "title": "Database",
+      "description": "Database configuration",
+      "questions": [
+        {
+          "id": "database_driver",
+          "question": "Primary database?",
+          "type": "select",
+          "required": true,
+          "default": "mysql",
+          "options": [
+            { "value": "mysql", "label": "MySQL / MariaDB" },
+            { "value": "pgsql", "label": "PostgreSQL" },
+            { "value": "sqlite", "label": "SQLite (dev/simple apps)" }
+          ]
+        },
+        {
+          "id": "needs_redis",
+          "question": "Will you use Redis for caching/queues/sessions?",
+          "type": "boolean",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "authentication",
+      "title": "Authentication",
+      "description": "User authentication setup",
+      "questions": [
+        {
+          "id": "auth_scaffolding",
+          "question": "Which authentication scaffolding?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "breeze", "label": "Laravel Breeze", "description": "Simple, minimal auth with Blade/Inertia" },
+            { "value": "jetstream", "label": "Laravel Jetstream", "description": "Full-featured with teams, 2FA, API tokens" },
+            { "value": "fortify", "label": "Laravel Fortify", "description": "Headless auth backend (bring your own UI)" },
+            { "value": "sanctum-api", "label": "Sanctum (API only)", "description": "Token-based API authentication" },
+            { "value": "passport", "label": "Passport (OAuth)", "description": "Full OAuth2 server" },
+            { "value": "none", "label": "None", "description": "No authentication needed" }
+          ]
+        },
+        {
+          "id": "needs_social_auth",
+          "question": "Do you need social login (Google, GitHub, etc.)?",
+          "type": "boolean",
+          "required": true,
+          "followup": {
+            "if_true": "social_providers",
+            "question": "Which providers? (comma-separated)",
+            "type": "text",
+            "example": "google, github, facebook"
+          }
+        },
+        {
+          "id": "needs_roles",
+          "question": "Do you need roles and permissions?",
+          "type": "boolean",
+          "required": true,
+          "note": "Will recommend Spatie Laravel Permission package"
+        }
+      ]
+    },
+    {
+      "id": "frontend",
+      "title": "Frontend Stack",
+      "description": "Frontend/view layer configuration",
+      "questions": [
+        {
+          "id": "frontend_stack",
+          "question": "Frontend stack?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "blade", "label": "Blade Templates", "description": "Traditional server-rendered views" },
+            { "value": "inertia-vue", "label": "Inertia.js + Vue", "description": "SPA-like experience with Vue components" },
+            { "value": "inertia-react", "label": "Inertia.js + React", "description": "SPA-like experience with React components" },
+            { "value": "livewire", "label": "Livewire", "description": "Reactive components without JS framework" },
+            { "value": "api-only", "label": "API Only (no frontend)", "description": "JSON responses only" }
+          ]
+        },
+        {
+          "id": "css_framework",
+          "question": "CSS framework?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "tailwind", "label": "Tailwind CSS (recommended)" },
+            { "value": "bootstrap", "label": "Bootstrap" },
+            { "value": "custom", "label": "Custom/None" }
+          ],
+          "condition": "frontend_stack != 'api-only'"
+        }
+      ]
+    },
+    {
+      "id": "features",
+      "title": "Features & Services",
+      "description": "Additional Laravel features needed",
+      "questions": [
+        {
+          "id": "needs_queues",
+          "question": "Will you use queued jobs?",
+          "type": "boolean",
+          "required": true,
+          "followup": {
+            "if_true": "queue_driver",
+            "question": "Queue driver?",
+            "type": "select",
+            "options": [
+              { "value": "database", "label": "Database (simple)" },
+              { "value": "redis", "label": "Redis (recommended)" },
+              { "value": "sqs", "label": "Amazon SQS" }
+            ]
+          }
+        },
+        {
+          "id": "needs_broadcasting",
+          "question": "Do you need real-time events (WebSockets)?",
+          "type": "boolean",
+          "required": true,
+          "note": "For live updates, chat, notifications"
+        },
+        {
+          "id": "needs_scheduled_tasks",
+          "question": "Do you need scheduled tasks (cron)?",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "id": "needs_file_storage",
+          "question": "Do you need file uploads/storage?",
+          "type": "boolean",
+          "required": true,
+          "followup": {
+            "if_true": "storage_driver",
+            "question": "Storage driver?",
+            "type": "select",
+            "options": [
+              { "value": "local", "label": "Local disk" },
+              { "value": "s3", "label": "Amazon S3 / S3-compatible" },
+              { "value": "do-spaces", "label": "DigitalOcean Spaces" }
+            ]
+          }
+        },
+        {
+          "id": "needs_mail",
+          "question": "Does this app send emails?",
+          "type": "boolean",
+          "required": true,
+          "followup": {
+            "if_true": "mail_driver",
+            "question": "Mail driver?",
+            "type": "select",
+            "options": [
+              { "value": "postmark", "label": "Postmark" },
+              { "value": "mailgun", "label": "Mailgun" },
+              { "value": "ses", "label": "Amazon SES" },
+              { "value": "smtp", "label": "SMTP" }
+            ]
+          }
+        },
+        {
+          "id": "needs_search",
+          "question": "Do you need full-text search?",
+          "type": "boolean",
+          "required": true,
+          "note": "Will recommend Laravel Scout with Meilisearch or Algolia"
+        }
+      ]
+    },
+    {
+      "id": "dev_environment",
+      "title": "Development Environment",
+      "description": "Local development setup",
+      "questions": [
+        {
+          "id": "dev_environment",
+          "question": "Local development environment?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "sail", "label": "Laravel Sail (Docker)", "description": "Official Docker environment" },
+            { "value": "herd", "label": "Laravel Herd", "description": "Native macOS/Windows Laravel environment" },
+            { "value": "valet", "label": "Laravel Valet", "description": "Lightweight macOS environment" },
+            { "value": "artisan-serve", "label": "artisan serve", "description": "Built-in PHP dev server" },
+            { "value": "custom", "label": "Custom/Manual", "description": "Your own setup" }
+          ]
+        }
+      ]
+    }
+  ],
+  "quality_gates": [
+    { "tool": "php-lint", "required": true },
+    { "tool": "phpstan", "level": 8, "required": true },
+    { "tool": "pint", "required": true },
+    { "tool": "pest", "required": true },
+    { "tool": "eslint", "required": true, "condition": "frontend_stack != 'api-only'" }
+  ],
+  "scaffolding": {
+    "source": "project-types/laravel-app/scaffolding",
+    "notes": "Uses laravel new or composer create-project, then applies customizations"
+  },
+  "notes": [
+    "Follow PSR-12 coding standards (enforced by Pint)",
+    "Use Laravel conventions: route model binding, form requests, resources",
+    "Write Pest tests for features and critical paths",
+    "Use config files and .env for all configuration"
+  ]
+}

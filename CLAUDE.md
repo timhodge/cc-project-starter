@@ -1,8 +1,17 @@
-# Claude Code Instructions - Brochure Starter Kit
+# Claude Code Instructions - Universal Project Starter
 
 ## Overview
 
-This is a template repository for generating static-ish PHP brochure websites for small/local businesses. You operate in one of two modes based on the state of `feature_list.json`.
+This is a universal project starter kit that supports multiple project types. It guides you through onboarding, scaffolds the appropriate structure, and provides type-specific quality gates and workflows.
+
+**Supported Project Types:**
+- WordPress Plugin
+- Laravel App
+- Brochure Website (static-ish PHP)
+- Complex Website (multi-stack)
+- Bespoke Side Project
+
+**Getting Started:** When a user opens this project and says "read CLAUDE.md and let's go", begin the onboarding process.
 
 ---
 
@@ -11,60 +20,79 @@ This is a template repository for generating static-ish PHP brochure websites fo
 On every session start:
 
 1. Read this file (CLAUDE.md)
-2. Check `feature_list.json`
-   - **Empty array or file missing** → Enter INITIALIZER mode
-   - **Populated with features** → Enter BUILDER mode
+2. Check for `project-config.json`:
+   - **Missing** → Enter INITIALIZER mode
+   - **Exists** → Check `feature_list.json`:
+     - **Empty or missing** → Continue INITIALIZER (scaffolding phase)
+     - **Populated with features** → Enter BUILDER mode
 
 ---
 
 ## INITIALIZER Mode
 
-**Trigger**: `feature_list.json` is empty or missing.
+**Trigger**: `project-config.json` is missing or incomplete.
 
-**Purpose**: Conduct discovery, capture project requirements, scaffold initial structure.
+**Purpose**: Conduct discovery, determine project type, scaffold appropriate structure.
 
-### Steps
+### Phase 1: Initial Discovery
 
-1. **Greet the user** and explain you'll ask discovery questions
-2. **Load questions** from `onboarding-template.json`
+1. **Greet the user** and explain you'll ask some questions to set up their project
+2. **Load questions** from `onboarding/initial-onboarding.json`
 3. **Conduct discovery** conversationally:
-   - Ask questions in logical groups (business info, then brand, then features)
+   - Start with project type selection
+   - Ask common questions (name, description, deployment target)
    - Allow the user to skip optional questions
-   - Clarify ambiguous answers
-4. **Generate outputs**:
+
+### Phase 2: Type-Specific Discovery
+
+4. Based on the selected project type, load the appropriate onboarding file:
+   - `onboarding/wordpress-plugin.json`
+   - `onboarding/laravel-app.json`
+   - `onboarding/brochure-website.json`
+   - `onboarding/complex-website.json`
+   - `onboarding/bespoke-project.json`
+
+5. **Continue discovery** with type-specific questions
+
+### Phase 3: Setup
+
+6. **Generate outputs**:
+   - `project-config.json` - Project type and configuration
    - `project-brief.json` - All captured answers
    - `feature_list.json` - Features to build (all `passes: false`)
-5. **Scaffold src/ structure**:
-   - `src/index.php` - Homepage shell
-   - `src/includes/header.php` - Global header
-   - `src/includes/footer.php` - Global footer
-   - `src/includes/nav.php` - Navigation component
-   - `src/includes/config.php` - Site configuration
-   - `src/assets/css/main.css` - Main stylesheet (imports _variables.css)
-6. **Run `./analyze.sh`** to verify scaffolding passes quality gates
-7. **Commit**: `git commit -m "Initial project setup from discovery"`
-8. **Update `claude-progress.txt`** with session summary
+   - Copy `lessons-learned.json` template for this project
 
-### feature_list.json Generation
+7. **Copy type-specific scaffolding** from `project-types/{type}/scaffolding/`
 
-Based on discovery answers, generate features like:
+8. **Copy type-specific configs** from `project-types/{type}/config/` to project root
+
+9. **Run `./analyze.sh`** to verify scaffolding passes quality gates
+
+10. **Setup GitHub Actions** if requested:
+    - Copy appropriate templates from `templates/github-actions/`
+    - Customize based on deployment target
+
+11. **Commit**: `git commit -m "Initial project setup: {project_type}"`
+
+12. **Update `claude-progress.txt`** with session summary
+
+### project-config.json Format
 
 ```json
 {
-  "features": [
-    {
-      "id": "homepage-hero",
-      "name": "Homepage Hero Section",
-      "description": "Full-width hero with headline, subhead, and CTA button",
-      "passes": false
-    },
-    {
-      "id": "contact-form",
-      "name": "Contact Form",
-      "description": "Form with name, email, phone, message. Postmark email delivery.",
-      "passes": false
-    }
-  ]
+  "project_type": "brochure-website",
+  "project_name": "My Project",
+  "project_slug": "my-project",
+  "created_at": "2025-12-09",
+  "starter_version": "2.0.0",
+  "scripts": {
+    "init": "project-types/brochure-website/init.sh",
+    "analyze": "project-types/brochure-website/analyze.sh"
+  },
+  "deployment": {
+    "target": "runcloud",
+    "github_actions": true
+  }
 }
 ```
 
@@ -72,17 +100,18 @@ Based on discovery answers, generate features like:
 
 ## BUILDER Mode
 
-**Trigger**: `feature_list.json` contains features.
+**Trigger**: `project-config.json` exists AND `feature_list.json` has features.
 
 **Purpose**: Incrementally build features, run quality gates, commit progress.
 
 ### Session Start Checklist
 
 1. `pwd` - Verify working directory
-2. Read `claude-progress.txt` - Understand previous session state
-3. `git log --oneline -10` - Review recent commits
-4. Run `./init.sh` - Start dev server
-5. Verify site loads at http://localhost:8000
+2. Read `project-config.json` - Know project type and configuration
+3. Read `claude-progress.txt` - Understand previous session state
+4. `git log --oneline -10` - Review recent commits
+5. Run `./init.sh` - Start dev environment (delegates to type-specific script)
+6. Verify environment is running
 
 ### Build Loop
 
@@ -91,10 +120,10 @@ For each session, repeat:
 1. **Read `feature_list.json`**
 2. **Select ONE feature** where `passes: false`
 3. **Implement the feature**:
-   - For complex features, delegate to sub-agent (see below)
-   - Follow architectural rules (see below)
-   - Use the brochure-design skill for styling guidance
-4. **Run `./analyze.sh`**
+   - For complex features, delegate to sub-agent
+   - Follow type-specific architectural rules
+   - Reference type-specific skill files in `.claude/skills/`
+4. **Run `./analyze.sh`** (delegates to type-specific quality gates)
 5. **Handle results**:
    - **Errors IN SCOPE** (in files you just touched): Fix and re-run
    - **Errors OUT OF SCOPE** (pre-existing issues): STOP, report to user, do NOT commit
@@ -102,132 +131,127 @@ For each session, repeat:
 6. **Update `feature_list.json`**: Set `passes: true` for completed feature
 7. **Commit**: `git commit -m "feat: [feature name]"`
 8. **Update `claude-progress.txt`**
-9. **Repeat or end session** cleanly
+9. **Check for lessons learned** (see below)
+10. **Repeat or end session** cleanly
 
 ### Sub-Agent Delegation
 
-For complex features (galleries, forms, interactive components):
+For complex features:
 
 1. Clearly scope the sub-agent task
-2. Provide relevant context (design system, existing patterns)
+2. Provide relevant context (patterns, existing code)
 3. Sub-agent creates component files
 4. You (Builder) review, integrate, run quality gates, commit
 
-Example delegation:
+---
+
+## Lessons Learned
+
+During development, capture improvements for the starter kit in `lessons-learned.json`:
+
+**When to add an entry:**
+- You discover a missing onboarding question
+- A quality gate rule would have caught an issue earlier
+- A common pattern should be in the scaffolding
+- A useful GitHub Action template would help future projects
+- Documentation was unclear or missing
+
+**Format:**
+```json
+{
+  "id": "lesson-001",
+  "category": "quality-gates",
+  "title": "Short description",
+  "description": "What was discovered",
+  "suggested_change": "What to do in cc-project-starter",
+  "files_affected": ["path/to/file"],
+  "priority": "high|medium|low",
+  "addressed": false
+}
 ```
-"Implement the testimonial carousel component.
-Use Swiper.js. Follow the design system in SKILL.md.
-Create: testimonials.php, testimonials.css, testimonials.js"
-```
+
+**Categories:** onboarding, scaffolding, quality-gates, deployment, skills, documentation, architectural-rules
 
 ---
 
-## Architectural Rules (Non-Negotiable)
+## Type-Specific Rules
 
-### PHP
+Each project type has its own architectural rules and quality gates. After `project-config.json` is created, follow the rules for that type:
 
-- Every file: `declare(strict_types=1);`
-- PSR-12 coding standard
-- PHPStan level 9 compliance
-- Use includes for shared components (header, footer, nav)
+### Brochure Website
+- See `project-types/brochure-website/` for configs
+- Skill: `.claude/skills/brochure-design/SKILL.md`
+- Quality gates: PHPStan (L9), PHPCS (PSR-12), Stylelint, ESLint, html-validate, pa11y
 
-### HTML
+### WordPress Plugin
+- See `project-types/wordpress-plugin/` for configs
+- Skill: `.claude/skills/wordpress-plugin/SKILL.md` (when available)
+- Quality gates: PHPCS (WordPress standard), PHPStan (L6-8)
+- Follow WordPress Coding Standards
+- Prefix all functions/classes with plugin slug
 
-- Semantic HTML5: `<header>`, `<nav>`, `<main>`, `<article>`, `<section>`, `<aside>`, `<footer>`
-- One `<h1>` per page
-- Logical heading hierarchy (no skipping levels)
-- All `<img>` have `alt` attribute (decorative images: `alt=""`)
-- All form inputs have associated `<label>`
-- Include skip-to-content link
+### Laravel App
+- See `project-types/laravel-app/` for configs
+- Skill: `.claude/skills/laravel/SKILL.md` (when available)
+- Quality gates: PHPStan (L8), Laravel Pint, Pest/PHPUnit
+- Follow Laravel conventions
 
-### CSS
+### Complex Website
+- Quality gates determined by frontend/backend stacks chosen
+- May have separate configs for frontend and backend
 
-- External stylesheets only - NO inline styles
-- CSS custom properties for theming (from `_variables.css`)
-- Mobile-first approach
-- NO Bootstrap, Tailwind, or CSS frameworks
-- Minimum 16px base font size
-- Line height 1.5+ for body text
-
-### JavaScript
-
-- Vanilla JS for simple interactions
-- Alpine.js for reactive components (tabs, accordions, modals)
-- Approved libraries ONLY:
-  - Alpine.js (~15kb) - Reactive UI
-  - Swiper (~40kb) - Sliders/carousels
-  - GLightbox (~12kb) - Lightbox galleries
-  - AOS (~14kb) - Scroll animations (optional)
-- NO jQuery
-- NO React/Vue/Svelte
-
-### Accessibility (WCAG 2.1 AA)
-
-- Color contrast: 4.5:1 normal text, 3:1 large text
-- Touch targets: minimum 44x44px
-- Keyboard navigation: logical tab order, visible focus states
-- Screen readers: ARIA labels where needed, landmark roles
-- Motion: respect `prefers-reduced-motion`
-- Font sizing: rem/em units, respect browser zoom
-
-### Schema.org (JSON-LD)
-
-Every site includes:
-- LocalBusiness
-- Organization
-- WebSite
-
-Add as needed:
-- BreadcrumbList (multi-page sites)
-- Service (service pages)
-- FAQPage (FAQ sections)
-- ContactPage (contact page)
-
----
-
-## Quality Gates
-
-All checks must pass before committing:
-
-| Tool | Purpose | Blocks Commit |
-|------|---------|---------------|
-| `php -l` | PHP syntax | Yes |
-| PHPStan | Static analysis (level 9) | Yes |
-| PHPCS | Code style (PSR-12) | Yes |
-| Stylelint | CSS linting | Yes |
-| ESLint | JS linting | Yes |
-| html-validate | HTML structure/a11y | Yes |
-| pa11y | WCAG 2.1 AA | Yes |
-| Lighthouse | Performance/SEO/a11y | Advisory only |
-
-Run all checks: `./analyze.sh`
+### Bespoke Project
+- Quality gates based on chosen language and structure level
+- Minimal scaffolding for throwaway projects
+- Full structure for long-term projects
 
 ---
 
 ## File Structure
 
 ```
-src/
-├── index.php              # Homepage
-├── about.php              # About page (if needed)
-├── services.php           # Services page (if needed)
-├── contact.php            # Contact page (if needed)
-├── .htaccess              # Apache config
-├── includes/
-│   ├── config.php         # Site configuration
-│   ├── header.php         # Global header
-│   ├── footer.php         # Global footer
-│   ├── nav.php            # Navigation
-│   ├── schema.php         # JSON-LD output
-│   └── meta.php           # OG/Twitter meta tags
-└── assets/
-    ├── css/
-    │   ├── _variables.css # CSS custom properties
-    │   └── main.css       # Main stylesheet
-    ├── js/
-    │   └── main.js        # Main JavaScript
-    └── images/
-        └── ...            # Site images
+cc-project-starter/
+├── CLAUDE.md                          # This file
+├── feature_list.json                  # Features to build
+├── project-config.json                # Project configuration (after onboarding)
+├── project-brief.json                 # Discovery answers (after onboarding)
+├── lessons-learned.json               # Feedback for starter kit
+├── claude-progress.txt                # Session handoff
+├── init.sh                            # Delegator → type-specific init
+├── analyze.sh                         # Delegator → type-specific analyze
+│
+├── onboarding/
+│   ├── initial-onboarding.json        # Project type + common questions
+│   ├── brochure-website.json
+│   ├── wordpress-plugin.json
+│   ├── laravel-app.json
+│   ├── complex-website.json
+│   └── bespoke-project.json
+│
+├── project-types/
+│   ├── brochure-website/
+│   │   ├── init.sh
+│   │   ├── analyze.sh
+│   │   ├── config/                    # Linter configs
+│   │   └── scaffolding/               # Template files
+│   ├── wordpress-plugin/
+│   ├── laravel-app/
+│   ├── complex-website/
+│   └── bespoke-project/
+│
+├── templates/
+│   └── github-actions/
+│       ├── push-to-runcloud.yml
+│       ├── create-release-zip.yml
+│       ├── laravel-deploy.yml
+│       ├── wordpress-plugin-release.yml
+│       └── run-tests.yml
+│
+└── .claude/
+    └── skills/
+        ├── brochure-design/SKILL.md
+        ├── wordpress-plugin/SKILL.md
+        └── laravel/SKILL.md
 ```
 
 ---
@@ -250,6 +274,9 @@ At the end of every session, update `claude-progress.txt`:
 
 ### Next Steps
 - [What the next session should focus on]
+
+### Lessons Learned
+- [Any entries added to lessons-learned.json]
 ```
 
 ---
@@ -281,18 +308,21 @@ At the end of every session, update `claude-progress.txt`:
 ## Commands Reference
 
 ```bash
-# Start development
+# Start development (delegates to type-specific)
 ./init.sh
 
-# Run quality checks
+# Run quality checks (delegates to type-specific)
 ./analyze.sh
 
-# Auto-fix PHP style issues
-vendor/bin/php-cs-fixer fix src/
+# View project configuration
+cat project-config.json
 
-# Auto-fix CSS issues
-npx stylelint "src/**/*.css" --fix
-
-# Auto-fix JS issues
-npx eslint "src/**/*.js" --fix
+# View feature progress
+cat feature_list.json
 ```
+
+---
+
+## Version
+
+Starter Kit Version: 2.0.0

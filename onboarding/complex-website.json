@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Complex Website - Type-Specific Onboarding",
+  "description": "Discovery questions for multi-stack websites (separate frontend/backend)",
+  "version": "2.0.0",
+  "parent_onboarding": "initial-onboarding.json",
+  "project_type": "complex-website",
+  "sections": [
+    {
+      "id": "architecture",
+      "title": "Architecture Overview",
+      "description": "High-level architecture decisions",
+      "questions": [
+        {
+          "id": "architecture_pattern",
+          "question": "What architecture pattern?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "monorepo", "label": "Monorepo", "description": "Frontend and backend in same repository" },
+            { "value": "separate-repos", "label": "Separate Repos", "description": "Frontend and backend in different repositories" }
+          ]
+        },
+        {
+          "id": "is_headless_cms",
+          "question": "Is this a headless CMS setup?",
+          "type": "boolean",
+          "required": true,
+          "note": "e.g., WordPress/Strapi backend with React/Next.js frontend"
+        }
+      ]
+    },
+    {
+      "id": "frontend",
+      "title": "Frontend Stack",
+      "description": "Client-side technology choices",
+      "questions": [
+        {
+          "id": "frontend_framework",
+          "question": "Frontend framework?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "nextjs", "label": "Next.js (React)", "description": "Full-featured React framework with SSR" },
+            { "value": "nuxt", "label": "Nuxt (Vue)", "description": "Full-featured Vue framework with SSR" },
+            { "value": "react-spa", "label": "React SPA", "description": "Client-side only React" },
+            { "value": "vue-spa", "label": "Vue SPA", "description": "Client-side only Vue" },
+            { "value": "astro", "label": "Astro", "description": "Static-first with islands architecture" },
+            { "value": "vanilla", "label": "Vanilla JS", "description": "No framework, custom JavaScript" }
+          ]
+        },
+        {
+          "id": "frontend_css",
+          "question": "CSS approach?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "tailwind", "label": "Tailwind CSS" },
+            { "value": "css-modules", "label": "CSS Modules" },
+            { "value": "styled-components", "label": "Styled Components / Emotion" },
+            { "value": "scss", "label": "SCSS/SASS" },
+            { "value": "custom", "label": "Custom vanilla CSS" }
+          ]
+        },
+        {
+          "id": "needs_typescript",
+          "question": "Use TypeScript?",
+          "type": "boolean",
+          "required": true,
+          "default": true
+        }
+      ]
+    },
+    {
+      "id": "backend",
+      "title": "Backend Stack",
+      "description": "Server-side technology choices",
+      "questions": [
+        {
+          "id": "backend_framework",
+          "question": "Backend framework?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "laravel", "label": "Laravel (PHP)", "description": "Full-featured PHP framework" },
+            { "value": "wordpress", "label": "WordPress (Headless)", "description": "WordPress as headless CMS" },
+            { "value": "strapi", "label": "Strapi", "description": "Node.js headless CMS" },
+            { "value": "express", "label": "Express.js", "description": "Minimal Node.js framework" },
+            { "value": "nestjs", "label": "NestJS", "description": "Full-featured Node.js framework" },
+            { "value": "php-custom", "label": "Custom PHP", "description": "Plain PHP or micro-framework" },
+            { "value": "serverless", "label": "Serverless Functions", "description": "Vercel/Netlify/AWS Lambda functions" }
+          ]
+        },
+        {
+          "id": "api_style",
+          "question": "API style?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "rest", "label": "REST API" },
+            { "value": "graphql", "label": "GraphQL" },
+            { "value": "trpc", "label": "tRPC (TypeScript only)" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "database",
+      "title": "Database & Data",
+      "description": "Data storage and management",
+      "questions": [
+        {
+          "id": "database_type",
+          "question": "Primary database?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "mysql", "label": "MySQL / MariaDB" },
+            { "value": "postgresql", "label": "PostgreSQL" },
+            { "value": "mongodb", "label": "MongoDB" },
+            { "value": "sqlite", "label": "SQLite" },
+            { "value": "planetscale", "label": "PlanetScale (MySQL)" },
+            { "value": "supabase", "label": "Supabase (PostgreSQL)" }
+          ]
+        },
+        {
+          "id": "needs_caching",
+          "question": "Need caching layer?",
+          "type": "boolean",
+          "required": true,
+          "followup": {
+            "if_true": "cache_type",
+            "question": "Caching solution?",
+            "type": "select",
+            "options": [
+              { "value": "redis", "label": "Redis" },
+              { "value": "memcached", "label": "Memcached" },
+              { "value": "vercel-edge", "label": "Vercel Edge Config" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "features",
+      "title": "Features",
+      "description": "Additional features and integrations",
+      "questions": [
+        {
+          "id": "needs_auth",
+          "question": "Does this need user authentication?",
+          "type": "boolean",
+          "required": true,
+          "followup": {
+            "if_true": "auth_provider",
+            "question": "Authentication approach?",
+            "type": "select",
+            "options": [
+              { "value": "custom", "label": "Custom (backend handles)" },
+              { "value": "auth0", "label": "Auth0" },
+              { "value": "clerk", "label": "Clerk" },
+              { "value": "nextauth", "label": "NextAuth.js" },
+              { "value": "supabase-auth", "label": "Supabase Auth" }
+            ]
+          }
+        },
+        {
+          "id": "needs_cms",
+          "question": "Does this need a content management system?",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "id": "needs_ecommerce",
+          "question": "Does this need e-commerce functionality?",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "id": "needs_search",
+          "question": "Does this need full-text search?",
+          "type": "boolean",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "quality_gates": [
+    { "tool": "eslint", "required": true },
+    { "tool": "typescript", "required": true, "condition": "needs_typescript" },
+    { "tool": "php-lint", "required": true, "condition": "backend uses PHP" },
+    { "tool": "phpstan", "required": true, "condition": "backend uses PHP" }
+  ],
+  "notes": [
+    "Consider deployment complexity with multi-stack setups",
+    "Document API contracts between frontend and backend",
+    "Plan for CORS configuration",
+    "Consider monorepo tooling (Turborepo, Nx) if using monorepo pattern"
+  ]
+}

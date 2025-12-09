@@ -1,0 +1,92 @@
+# =============================================================================
+# Create Release ZIP
+# =============================================================================
+# Creates a distributable ZIP file when a new release is created.
+# Useful for WordPress plugins, downloadable software, etc.
+#
+# How it works:
+#   1. Triggers when you create a release in GitHub
+#   2. Installs production dependencies
+#   3. Creates a ZIP excluding dev files
+#   4. Attaches the ZIP to the release
+#
+# Usage:
+#   1. Copy this file to .github/workflows/release.yml
+#   2. Customize the excluded files/folders in the zip command
+#   3. Create a release in GitHub - the ZIP will be auto-attached
+# =============================================================================
+
+name: Create Release ZIP
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Composer dependencies
+        if: hashFiles('composer.json') != ''
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
+      - name: Install npm dependencies
+        if: hashFiles('package.json') != ''
+        run: npm ci --production
+
+      - name: Create distribution folder
+        run: |
+          mkdir -p dist
+          # Copy files to dist, excluding dev files
+          rsync -av \
+            --exclude='.git*' \
+            --exclude='node_modules' \
+            --exclude='vendor' \
+            --exclude='tests' \
+            --exclude='*.md' \
+            --exclude='.env*' \
+            --exclude='phpstan.neon' \
+            --exclude='phpcs.xml' \
+            --exclude='.php-cs-fixer.php' \
+            --exclude='.eslintrc*' \
+            --exclude='.stylelintrc*' \
+            --exclude='.htmlvalidate*' \
+            --exclude='composer.lock' \
+            --exclude='package-lock.json' \
+            --exclude='dist' \
+            . dist/
+
+          # Re-add vendor if it exists (production only)
+          if [ -d "vendor" ]; then
+            cp -r vendor dist/
+          fi
+
+      - name: Create ZIP
+        run: |
+          cd dist
+          zip -r ../${{ github.event.repository.name }}-${{ github.ref_name }}.zip .
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ./${{ github.event.repository.name }}-${{ github.ref_name }}.zip
+          asset_name: ${{ github.event.repository.name }}-${{ github.ref_name }}.zip
+          asset_content_type: application/zip

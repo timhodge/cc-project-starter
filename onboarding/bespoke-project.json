@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bespoke Project - Type-Specific Onboarding",
+  "description": "Flexible discovery for custom projects, games, experiments, and proofs of concept",
+  "version": "2.0.0",
+  "parent_onboarding": "initial-onboarding.json",
+  "project_type": "bespoke-project",
+  "sections": [
+    {
+      "id": "project_nature",
+      "title": "Project Nature",
+      "description": "Understanding what kind of project this is",
+      "questions": [
+        {
+          "id": "project_category",
+          "question": "What category best describes this project?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "game", "label": "Game", "description": "Browser game, CLI game, etc." },
+            { "value": "cli-tool", "label": "CLI Tool", "description": "Command-line utility" },
+            { "value": "automation", "label": "Automation Script", "description": "Task automation, scraping, bots" },
+            { "value": "api-service", "label": "API Service", "description": "Standalone API or microservice" },
+            { "value": "library", "label": "Library/Package", "description": "Reusable code for other projects" },
+            { "value": "poc", "label": "Proof of Concept", "description": "Experimental, throwaway code" },
+            { "value": "learning", "label": "Learning Project", "description": "Tutorial, course project, practice" },
+            { "value": "other", "label": "Other", "description": "Something else entirely" }
+          ]
+        },
+        {
+          "id": "longevity",
+          "question": "What's the expected lifespan of this project?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "throwaway", "label": "Throwaway", "description": "One-time use, won't maintain" },
+            { "value": "short-term", "label": "Short-term", "description": "A few weeks/months" },
+            { "value": "long-term", "label": "Long-term", "description": "Ongoing maintenance expected" },
+            { "value": "unknown", "label": "Unknown", "description": "Depends on how it goes" }
+          ],
+          "note": "Affects how much structure/testing we set up"
+        }
+      ]
+    },
+    {
+      "id": "tech_stack",
+      "title": "Technology",
+      "description": "Languages and frameworks to use",
+      "questions": [
+        {
+          "id": "primary_language",
+          "question": "Primary programming language?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "php", "label": "PHP" },
+            { "value": "javascript", "label": "JavaScript" },
+            { "value": "typescript", "label": "TypeScript" },
+            { "value": "python", "label": "Python" },
+            { "value": "go", "label": "Go" },
+            { "value": "rust", "label": "Rust" },
+            { "value": "bash", "label": "Bash/Shell" },
+            { "value": "multi", "label": "Multiple", "description": "Mixed language project" }
+          ]
+        },
+        {
+          "id": "secondary_languages",
+          "question": "Any secondary languages? (comma-separated)",
+          "type": "text",
+          "required": false,
+          "example": "html, css, sql"
+        },
+        {
+          "id": "frameworks",
+          "question": "Any specific frameworks or libraries you want to use?",
+          "type": "textarea",
+          "required": false,
+          "example": "Phaser for game engine, or specific npm packages"
+        }
+      ]
+    },
+    {
+      "id": "runtime",
+      "title": "Runtime Environment",
+      "description": "Where will this code run?",
+      "questions": [
+        {
+          "id": "runtime_environment",
+          "question": "Where does this run?",
+          "type": "multiselect",
+          "required": true,
+          "options": [
+            { "value": "browser", "label": "Web Browser" },
+            { "value": "node", "label": "Node.js" },
+            { "value": "cli", "label": "Command Line" },
+            { "value": "server", "label": "Web Server" },
+            { "value": "serverless", "label": "Serverless/Lambda" },
+            { "value": "docker", "label": "Docker Container" },
+            { "value": "local", "label": "Local Machine Only" }
+          ]
+        },
+        {
+          "id": "needs_database",
+          "question": "Does this need a database?",
+          "type": "boolean",
+          "required": true,
+          "followup": {
+            "if_true": "database_type",
+            "question": "What type?",
+            "type": "select",
+            "options": [
+              { "value": "sqlite", "label": "SQLite (simple, file-based)" },
+              { "value": "mysql", "label": "MySQL" },
+              { "value": "postgresql", "label": "PostgreSQL" },
+              { "value": "json-file", "label": "JSON files (no real DB)" },
+              { "value": "other", "label": "Other" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "structure",
+      "title": "Project Structure",
+      "description": "How much scaffolding do you want?",
+      "questions": [
+        {
+          "id": "structure_level",
+          "question": "How much structure do you want?",
+          "type": "select",
+          "required": true,
+          "options": [
+            { "value": "minimal", "label": "Minimal", "description": "Just the essentials, keep it simple" },
+            { "value": "standard", "label": "Standard", "description": "Reasonable structure, some organization" },
+            { "value": "full", "label": "Full", "description": "Well-organized, as if it might grow" }
+          ]
+        },
+        {
+          "id": "needs_tests",
+          "question": "Do you want test infrastructure set up?",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "id": "needs_linting",
+          "question": "Do you want linting/code style enforcement?",
+          "type": "boolean",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "additional",
+      "title": "Additional Context",
+      "description": "Anything else helpful to know",
+      "questions": [
+        {
+          "id": "inspiration",
+          "question": "Any inspiration or reference projects?",
+          "type": "textarea",
+          "required": false,
+          "example": "URLs to similar projects, games, tools that inspire this"
+        },
+        {
+          "id": "constraints",
+          "question": "Any constraints or requirements to keep in mind?",
+          "type": "textarea",
+          "required": false,
+          "example": "Must work offline, needs to be < 10KB, no external dependencies, etc."
+        },
+        {
+          "id": "notes",
+          "question": "Any other notes or context?",
+          "type": "textarea",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "quality_gates": "dynamic",
+  "quality_gates_note": "Quality gates determined by language and structure_level choices",
+  "notes": [
+    "This is the most flexible project type",
+    "Scaffolding should match the structure_level choice",
+    "For throwaway projects, minimize boilerplate",
+    "For long-term projects, set up proper testing and CI"
+  ]
+}

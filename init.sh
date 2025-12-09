@@ -1,93 +1,79 @@
 #!/bin/bash
-# init.sh - Development server startup script
-# Installs dependencies if needed and starts PHP built-in server
+# =============================================================================
+# Universal Project Starter - Development Environment Initializer
+# =============================================================================
+# This script delegates to type-specific init scripts based on project-config.json
+# If no project is configured yet, it provides guidance on getting started.
+# =============================================================================
 
 set -e
 
-echo "=== Brochure Starter - Development Server ==="
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+echo -e "${BLUE}╔════════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${BLUE}║       Universal Project Starter - Init                         ║${NC}"
+echo -e "${BLUE}╚════════════════════════════════════════════════════════════════╝${NC}"
 echo ""
 
-# Check for PHP
-if ! command -v php &> /dev/null; then
-    echo "ERROR: PHP is not installed or not in PATH"
-    echo "Please install PHP 8.1 or higher"
-    exit 1
-fi
-
-PHP_VERSION=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
-echo "PHP version: $PHP_VERSION"
-
-# Check for Composer
-if ! command -v composer &> /dev/null; then
-    echo "ERROR: Composer is not installed or not in PATH"
-    echo "Please install Composer: https://getcomposer.org"
-    exit 1
-fi
-
-# Check for Node.js
-if ! command -v node &> /dev/null; then
-    echo "ERROR: Node.js is not installed or not in PATH"
-    echo "Please install Node.js 18 or higher"
-    exit 1
-fi
-
-NODE_VERSION=$(node -v)
-echo "Node.js version: $NODE_VERSION"
-
-# Check for npm
-if ! command -v npm &> /dev/null; then
-    echo "ERROR: npm is not installed or not in PATH"
-    exit 1
-fi
-
-NPM_VERSION=$(npm -v)
-echo "npm version: $NPM_VERSION"
-echo ""
-
-# Install Composer dependencies if needed
-if [ ! -d "vendor" ]; then
-    echo "=== Installing Composer dependencies ==="
-    composer install
+# Check if project-config.json exists
+if [ ! -f "project-config.json" ]; then
+    echo -e "${YELLOW}⚠ No project-config.json found${NC}"
     echo ""
-fi
-
-# Install npm dependencies if needed
-if [ ! -d "node_modules" ]; then
-    echo "=== Installing npm dependencies ==="
-    npm install
+    echo "This project hasn't been initialized yet."
     echo ""
+    echo "To get started:"
+    echo "  1. Open this project in Claude Code"
+    echo "  2. Say: \"read CLAUDE.md and let's go\""
+    echo "  3. Answer the onboarding questions"
+    echo ""
+    echo "Claude will guide you through project setup and create the necessary configuration."
+    echo ""
+    exit 0
 fi
 
-# Check if .env exists, create from example if not
-if [ ! -f ".env" ]; then
-    if [ -f ".env.example" ]; then
-        echo "Creating .env from .env.example"
-        cp .env.example .env
-        echo "Please update .env with your configuration values"
-        echo ""
-    fi
-fi
-
-# Check if src directory exists
-if [ ! -d "src" ]; then
-    echo "ERROR: src/ directory not found"
-    echo "Run the INITIALIZER mode first to scaffold the project"
+# Check for jq (required to parse JSON)
+if ! command -v jq &> /dev/null; then
+    echo -e "${RED}✗ jq is required but not installed${NC}"
+    echo ""
+    echo "Install jq:"
+    echo "  macOS:  brew install jq"
+    echo "  Ubuntu: sudo apt-get install jq"
+    echo "  Other:  https://stedolan.github.io/jq/download/"
     exit 1
 fi
 
-# Check if port 8000 is already in use
-if lsof -Pi :8000 -sTCP:LISTEN -t >/dev/null 2>&1; then
-    echo "WARNING: Port 8000 is already in use"
-    echo "The server may already be running, or another process is using the port"
-    echo ""
+# Read project configuration
+PROJECT_TYPE=$(jq -r '.project_type' project-config.json)
+PROJECT_NAME=$(jq -r '.project_name' project-config.json)
+INIT_SCRIPT=$(jq -r '.scripts.init // empty' project-config.json)
+
+echo -e "Project: ${GREEN}${PROJECT_NAME}${NC}"
+echo -e "Type:    ${GREEN}${PROJECT_TYPE}${NC}"
+echo ""
+
+# If no init script specified, try the default location
+if [ -z "$INIT_SCRIPT" ]; then
+    INIT_SCRIPT="project-types/${PROJECT_TYPE}/init.sh"
 fi
 
-echo "=== Starting PHP Development Server ==="
-echo "Server: http://localhost:8000"
-echo "Document root: $(pwd)/src"
-echo ""
-echo "Press Ctrl+C to stop the server"
-echo ""
+# Check if the init script exists
+if [ ! -f "$INIT_SCRIPT" ]; then
+    echo -e "${RED}✗ Init script not found: ${INIT_SCRIPT}${NC}"
+    echo ""
+    echo "The project type '${PROJECT_TYPE}' may not be fully configured yet."
+    echo "Check that project-types/${PROJECT_TYPE}/init.sh exists."
+    exit 1
+fi
 
-# Start PHP built-in server
-php -S localhost:8000 -t src/
+# Make sure it's executable
+chmod +x "$INIT_SCRIPT"
+
+# Run the type-specific init script
+echo -e "${BLUE}Running ${PROJECT_TYPE} initialization...${NC}"
+echo ""
+exec bash "$INIT_SCRIPT"

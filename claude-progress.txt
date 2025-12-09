@@ -27,4 +27,45 @@ Each session entry should include:
 
 ## Sessions
 
-(No sessions yet - project initialized from template)
+## Session: 2025-12-09 12:43
+
+### Completed
+- Created directory structure: onboarding/, project-types/, templates/github-actions/
+- Created initial-onboarding.json with project type decision tree
+- Created stub onboarding files for all 5 project types:
+  - wordpress-plugin.json (full questions for WP plugin development)
+  - laravel-app.json (full questions for Laravel apps)
+  - complex-website.json (questions for multi-stack sites)
+  - bespoke-project.json (flexible questions for custom projects)
+- Migrated brochure-website type to project-types/brochure-website/
+  - Moved init.sh, analyze.sh
+  - Moved all config files to config/
+  - Copied scaffolding from src/
+- Created delegator init.sh and analyze.sh that read project-config.json
+- Created lessons-learned.json template
+- Created 5 GitHub Actions templates:
+  - push-to-runcloud.yml
+  - create-release-zip.yml
+  - laravel-deploy.yml
+  - wordpress-plugin-release.yml
+  - run-tests.yml
+- Refactored CLAUDE.md for multi-type support (v2.0.0)
+- Updated feature_list.json with remaining work (10 features remaining)
+- Added README.md to each stub project type directory
+
+### In Progress
+- None (stubbing phase complete)
+
+### Blockers
+- None
+
+### Next Steps
+- Make WordPress plugin type fully functional (init.sh, analyze.sh, configs, scaffolding)
+- Make Laravel app type fully functional
+- Create WordPress and Laravel skill files
+- Update main README.md
+- End-to-end test the brochure website flow
+
+### Lessons Learned
+- The onboarding JSON schema supports conditional follow-ups well
+- Delegator scripts need jq for JSON parsing

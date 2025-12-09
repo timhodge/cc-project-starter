@@ -1,0 +1,92 @@
+# =============================================================================
+# Run Tests & Quality Gates
+# =============================================================================
+# Runs quality gates on push and pull requests.
+# Adapts based on what tools are configured in the project.
+#
+# Usage:
+#   1. Copy this file to .github/workflows/tests.yml
+#   2. Customize the PHP/Node versions and test commands
+# =============================================================================
+
+name: Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  php-checks:
+    runs-on: ubuntu-latest
+    if: hashFiles('composer.json') != ''
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, json
+          coverage: none
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction
+
+      - name: PHP Syntax Check
+        run: find . -name "*.php" -not -path "./vendor/*" -exec php -l {} \;
+
+      - name: Run PHPStan
+        if: hashFiles('phpstan.neon') != '' || hashFiles('phpstan.neon.dist') != ''
+        run: vendor/bin/phpstan analyse --memory-limit=256M
+
+      - name: Run PHPCS
+        if: hashFiles('phpcs.xml') != '' || hashFiles('phpcs.xml.dist') != ''
+        run: vendor/bin/phpcs
+
+      - name: Run Laravel Pint
+        if: hashFiles('pint.json') != ''
+        run: vendor/bin/pint --test
+
+      - name: Run Tests
+        if: hashFiles('phpunit.xml') != '' || hashFiles('phpunit.xml.dist') != ''
+        run: vendor/bin/phpunit
+
+      - name: Run Pest
+        if: hashFiles('tests/Pest.php') != ''
+        run: vendor/bin/pest
+
+  js-checks:
+    runs-on: ubuntu-latest
+    if: hashFiles('package.json') != ''
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        if: hashFiles('.eslintrc*') != ''
+        run: npm run eslint --if-present || npx eslint .
+
+      - name: Run Stylelint
+        if: hashFiles('.stylelintrc*') != ''
+        run: npm run stylelint --if-present || npx stylelint "**/*.css"
+
+      - name: Run TypeScript Check
+        if: hashFiles('tsconfig.json') != ''
+        run: npx tsc --noEmit
+
+      - name: Run Tests
+        run: npm test --if-present

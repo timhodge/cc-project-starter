@@ -1,0 +1,261 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WordPress Plugin - Type-Specific Onboarding",
+  "description": "Discovery questions specific to WordPress plugin development",
+  "version": "2.0.0",
+  "parent_onboarding": "initial-onboarding.json",
+  "project_type": "wordpress-plugin",
+  "sections": [
+    {
+      "id": "plugin_info",
+      "title": "Plugin Information",
+      "description": "Core plugin metadata for the plugin header",
+      "questions": [
+        {
+          "id": "plugin_slug",
+          "question": "Plugin slug (used for text domain, folder name)?",
+          "type": "text",
+          "required": true,
+          "example": "my-awesome-plugin",
+          "note": "Lowercase, hyphens only. Must be unique on WordPress.org if publishing there."
+        },
+        {
+          "id": "plugin_name",
+          "question": "Plugin display name?",
+          "type": "text",
+          "required": true,
+          "example": "My Awesome Plugin"
+        },
+        {
+          "id": "plugin_uri",
+          "question": "Plugin URI (website or repo URL)?",
+          "type": "url",
+          "required": false,
+          "example": "https://example.com/my-awesome-plugin"
+        },
+        {
+          "id": "author_name",
+          "question": "Author name?",
+          "type": "text",
+          "required": true,
+          "example": "Your Name"
+        },
+        {
+          "id": "author_uri",
+          "question": "Author URI?",
+          "type": "url",
+          "required": false,
+          "example": "https://yourwebsite.com"
+        },
+        {
+          "id": "plugin_version",
+          "question": "Initial version number?",
+          "type": "text",
+          "required": true,
+          "default": "1.0.0",
+          "example": "1.0.0"
+        },
+        {
+          "id": "license",
+          "question": "License?",
+          "type": "select",
+          "required": true,
+          "default": "GPL-2.0-or-later",
+          "options": [
+            { "value": "GPL-2.0-or-later", "label": "GPL v2 or later (required for WP.org)" },
+            { "value": "GPL-3.0-or-later", "label": "GPL v3 or later" },
+            { "value": "MIT", "label": "MIT (not WP.org compatible)" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "requirements",
+      "title": "Requirements",
+      "description": "Minimum version requirements",
+      "questions": [
+        {
+          "id": "min_wp_version",
+          "question": "Minimum WordPress version?",
+          "type": "select",
+          "required": true,
+          "default": "6.0",
+          "options": [
+            { "value": "5.9", "label": "5.9 (FSE support)" },
+            { "value": "6.0", "label": "6.0 (Recommended minimum)" },
+            { "value": "6.4", "label": "6.4 (Latest stable)" },
+            { "value": "6.5", "label": "6.5 (Cutting edge)" }
+          ]
+        },
+        {
+          "id": "tested_wp_version",
+          "question": "Tested up to WordPress version?",
+          "type": "text",
+          "required": true,
+          "default": "6.5",
+          "example": "6.5"
+        },
+        {
+          "id": "min_php_version",
+          "question": "Minimum PHP version?",
+          "type": "select",
+          "required": true,
+          "default": "8.0",
+          "options": [
+            { "value": "7.4", "label": "7.4 (WP minimum)" },
+            { "value": "8.0", "label": "8.0 (Recommended)" },
+            { "value": "8.1", "label": "8.1" },
+            { "value": "8.2", "label": "8.2 (Latest stable)" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "features",
+      "title": "Plugin Features",
+      "description": "What capabilities does this plugin need?",
+      "questions": [
+        {
+          "id": "uses_composer",
+          "question": "Will this plugin use Composer for PHP dependencies?",
+          "type": "boolean",
+          "required": true,
+          "note": "Recommended for complex plugins. Requires careful autoloading."
+        },
+        {
+          "id": "uses_npm",
+          "question": "Will this plugin have a frontend build step (npm/webpack)?",
+          "type": "boolean",
+          "required": true,
+          "note": "Required for Gutenberg blocks, React components, or modern JS"
+        },
+        {
+          "id": "needs_cpts",
+          "question": "Does this plugin need Custom Post Types?",
+          "type": "boolean",
+          "required": true,
+          "followup": {
+            "if_true": "cpt_names",
+            "question": "List the Custom Post Types needed (comma-separated)",
+            "type": "text",
+            "example": "portfolio, testimonial, team_member"
+          }
+        },
+        {
+          "id": "needs_taxonomies",
+          "question": "Does this plugin need Custom Taxonomies?",
+          "type": "boolean",
+          "required": true,
+          "followup": {
+            "if_true": "taxonomy_names",
+            "question": "List the Custom Taxonomies needed (comma-separated)",
+            "type": "text",
+            "example": "portfolio_category, skill_level"
+          }
+        },
+        {
+          "id": "needs_settings_page",
+          "question": "Does this plugin need an admin settings page?",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "id": "needs_rest_api",
+          "question": "Does this plugin need custom REST API endpoints?",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "id": "needs_blocks",
+          "question": "Does this plugin need Gutenberg blocks?",
+          "type": "boolean",
+          "required": true,
+          "followup": {
+            "if_true": "block_names",
+            "question": "List the blocks needed (comma-separated)",
+            "type": "text",
+            "example": "hero-section, testimonial-slider, team-grid"
+          }
+        },
+        {
+          "id": "needs_shortcodes",
+          "question": "Does this plugin need shortcodes?",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "id": "needs_widgets",
+          "question": "Does this plugin need classic widgets?",
+          "type": "boolean",
+          "required": true,
+          "note": "Legacy feature - consider blocks instead"
+        },
+        {
+          "id": "needs_cron",
+          "question": "Does this plugin need scheduled tasks (WP-Cron)?",
+          "type": "boolean",
+          "required": true
+        }
+      ]
+    },
+    {
+      "id": "integrations",
+      "title": "Integrations",
+      "description": "External services and third-party integrations",
+      "questions": [
+        {
+          "id": "external_apis",
+          "question": "Does this plugin integrate with external APIs?",
+          "type": "boolean",
+          "required": true,
+          "followup": {
+            "if_true": "api_list",
+            "question": "List the APIs/services (comma-separated)",
+            "type": "text",
+            "example": "Stripe, Mailchimp, Google Maps"
+          }
+        },
+        {
+          "id": "woocommerce",
+          "question": "Does this plugin integrate with WooCommerce?",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "id": "acf",
+          "question": "Does this plugin use Advanced Custom Fields (ACF)?",
+          "type": "boolean",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "quality_gates": [
+    { "tool": "php-lint", "required": true },
+    { "tool": "phpcs", "standard": "WordPress", "required": true },
+    { "tool": "phpstan", "level": 6, "required": true },
+    { "tool": "eslint", "required": true, "condition": "uses_npm" },
+    { "tool": "wp-plugin-check", "required": false }
+  ],
+  "scaffolding": {
+    "source": "project-types/wordpress-plugin/scaffolding",
+    "files": [
+      "plugin-name.php",
+      "uninstall.php",
+      "includes/class-plugin-name.php",
+      "includes/class-plugin-name-loader.php",
+      "includes/class-plugin-name-activator.php",
+      "includes/class-plugin-name-deactivator.php",
+      "admin/class-plugin-name-admin.php",
+      "public/class-plugin-name-public.php",
+      "languages/plugin-name.pot"
+    ]
+  },
+  "notes": [
+    "Follow WordPress Coding Standards (WPCS)",
+    "Use WordPress APIs where possible (Settings API, REST API, etc.)",
+    "Prefix all functions, classes, and globals with plugin slug",
+    "Escape all output, sanitize all input",
+    "Use nonces for form submissions and AJAX"
+  ]
+}

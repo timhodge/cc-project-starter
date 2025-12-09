@@ -1,5 +1,114 @@
 {
-  "$comment": "This file tracks features to be built. Populated by INITIALIZER mode based on discovery answers. Each feature has passes: false until implemented and verified.",
-  "template_version": "1.0.0",
-  "features": []
+  "$comment": "Self-referencing features for building the universal project starter kit. These track what needs to be made fully functional.",
+  "template_version": "2.0.0",
+  "features": [
+    {
+      "id": "directory-structure",
+      "name": "Create Directory Structure",
+      "description": "Created onboarding/, project-types/, templates/github-actions/ directories",
+      "passes": true
+    },
+    {
+      "id": "initial-onboarding",
+      "name": "Create initial-onboarding.json",
+      "description": "Project type selection + common questions (name, slug, deployment)",
+      "passes": true
+    },
+    {
+      "id": "migrate-brochure",
+      "name": "Migrate Brochure Website Type",
+      "description": "Moved init.sh, analyze.sh, configs, and scaffolding to project-types/brochure-website/",
+      "passes": true
+    },
+    {
+      "id": "stub-onboarding-files",
+      "name": "Create Stub Onboarding Files",
+      "description": "Created wordpress-plugin.json, laravel-app.json, complex-website.json, bespoke-project.json",
+      "passes": true
+    },
+    {
+      "id": "delegator-scripts",
+      "name": "Create Delegator Scripts",
+      "description": "Root init.sh and analyze.sh that delegate to type-specific scripts",
+      "passes": true
+    },
+    {
+      "id": "lessons-learned-template",
+      "name": "Create lessons-learned.json Template",
+      "description": "Template for capturing improvements to port back to starter kit",
+      "passes": true
+    },
+    {
+      "id": "github-actions-templates",
+      "name": "Create GitHub Actions Templates",
+      "description": "push-to-runcloud.yml, create-release-zip.yml, laravel-deploy.yml, wordpress-plugin-release.yml, run-tests.yml",
+      "passes": true
+    },
+    {
+      "id": "refactor-claude-md",
+      "name": "Refactor CLAUDE.md",
+      "description": "Updated for multi-type support, new mode detection, lessons learned workflow",
+      "passes": true
+    },
+    {
+      "id": "wordpress-type-functional",
+      "name": "Make WordPress Plugin Type Functional",
+      "description": "Create init.sh, analyze.sh, configs (WPCS), and scaffolding for WordPress plugins",
+      "passes": false
+    },
+    {
+      "id": "laravel-type-functional",
+      "name": "Make Laravel App Type Functional",
+      "description": "Create init.sh, analyze.sh, configs (Pint, Pest), and scaffolding for Laravel apps",
+      "passes": false
+    },
+    {
+      "id": "complex-website-functional",
+      "name": "Make Complex Website Type Functional",
+      "description": "Create init.sh, analyze.sh, and dynamic config generation for multi-stack sites",
+      "passes": false
+    },
+    {
+      "id": "bespoke-type-functional",
+      "name": "Make Bespoke Project Type Functional",
+      "description": "Create flexible init.sh and analyze.sh that adapt to chosen language/structure",
+      "passes": false
+    },
+    {
+      "id": "wordpress-skill",
+      "name": "Create WordPress Plugin Skill",
+      "description": "SKILL.md with WP coding standards, security practices, plugin architecture patterns",
+      "passes": false
+    },
+    {
+      "id": "laravel-skill",
+      "name": "Create Laravel Skill",
+      "description": "SKILL.md with Laravel conventions, service patterns, testing strategies",
+      "passes": false
+    },
+    {
+      "id": "update-readme",
+      "name": "Update README.md",
+      "description": "Document the universal starter kit, supported types, how to extend",
+      "passes": false
+    },
+    {
+      "id": "end-to-end-test-brochure",
+      "name": "End-to-End Test: Brochure Website",
+      "description": "Test full flow: onboarding → scaffolding → build → quality gates",
+      "passes": false
+    },
+    {
+      "id": "end-to-end-test-wordpress",
+      "name": "End-to-End Test: WordPress Plugin",
+      "description": "Test full flow for WordPress plugin creation",
+      "passes": false
+    },
+    {
+      "id": "end-to-end-test-laravel",
+      "name": "End-to-End Test: Laravel App",
+      "description": "Test full flow for Laravel app creation",
+      "passes": false
+    }
+  ]
 }

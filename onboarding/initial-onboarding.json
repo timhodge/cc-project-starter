@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Project Starter - Initial Onboarding",
+  "description": "First-stage discovery to determine project type and common configuration",
+  "version": "2.0.0",
+  "sections": [
+    {
+      "id": "project_type",
+      "title": "Project Type",
+      "description": "Determine what kind of project we're building to load the right configuration",
+      "questions": [
+        {
+          "id": "type",
+          "question": "What type of project are we building?",
+          "type": "select",
+          "required": true,
+          "options": [
+            {
+              "value": "wordpress-plugin",
+              "label": "WordPress Plugin",
+              "description": "A plugin for WordPress sites"
+            },
+            {
+              "value": "laravel-app",
+              "label": "Laravel App",
+              "description": "A Laravel PHP application"
+            },
+            {
+              "value": "brochure-website",
+              "label": "Brochure Website",
+              "description": "A static-ish PHP website for small/local businesses"
+            },
+            {
+              "value": "complex-website",
+              "label": "Complex Website",
+              "description": "A multi-stack website (React/Vue frontend + PHP/Node backend)"
+            },
+            {
+              "value": "bespoke-project",
+              "label": "Bespoke Side Project",
+              "description": "A custom project like a game, proof of concept, or experiment"
+            },
+            {
+              "value": "other",
+              "label": "Other",
+              "description": "Something else - let's discuss and figure it out"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "project_basics",
+      "title": "Project Basics",
+      "description": "Common information that applies to all project types",
+      "questions": [
+        {
+          "id": "project_name",
+          "question": "What is the project name?",
+          "type": "text",
+          "required": true,
+          "example": "My Awesome Project"
+        },
+        {
+          "id": "project_slug",
+          "question": "What slug/identifier should we use? (lowercase, hyphens)",
+          "type": "text",
+          "required": true,
+          "example": "my-awesome-project",
+          "note": "Used for folder names, package names, namespaces"
+        },
+        {
+          "id": "description",
+          "question": "Brief description of what this project does?",
+          "type": "textarea",
+          "required": true,
+          "example": "A tool that helps users manage their daily tasks efficiently"
+        },
+        {
+          "id": "repo_url",
+          "question": "Git repository URL (if it already exists)?",
+          "type": "url",
+          "required": false,
+          "example": "https://github.com/username/project"
+        },
+        {
+          "id": "has_existing_code",
+          "question": "Is there existing code to import or migrate?",
+          "type": "boolean",
+          "required": true,
+          "followup": {
+            "if_true": "existing_code_location",
+            "question": "Where is the existing code located?",
+            "type": "text",
+            "example": "/path/to/existing/code or GitHub URL"
+          }
+        }
+      ]
+    },
+    {
+      "id": "deployment",
+      "title": "Deployment",
+      "description": "Where and how will this project be deployed?",
+      "questions": [
+        {
+          "id": "deployment_target",
+          "question": "Where will this project be deployed?",
+          "type": "select",
+          "required": true,
+          "options": [
+            {
+              "value": "runcloud",
+              "label": "RunCloud VPS",
+              "description": "Deployed to a RunCloud-managed server"
+            },
+            {
+              "value": "forge",
+              "label": "Laravel Forge",
+              "description": "Deployed via Laravel Forge"
+            },
+            {
+              "value": "vercel",
+              "label": "Vercel",
+              "description": "Deployed to Vercel (static/JAMstack)"
+            },
+            {
+              "value": "wp-org",
+              "label": "WordPress.org",
+              "description": "Published to WordPress plugin directory"
+            },
+            {
+              "value": "github-releases",
+              "label": "GitHub Releases",
+              "description": "Distributed as downloadable releases"
+            },
+            {
+              "value": "manual-ssh",
+              "label": "Manual SSH",
+              "description": "Manual deployment via SSH/SFTP"
+            },
+            {
+              "value": "not-deployed",
+              "label": "Not Deployed / Local Only",
+              "description": "Runs locally or is a library/package"
+            },
+            {
+              "value": "other",
+              "label": "Other",
+              "description": "Something else - will configure manually"
+            }
+          ]
+        },
+        {
+          "id": "needs_github_actions",
+          "question": "Do you want GitHub Actions for CI/CD?",
+          "type": "boolean",
+          "required": true,
+          "note": "Automated testing, linting, and/or deployment on push"
+        }
+      ]
+    }
+  ],
+  "next_onboarding": {
+    "wordpress-plugin": "wordpress-plugin.json",
+    "laravel-app": "laravel-app.json",
+    "brochure-website": "brochure-website.json",
+    "complex-website": "complex-website.json",
+    "bespoke-project": "bespoke-project.json",
+    "other": null
+  },
+  "output_files": {
+    "project_config": "project-config.json",
+    "project_brief": "project-brief.json",
+    "feature_list": "feature_list.json"
+  },
+  "notes": [
+    "Ask questions conversationally, not as a rigid form",
+    "If 'other' is selected for project type, have a discussion to understand needs",
+    "The project_slug will be used for namespacing - validate it's appropriate",
+    "After initial onboarding, load the type-specific onboarding file"
+  ]
+}
