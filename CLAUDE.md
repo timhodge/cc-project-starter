@@ -54,9 +54,36 @@ On every session start:
 
 5. **Continue discovery** with type-specific questions
 
-### Phase 3: Setup
+### Phase 3: Explain Tooling Choices
 
-6. **Generate outputs**:
+6. **Present the quality gates selection** - Before setting up, explain what tools will be used.
+
+   Reference `docs/quality-gates-palette.md` for the full tool catalog by project type.
+
+   **You MUST tell the user:**
+   - **What we ARE using** and why (e.g., "PHPStan at level 8 because WordPress plugins need some flexibility for hooks")
+   - **What we are NOT using** and why (e.g., "Skipping pa11y because WordPress themes handle frontend accessibility")
+
+   **Format your explanation like this:**
+   ```
+   Based on [project type], here's the quality gate setup:
+
+   ✅ USING:
+   - [Tool]: [Why it's appropriate for this project]
+   - [Tool]: [Why it's appropriate for this project]
+
+   ❌ NOT USING:
+   - [Tool]: [Why it's excluded for this project type]
+   - [Tool]: [Why it doesn't apply]
+
+   Does this look right, or would you like to adjust anything?
+   ```
+
+   **Wait for user confirmation** before proceeding. They may want to add/remove tools.
+
+### Phase 4: Setup
+
+7. **Generate outputs**:
    - `project-config.json` - Project type and configuration
    - `project-brief.json` - All captured answers
    - `feature_list.json` - Features to build (all `passes: false`)

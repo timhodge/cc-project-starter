@@ -177,6 +177,7 @@
     "Ask questions conversationally, not as a rigid form",
     "If 'other' is selected for project type, have a discussion to understand needs",
     "The project_slug will be used for namespacing - validate it's appropriate",
-    "After initial onboarding, load the type-specific onboarding file"
+    "After initial onboarding, load the type-specific onboarding file",
+    "IMPORTANT: After discovery, present quality gate selection to user - explain what tools ARE being used and why, AND what tools are NOT being used and why. Wait for user confirmation before proceeding."
   ]
 }
