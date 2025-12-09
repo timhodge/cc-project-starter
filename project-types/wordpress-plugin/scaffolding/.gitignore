@@ -1,0 +1,33 @@
+# Dependencies
+/vendor/
+/node_modules/
+
+# IDE
+.idea/
+.vscode/
+*.sublime-*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+/build/
+/dist/
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+
+# PHPStan cache
+.phpstan-cache/
+
+# PHPUnit
+.phpunit.result.cache
+.phpunit.cache/
+
+# Release artifacts
+*.zip

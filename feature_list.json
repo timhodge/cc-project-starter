@@ -90,25 +90,25 @@
       "id": "wordpress-type-functional",
       "name": "Make WordPress Plugin Type Functional",
       "description": "Create init.sh, analyze.sh, and complete scaffolding for WordPress plugins",
-      "passes": false
+      "passes": true
     },
     {
       "id": "laravel-type-functional",
       "name": "Make Laravel App Type Functional",
       "description": "Create init.sh, analyze.sh for Laravel apps (scaffolding via laravel new)",
-      "passes": false
+      "passes": true
     },
     {
       "id": "complex-website-functional",
       "name": "Make Complex Website Type Functional",
       "description": "Create init.sh, analyze.sh, and dynamic config generation for multi-stack sites",
-      "passes": false
+      "passes": true
     },
     {
       "id": "bespoke-type-functional",
       "name": "Make Bespoke Project Type Functional",
       "description": "Create flexible init.sh and analyze.sh that adapt to chosen language/structure",
-      "passes": false
+      "passes": true
     },
     {
       "id": "wordpress-skill",
