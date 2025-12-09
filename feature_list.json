@@ -114,13 +114,13 @@
       "id": "wordpress-skill",
       "name": "Create WordPress Plugin Skill",
       "description": "SKILL.md with WP coding standards, security practices, plugin architecture patterns",
-      "passes": false
+      "passes": true
     },
     {
       "id": "laravel-skill",
       "name": "Create Laravel Skill",
       "description": "SKILL.md with Laravel conventions, service patterns, testing strategies",
-      "passes": false
+      "passes": true
     },
     {
       "id": "end-to-end-test-brochure",
