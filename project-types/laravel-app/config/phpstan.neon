@@ -1,0 +1,21 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 8
+    paths:
+        - app
+        - config
+        - database
+        - routes
+    excludePaths:
+        - vendor
+        - storage
+        - bootstrap/cache
+    tmpDir: .phpstan-cache
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
+
+    # Laravel-specific settings
+    checkModelProperties: true
+    checkOctaneCompatibility: true

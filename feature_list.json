@@ -5,7 +5,7 @@
     {
       "id": "directory-structure",
       "name": "Create Directory Structure",
-      "description": "Created onboarding/, project-types/, templates/github-actions/ directories",
+      "description": "Created onboarding/, project-types/, templates/github-actions/, docs/ directories",
       "passes": true
     },
     {
@@ -51,15 +51,51 @@
       "passes": true
     },
     {
+      "id": "quality-gates-docs",
+      "name": "Create Quality Gates Documentation",
+      "description": "docs/quality-gates-palette.md with tools reference by project type",
+      "passes": true
+    },
+    {
+      "id": "security-patterns-docs",
+      "name": "Create Security Patterns Documentation",
+      "description": "docs/security-patterns.md with CSRF, rate limiting, input validation patterns",
+      "passes": true
+    },
+    {
+      "id": "composer-templates",
+      "name": "Create Composer.json Templates",
+      "description": "composer.json.template for brochure, WordPress, and Laravel types with scripts",
+      "passes": true
+    },
+    {
+      "id": "phpstan-configs",
+      "name": "Improve PHPStan Configurations",
+      "description": "Added strict-rules, WordPress extension, Larastan configs per type",
+      "passes": true
+    },
+    {
+      "id": "wpcs-config",
+      "name": "Add WPCS Configuration",
+      "description": "phpcs.xml with WordPress-Extra, text domain, prefix configuration",
+      "passes": true
+    },
+    {
+      "id": "phpunit-scaffolding",
+      "name": "Create PHPUnit Test Scaffolding",
+      "description": "phpunit.xml, bootstrap.php, SampleTest.php for WordPress plugin type",
+      "passes": true
+    },
+    {
       "id": "wordpress-type-functional",
       "name": "Make WordPress Plugin Type Functional",
-      "description": "Create init.sh, analyze.sh, configs (WPCS), and scaffolding for WordPress plugins",
+      "description": "Create init.sh, analyze.sh, and complete scaffolding for WordPress plugins",
       "passes": false
     },
     {
       "id": "laravel-type-functional",
       "name": "Make Laravel App Type Functional",
-      "description": "Create init.sh, analyze.sh, configs (Pint, Pest), and scaffolding for Laravel apps",
+      "description": "Create init.sh, analyze.sh for Laravel apps (scaffolding via laravel new)",
       "passes": false
     },
     {
@@ -84,12 +120,6 @@
       "id": "laravel-skill",
       "name": "Create Laravel Skill",
       "description": "SKILL.md with Laravel conventions, service patterns, testing strategies",
-      "passes": false
-    },
-    {
-      "id": "update-readme",
-      "name": "Update README.md",
-      "description": "Document the universal starter kit, supported types, how to extend",
       "passes": false
     },
     {

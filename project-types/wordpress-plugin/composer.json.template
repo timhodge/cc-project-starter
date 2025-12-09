@@ -1,0 +1,50 @@
+{
+    "name": "{{VENDOR}}/{{PLUGIN_SLUG}}",
+    "description": "{{PLUGIN_DESCRIPTION}}",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.10",
+        "szepeviktor/phpstan-wordpress": "^1.3",
+        "squizlabs/php_codesniffer": "^3.7",
+        "wp-coding-standards/wpcs": "^3.0",
+        "phpcompatibility/phpcompatibility-wp": "^2.1",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+        "phpunit/phpunit": "^10.0",
+        "yoast/phpunit-polyfills": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "{{NAMESPACE}}\\": "includes/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts": {
+        "lint": "find . -name '*.php' -not -path './vendor/*' -exec php -l {} \\;",
+        "phpstan": "phpstan analyse --memory-limit=256M",
+        "phpcs": "phpcs",
+        "phpcbf": "phpcbf",
+        "test": "phpunit",
+        "check": [
+            "@lint",
+            "@phpstan",
+            "@phpcs"
+        ]
+    },
+    "scripts-descriptions": {
+        "lint": "Check PHP syntax",
+        "phpstan": "Run static analysis (WordPress-aware)",
+        "phpcs": "Check code style (WordPress standards)",
+        "phpcbf": "Auto-fix code style issues",
+        "test": "Run PHPUnit tests",
+        "check": "Run all quality gates"
+    }
+}

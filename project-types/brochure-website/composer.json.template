@@ -1,0 +1,47 @@
+{
+    "name": "{{PROJECT_SLUG}}/{{PROJECT_SLUG}}",
+    "description": "{{PROJECT_DESCRIPTION}}",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.1",
+        "wildbit/postmark-php": "^4.0"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan-strict-rules": "^1.5",
+        "squizlabs/php_codesniffer": "^3.7",
+        "friendsofphp/php-cs-fixer": "^3.40"
+    },
+    "autoload": {
+        "psr-4": {
+            "{{NAMESPACE}}\\": "src/includes/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts": {
+        "lint": "find src -name '*.php' -exec php -l {} \\;",
+        "phpstan": "phpstan analyse --memory-limit=256M",
+        "phpcs": "phpcs",
+        "phpcbf": "phpcbf",
+        "cs-fix": "php-cs-fixer fix src/",
+        "check": [
+            "@lint",
+            "@phpstan",
+            "@phpcs"
+        ]
+    },
+    "scripts-descriptions": {
+        "lint": "Check PHP syntax",
+        "phpstan": "Run static analysis",
+        "phpcs": "Check code style (PSR-12)",
+        "phpcbf": "Auto-fix code style issues",
+        "cs-fix": "Auto-fix with PHP-CS-Fixer",
+        "check": "Run all quality gates"
+    }
+}

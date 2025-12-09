@@ -1,0 +1,19 @@
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: 8
+    paths:
+        - .
+    excludePaths:
+        - vendor
+        - node_modules
+        - tests
+    tmpDir: .phpstan-cache
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
+
+    # WordPress-specific settings
+    bootstrapFiles:
+        - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php

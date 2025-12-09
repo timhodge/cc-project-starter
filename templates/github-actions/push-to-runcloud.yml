@@ -1,64 +1,125 @@
 # =============================================================================
-# Deploy to RunCloud VPS
+# Deploy to RunCloud VPS via rsync
 # =============================================================================
-# Deploys code to a RunCloud-managed server via SSH.
+# Deploys code to a RunCloud-managed server using rsync for efficient file sync.
+# Separates public files from application code for security.
 #
 # Required secrets:
-#   RUNCLOUD_HOST     - Server hostname or IP
-#   RUNCLOUD_USER     - SSH username
-#   RUNCLOUD_SSH_KEY  - Private SSH key
-#   DEPLOY_PATH       - Absolute path on server (e.g., /home/runcloud/webapps/mysite)
+#   DEPLOY_HOST       - Server hostname or IP
+#   DEPLOY_USER       - SSH username
+#   DEPLOY_SSH_KEY    - Private SSH key
+#   DEPLOY_PORT       - SSH port (usually 22 or custom like 2232)
+#   DEPLOY_PATH       - Base path on server (e.g., /home/runcloud/webapps/mysite)
+#
+# Optional secrets (for .env generation):
+#   Add any environment variables your app needs
+#
+# Directory structure on server:
+#   DEPLOY_PATH/
+#   ├── .env              # Environment config (one level above web root)
+#   ├── src/              # PHP classes (not web accessible)
+#   ├── vendor/           # Composer dependencies (not web accessible)
+#   └── public_html/      # Web root (Apache/Nginx document root)
 #
 # Usage:
 #   1. Copy this file to .github/workflows/deploy.yml
-#   2. Configure the secrets in your repo settings
-#   3. Adjust the trigger branch and deploy commands as needed
+#   2. Configure secrets in your repo settings
+#   3. Adjust excluded files and paths as needed
 # =============================================================================
 
 name: Deploy to RunCloud
 
 on:
-  push:
-    branches: [main]
+  release:
+    types: [published]
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
-  deploy:
+  lint:
+    name: Quality Gates
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          host: ${{ secrets.RUNCLOUD_HOST }}
-          username: ${{ secrets.RUNCLOUD_USER }}
-          key: ${{ secrets.RUNCLOUD_SSH_KEY }}
-          script: |
-            cd ${{ secrets.DEPLOY_PATH }}
+          php-version: '8.2'
+          tools: composer:v2
 
-            # Pull latest changes
-            git pull origin main
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction
 
-            # Install/update PHP dependencies (if using Composer)
-            if [ -f "composer.json" ]; then
-              composer install --no-dev --optimize-autoloader --no-interaction
-            fi
+      - name: Run quality gates
+        run: composer check
 
-            # Install/update Node dependencies (if using npm)
-            if [ -f "package.json" ]; then
-              npm ci --production
-            fi
+  deploy:
+    name: Deploy
+    needs: lint
+    runs-on: ubuntu-latest
 
-            # Clear any caches (customize as needed)
-            # php artisan cache:clear  # Laravel
-            # php artisan config:cache # Laravel
-            # php artisan route:cache  # Laravel
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            echo "Deployment complete!"
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
 
-      - name: Notify on failure
-        if: failure()
-        run: echo "Deployment failed! Check the logs above."
+      - name: Install production dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
+      - name: Create .env.production
+        run: |
+          cat > .env.production << 'EOF'
+          APP_ENV=production
+          # Add your production environment variables here
+          # Example:
+          # POSTMARK_API_KEY=${{ secrets.POSTMARK_API_KEY }}
+          EOF
+
+      - name: Deploy public files
+        uses: burnett01/rsync-deployments@6.0.0
+        with:
+          switches: -avzr --delete --exclude='.git*' --exclude='.env*'
+          path: src/
+          remote_path: ${{ secrets.DEPLOY_PATH }}/public_html/
+          remote_host: ${{ secrets.DEPLOY_HOST }}
+          remote_port: ${{ secrets.DEPLOY_PORT }}
+          remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Deploy vendor directory
+        uses: burnett01/rsync-deployments@6.0.0
+        with:
+          switches: -avzr --delete
+          path: vendor/
+          remote_path: ${{ secrets.DEPLOY_PATH }}/vendor/
+          remote_host: ${{ secrets.DEPLOY_HOST }}
+          remote_port: ${{ secrets.DEPLOY_PORT }}
+          remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Deploy .env file
+        uses: burnett01/rsync-deployments@6.0.0
+        with:
+          switches: -avz
+          path: .env.production
+          remote_path: ${{ secrets.DEPLOY_PATH }}/.env
+          remote_host: ${{ secrets.DEPLOY_HOST }}
+          remote_port: ${{ secrets.DEPLOY_PORT }}
+          remote_user: ${{ secrets.DEPLOY_USER }}
+          remote_key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Post-deployment summary
+        run: |
+          echo "## Deployment Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Host:** ${{ secrets.DEPLOY_HOST }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Path:** ${{ secrets.DEPLOY_PATH }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Triggered by:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY

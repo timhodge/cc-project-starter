@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<ruleset name="{{PLUGIN_NAME}} Coding Standards">
+    <description>WordPress Coding Standards for {{PLUGIN_NAME}}</description>
+
+    <!-- What to scan -->
+    <file>.</file>
+
+    <!-- Exclude paths -->
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>node_modules/*</exclude-pattern>
+    <exclude-pattern>tests/*</exclude-pattern>
+    <exclude-pattern>*.min.js</exclude-pattern>
+    <exclude-pattern>*.min.css</exclude-pattern>
+
+    <!-- Show colors and progress -->
+    <arg name="colors"/>
+    <arg value="sp"/>
+
+    <!-- Parallel processing -->
+    <arg name="parallel" value="8"/>
+
+    <!-- Only check PHP files -->
+    <arg name="extensions" value="php"/>
+
+    <!-- WordPress Coding Standards -->
+    <rule ref="WordPress-Extra">
+        <!-- Allow short array syntax -->
+        <exclude name="Universal.Arrays.DisallowShortArraySyntax"/>
+    </rule>
+
+    <!-- WordPress Documentation Standards -->
+    <rule ref="WordPress-Docs"/>
+
+    <!-- PHP Compatibility -->
+    <rule ref="PHPCompatibilityWP"/>
+    <config name="testVersion" value="8.0-"/>
+
+    <!-- Minimum WordPress version -->
+    <config name="minimum_wp_version" value="6.0"/>
+
+    <!-- Text domain for i18n -->
+    <rule ref="WordPress.WP.I18n">
+        <properties>
+            <property name="text_domain" type="array">
+                <element value="{{PLUGIN_SLUG}}"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Prefix for globals (functions, classes, constants) -->
+    <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+        <properties>
+            <property name="prefixes" type="array">
+                <element value="{{PLUGIN_PREFIX}}"/>
+            </property>
+        </properties>
+    </rule>
+
+    <!-- Line length: warn at 120, no hard limit -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120"/>
+            <property name="absoluteLineLimit" value="0"/>
+        </properties>
+    </rule>
+
+    <!-- Allow TODO comments (but flag them) -->
+    <rule ref="Generic.Commenting.Todo"/>
+</ruleset>
