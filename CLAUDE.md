@@ -63,28 +63,31 @@ Track progress in `feature_list.json`. Mark `passes: true` only when fully compl
 
 When the user says "Fetch lessons from ~/projects/project-name":
 
-### Step 1: Import
+### Step 1: Import and Capture
 1. Read source project's `lessons-learned.json`
 2. For each lesson where `addressed: false`:
    - Check if similar lesson already exists in `feature_list.json`
    - If duplicate: note the source project
-   - If new: add to `feature_list.json` with generic ID
+   - If new: add to `feature_list.json` with generic ID and `"source": "project-name"`
 3. Report: "Found X new lessons, Y duplicates"
+4. **Mark captured lessons as addressed immediately** in the source project:
+   - Set `"addressed": true`
+   - Set `"addressed_in_starter_version"` to current version
+   - This means "captured in starter kit's backlog" - not "implemented"
 
-### Step 2: Process (with care)
+### Step 2: Discuss (when ready to implement)
 For each lesson:
 1. **Understand the root issue** - not just the symptom
 2. **Consider related improvements** - what else might benefit?
-3. **Discuss with user**: Implement, Skip (with note), or Merge
-4. Proceed to Step 3
+3. **Discuss with user**: Implement now, or leave in backlog
 
-### Step 3: Close the Loop
-Before marking `passes: true`:
-1. Ask user to confirm write access to source project
-2. Update source project's `lessons-learned.json`:
-   - Set `"addressed": true`
-   - Set `"addressed_in_starter_version"` to current version
-3. Then mark `passes: true` here
+### Step 3: Implement
+1. Make the changes
+2. Mark `passes: true` in `feature_list.json`
+
+**Key distinction:**
+- `addressed: true` in source project = "we've captured this, won't lose it"
+- `passes: true` in feature_list.json = "we've actually implemented the fix"
 
 ---
 

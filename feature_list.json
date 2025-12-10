@@ -229,6 +229,13 @@
       "name": "Consider spec-driven planning for complex projects",
       "description": "Evaluate GitHub's spec-kit (github.com/github/spec-kit) for Laravel and complex website types. These project types may benefit from structured specification before scaffolding. Options: 1) Keep separate - use spec-kit externally when needed, 2) Create lightweight 'spec mode' for complex projects, 3) Pull useful concepts into onboarding. Test spec-kit on a real Laravel project first to see if it adds value over freeform Claude conversation.",
       "passes": false
+    },
+    {
+      "id": "lesson-analyze-scope-shipping-code",
+      "name": "analyze.sh: Only scan shipping code",
+      "description": "Root analyze.sh scans entire project including scaffolding templates with placeholder syntax like {{PLUGIN_SLUG}}.php, causing false failures. Scope scanning to project source directories only (e.g., src/plugin/ for WordPress). Exclude project-types/, templates/, and scaffolding directories.",
+      "passes": false,
+      "source": "bwg-post-grid"
     }
   ]
 }
