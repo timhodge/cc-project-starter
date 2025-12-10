@@ -2,27 +2,50 @@
 
 A universal project starter kit for Claude Code. Supports multiple project types with guided onboarding, quality gates, and deployment templates.
 
+**Version:** 2.1.0
+
 ## Supported Project Types
 
-| Type | Description | Status |
-|------|-------------|--------|
-| **Brochure Website** | Static-ish PHP sites for small businesses | Ready |
-| **WordPress Plugin** | WordPress plugin development | Onboarding ready |
-| **Laravel App** | Laravel PHP applications | Onboarding ready |
-| **Complex Website** | Multi-stack sites (React/Vue + PHP/Node) | Onboarding ready |
-| **Bespoke Project** | Games, CLI tools, experiments | Onboarding ready |
+| Type | Description |
+|------|-------------|
+| **WordPress Plugin** | WordPress plugin development |
+| **Laravel App** | Laravel PHP applications |
+| **Brochure Website** | Static-ish PHP sites for small businesses |
+| **Complex Website** | Multi-stack sites (React/Vue + PHP/Node) |
+| **Bespoke Project** | Games, CLI tools, experiments |
 
-## Getting Started
+---
+
+## Quick Start
 
 ### 1. Create Your Project
 
 ```bash
-# Clone this template for a new project
+# Create a new repo from this template
 gh repo create my-project --template timhodge/cc-project-starter --private --clone
 cd my-project
+
+# Swap the CLAUDE files (builder instructions, not kit-builder instructions)
+rm CLAUDE.md && mv CLAUDE.start.md CLAUDE.md
 ```
 
-### 2. Start Claude Code
+### 2. (Optional) Add Your Materials to /spec
+
+If you have existing specs, proposals, or code to import:
+
+```bash
+mkdir spec
+
+# Drop in whatever you have:
+# - Proposals or requirements docs
+# - Existing code to migrate
+# - Design assets
+# - Reference materials
+```
+
+Claude will analyze `/spec` at the start of initialization and use it to pre-fill questions.
+
+### 3. Start Claude Code
 
 Open the project in Claude Code and say:
 
@@ -31,12 +54,12 @@ read CLAUDE.md and let's go
 ```
 
 Claude will:
-1. Ask what type of project you're building
-2. Guide you through discovery questions
-3. Set up the appropriate structure and quality gates
+1. Check `/spec` for any materials you've provided
+2. Ask confirming/remaining questions about your project
+3. Set up the workshop structure and quality gates
 4. Generate a feature list to build
 
-### 3. Build Your Project
+### 4. Build Your Project
 
 Once setup is complete, Claude enters **BUILDER mode** and will:
 - Work through features one at a time
@@ -44,99 +67,60 @@ Once setup is complete, Claude enters **BUILDER mode** and will:
 - Track progress in `feature_list.json`
 - Hand off cleanly between sessions
 
-## How It Works
-
-```
-┌─────────────────────────────────────────────────────────┐
-│  "read CLAUDE.md and let's go"                          │
-└─────────────────────┬───────────────────────────────────┘
-                      │
-                      ▼
-┌─────────────────────────────────────────────────────────┐
-│  INITIALIZER MODE                                       │
-│  ─────────────────                                      │
-│  1. What type of project? (WP plugin, Laravel, etc.)    │
-│  2. Common questions (name, deployment target)          │
-│  3. Type-specific questions                             │
-│  4. Generate project-config.json + feature_list.json    │
-│  5. Scaffold files, copy configs                        │
-│  6. Commit: "Initial project setup"                     │
-└─────────────────────┬───────────────────────────────────┘
-                      │
-                      ▼
-┌─────────────────────────────────────────────────────────┐
-│  BUILDER MODE                                           │
-│  ────────────                                           │
-│  Loop:                                                  │
-│    1. Pick next feature from feature_list.json          │
-│    2. Implement it                                      │
-│    3. Run ./analyze.sh (quality gates)                  │
-│    4. Fix any issues                                    │
-│    5. Mark feature complete, commit                     │
-│    6. Repeat until done                                 │
-└─────────────────────────────────────────────────────────┘
-```
+---
 
 ## Project Structure
 
-After cloning, the template contains:
+### Workshop vs Product
+
+This kit separates **workshop** (development tooling) from **product** (shipping code):
 
 ```
-cc-project-starter/
-├── CLAUDE.md                    # Instructions for Claude Code
-├── onboarding/                  # Discovery questions by project type
-│   ├── initial-onboarding.json  # Project type selection
-│   ├── wordpress-plugin.json
-│   ├── laravel-app.json
-│   ├── brochure-website.json
-│   ├── complex-website.json
-│   └── bespoke-project.json
-├── project-types/               # Type-specific configs and scaffolding
-│   ├── brochure-website/
-│   ├── wordpress-plugin/
-│   ├── laravel-app/
-│   ├── complex-website/
-│   └── bespoke-project/
-├── templates/
-│   └── github-actions/          # CI/CD workflow templates
-├── init.sh                      # Start dev environment
-├── analyze.sh                   # Run quality gates
-└── lessons-learned.json         # Capture improvements
+my-project/
+├── CLAUDE.md                    # Claude's instructions
+├── project-config.json          # Project settings (generated)
+├── feature_list.json            # Features to build (generated)
+├── analyze.sh                   # Quality gates
+├── vendor/                      # Dev dependencies (not shipped)
+│
+├── spec/                        # YOUR INPUT (read-only for Claude)
+│   └── ...                      # Specs, proposals, existing code
+│
+├── src/                         # YOUR CODE (the product)
+│   └── ...                      # This is what ships
+│
+└── dist/                        # RELEASES
+    └── my-project-v1.0.0.zip    # Packaged from src/
 ```
 
-After onboarding, Claude generates:
+**Key insight:** `analyze.sh` only scans `src/`. Workshop files are never checked.
 
+### Folder Ownership
+
+| Folder | You | Claude |
+|--------|-----|--------|
+| `/spec` | read/write | read only |
+| `/src` | read | read/write |
+| `/dist` | read | write |
+
+---
+
+## Updating Derived Projects
+
+When the starter kit improves, update your project:
+
+```bash
+# From cc-project-starter directory:
+./update-project.sh ~/projects/my-project
 ```
-├── project-config.json          # Your project type and settings
-├── project-brief.json           # Your answers from discovery
-├── feature_list.json            # Features to build
-└── src/ (or appropriate structure for your project type)
-```
 
-## Requirements
+This pushes the latest CLAUDE.md, skills, and project-types without touching your code.
 
-- [Claude Code](https://claude.ai/claude-code) CLI
-- Git
-- For PHP projects: PHP 8.1+, Composer
-- For JS projects: Node.js 18+, npm
-- `jq` (for the delegator scripts)
-
-## Deployment Options
-
-During onboarding, you can choose from:
-
-- **RunCloud VPS** - SSH deployment to RunCloud-managed servers
-- **Laravel Forge** - Zero-downtime Laravel deployments
-- **Vercel** - Static/JAMstack deployments
-- **WordPress.org** - Plugin directory releases
-- **GitHub Releases** - Downloadable ZIP files
-- **Manual SSH** - Custom deployment
-
-GitHub Actions templates are provided in `templates/github-actions/`.
+---
 
 ## Lessons Learned
 
-As you build projects, capture improvements in `lessons-learned.json`:
+As you build, capture improvements for the starter kit in `lessons-learned.json`:
 
 ```json
 {
@@ -149,13 +133,42 @@ As you build projects, capture improvements in `lessons-learned.json`:
 }
 ```
 
-This creates a feedback loop to improve the starter kit over time.
+Then run "fetch lessons from ~/projects/my-project" in the starter kit to import them.
+
+---
+
+## Requirements
+
+- [Claude Code](https://claude.ai/claude-code) CLI
+- Git
+- `jq` (for delegator scripts)
+- For PHP projects: PHP 8.1+, Composer
+- For JS projects: Node.js 18+, npm
+
+---
+
+## Deployment Options
+
+During onboarding, choose from:
+
+- **RunCloud VPS** - SSH deployment to RunCloud-managed servers
+- **Laravel Forge** - Zero-downtime Laravel deployments
+- **Vercel** - Static/JAMstack deployments
+- **WordPress.org** - Plugin directory releases
+- **GitHub Releases** - Downloadable ZIP files
+- **Manual SSH** - Custom deployment
+
+GitHub Actions templates in `templates/github-actions/`.
+
+---
 
 ## Documentation
 
-- [CLAUDE.md](CLAUDE.md) - Full instructions for Claude Code
-- [PROJECT_PLAN.md](PROJECT_PLAN.md) - Original project plan
-- Project type details in `project-types/*/README.md`
+- [CLAUDE.start.md](CLAUDE.start.md) - Full instructions for Claude (becomes CLAUDE.md in derived projects)
+- [docs/quality-gates-palette.md](docs/quality-gates-palette.md) - Available quality tools by project type
+- [docs/security-patterns.md](docs/security-patterns.md) - Security best practices
+
+---
 
 ## License
 
