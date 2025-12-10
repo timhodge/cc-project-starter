@@ -493,6 +493,27 @@ When a standard system tool is missing and a command fails, **ask the user to in
 
 Workarounds waste time and often don't fit the actual use case.
 
+### 5. Never Add Exclusions to Silence Errors
+
+The `analyze_exclude` list in `project-config.json` exists for legitimate exclusions (vendor dependencies, generated files, caches). **You may NOT add exclusions to make errors go away.**
+
+**Forbidden actions:**
+- Adding a directory to `analyze_exclude` because it has linting errors
+- Excluding a file because PHPStan can't analyze it
+- Adding exclusions without explicit user approval
+
+**Legitimate exclusions (set during initialization):**
+- `vendor` - Third-party dependencies
+- `node_modules` - npm dependencies
+- `.phpstan-cache` - Generated cache files
+
+**If you believe an exclusion is needed:**
+1. Explain to the user what directory and why
+2. Get explicit approval BEFORE modifying `analyze_exclude`
+3. Document the reason in a comment or CLAUDE.project.md
+
+Adding an exclusion to hide errors is the same as lowering a linter rule - it undermines the quality system.
+
 ---
 
 ## Philosophy

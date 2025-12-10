@@ -6,8 +6,11 @@
 #   repo-root/        <- Workshop (tooling, configs)
 #   └── src/          <- Product (the actual plugin)
 #       ├── plugin-name.php
-#       ├── src/
+#       ├── includes/
 #       └── ...
+#
+# Always scans src/. Exclusions read from project-config.json analyze_exclude array.
+# Default exclusions: vendor, node_modules, .phpstan-cache
 
 set -e
 
@@ -34,29 +37,61 @@ print_status() {
     echo ""
 }
 
-# Check for src/ directory (the product)
-if [ ! -d "src" ]; then
-    echo -e "${RED}ERROR: src/ directory not found${NC}"
+# Always scan src/
+SOURCE_DIR="src"
+
+# Check for source directory (the product)
+if [ ! -d "$SOURCE_DIR" ]; then
+    echo -e "${RED}ERROR: $SOURCE_DIR directory not found${NC}"
     echo ""
-    echo "The plugin code should live in src/"
+    echo "The plugin code should live in $SOURCE_DIR"
     echo "This separates your deliverable from workshop tooling."
     exit 1
 fi
 
-# Check if dependencies are installed
+# Build exclusion list from project-config.json or use defaults
+# Default exclusions: vendor, node_modules, .phpstan-cache
+EXCLUDE_DIRS="vendor node_modules .phpstan-cache"
+if [ -f "project-config.json" ] && command -v jq &> /dev/null; then
+    CONFIGURED_EXCLUDES=$(jq -r '.analyze_exclude // empty | if type == "array" then .[] else empty end' project-config.json 2>/dev/null)
+    if [ -n "$CONFIGURED_EXCLUDES" ]; then
+        EXCLUDE_DIRS="$CONFIGURED_EXCLUDES"
+    fi
+fi
+
+# Build find exclusion arguments
+FIND_EXCLUDES=""
+for dir in $EXCLUDE_DIRS; do
+    FIND_EXCLUDES="$FIND_EXCLUDES -not -path \"*/${dir}/*\""
+done
+
+# Build PHPCS ignore pattern
+PHPCS_IGNORE=""
+for dir in $EXCLUDE_DIRS; do
+    if [ -n "$PHPCS_IGNORE" ]; then
+        PHPCS_IGNORE="${PHPCS_IGNORE},*/${dir}/*"
+    else
+        PHPCS_IGNORE="*/${dir}/*"
+    fi
+done
+
+echo "Source directory: $SOURCE_DIR"
+echo "Excluding: $EXCLUDE_DIRS"
+
+# Check if dependencies are installed (at workshop root)
 if [ ! -d "vendor" ]; then
     echo -e "${YELLOW}WARNING: Composer dependencies not installed. Run ./init.sh first.${NC}"
     echo ""
 fi
 
-# Count PHP files in src/
-PHP_FILES=$(find src -name "*.php" 2>/dev/null | wc -l)
+# Count PHP files (using eval to expand exclusions)
+PHP_FILES=$(eval "find \"$SOURCE_DIR\" -name \"*.php\" $FIND_EXCLUDES" 2>/dev/null | wc -l)
 if [ "$PHP_FILES" -eq 0 ]; then
-    echo -e "${RED}ERROR: No PHP files found in src/${NC}"
+    echo -e "${RED}ERROR: No PHP files found in $SOURCE_DIR${NC}"
     exit 1
 fi
 
-echo "Found $PHP_FILES PHP file(s) to analyze in src/"
+echo "Found $PHP_FILES PHP file(s) to analyze"
 echo ""
 
 
@@ -64,13 +99,13 @@ echo ""
 echo "=== PHP Syntax Check ==="
 set +e
 SYNTAX_ERRORS=0
-while IFS= read -r -d '' file; do
+while IFS= read -r file; do
     php -l "$file" > /dev/null 2>&1
     if [ $? -ne 0 ]; then
         php -l "$file"
         SYNTAX_ERRORS=1
     fi
-done < <(find src -name "*.php" -print0)
+done < <(eval "find \"$SOURCE_DIR\" -name \"*.php\" $FIND_EXCLUDES")
 set -e
 print_status $SYNTAX_ERRORS
 
@@ -79,7 +114,7 @@ print_status $SYNTAX_ERRORS
 echo "=== PHPCS (WordPress Coding Standards) ==="
 if [ -d "vendor" ] && [ -f "vendor/bin/phpcs" ]; then
     set +e
-    vendor/bin/phpcs src/ 2>&1
+    vendor/bin/phpcs "$SOURCE_DIR" --ignore="$PHPCS_IGNORE" 2>&1
     RESULT=$?
     set -e
     print_status $RESULT
@@ -94,7 +129,8 @@ fi
 echo "=== PHPStan (Static Analysis) ==="
 if [ -d "vendor" ] && [ -f "vendor/bin/phpstan" ]; then
     set +e
-    vendor/bin/phpstan analyse src/ --memory-limit=512M 2>&1
+    # PHPStan uses its own excludePaths in phpstan.neon, but we pass the source dir
+    vendor/bin/phpstan analyse "$SOURCE_DIR" --memory-limit=512M 2>&1
     RESULT=$?
     set -e
     print_status $RESULT
@@ -106,14 +142,16 @@ fi
 
 
 # ===== PHPUnit (if tests exist) =====
-if [ -d "src/tests" ] && [ -f "vendor/bin/phpunit" ]; then
+# Look for tests directory anywhere in src/
+TESTS_DIR=$(find "$SOURCE_DIR" -type d -name "tests" | head -1)
+if [ -n "$TESTS_DIR" ] && [ -f "vendor/bin/phpunit" ]; then
     echo "=== PHPUnit ==="
     set +e
     vendor/bin/phpunit 2>&1
     RESULT=$?
     set -e
     print_status $RESULT
-elif [ -d "src/tests" ]; then
+elif [ -n "$TESTS_DIR" ]; then
     echo "=== PHPUnit ==="
     echo -e "${YELLOW}SKIPPED: PHPUnit not installed${NC}"
     echo "Run: composer require --dev phpunit/phpunit"
