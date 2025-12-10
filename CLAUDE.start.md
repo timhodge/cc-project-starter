@@ -609,6 +609,29 @@ The `analyze_exclude` list in `project-config.json` exists for legitimate exclus
 
 Adding an exclusion to hide errors is the same as lowering a linter rule - it undermines the quality system.
 
+### 6. Never Modify Imported Code During Initialization
+
+When importing existing code from `/spec`, **you lack the context** of what the code is actually meant to do. Making ANY changes during initialization could be destructive or counterproductive.
+
+**During initialization with existing code:**
+- Set up the workshop structure (tooling, configs) ✅
+- Copy code from `/spec` to `src/` ✅
+- Run `analyze.sh` to **see that errors are caught** ✅
+- Report findings to the user ✅
+- **Modify the code to fix errors** ❌ FORBIDDEN
+
+**What to do when analyze.sh fails on imported code:**
+1. Report what failed and why
+2. Ask the user how to proceed:
+   - Adjust the config/rules to fit the code?
+   - Create TODOs to fix issues during BUILD?
+   - Something else?
+3. **Wait for explicit direction before touching the code**
+
+**The principle:** Initialization sets up the wrapper around existing code. It does not rewrite the code. The user brought this code for a reason - respect that by asking before changing anything.
+
+**When in doubt about anything: ASK.**
+
 ---
 
 ## Philosophy

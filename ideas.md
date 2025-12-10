@@ -215,6 +215,66 @@ But that's passive - "create as needed", "if it exists."
 
 ---
 
+## IDEA-010: CC Auto-Fixed Pre-existing Code Without Asking
+**Status:** promoted
+**Added:** 2025-12-10
+**Implemented:** 2025-12-10 - Added Critical Behavioral Rule #6: "Never Modify Imported Code During Initialization"
+
+When importing existing code, CC ran analyze.sh, saw errors, and immediately started "fixing" them.
+
+### Details
+User imported existing plugin via /spec. On first analyze.sh run:
+- PHPCS complained about function prefix (bwg_ too short, needs 5+ chars)
+- CC immediately started renaming functions without asking
+- This could break things - pre-existing code is OUT OF SCOPE
+
+Guidance exists ("Errors OUT OF SCOPE: STOP, report to user") but CC ignored it.
+
+### The Real Question
+Maybe init step shouldn't run the full test suite on imported code. Instead:
+- Verify tooling is INSTALLED and OPERATIONAL
+- Report what would fail (informational)
+- Let user decide what to do about pre-existing issues
+
+### Possible Fixes
+1. Add Critical Behavioral Rule #6: "Never Auto-Fix Pre-existing Code"
+2. Change init to verify tools work, not that code passes
+3. For existing code imports, first analyze.sh is "discovery mode" not "gate mode"
+4. Require explicit user approval before touching imported code
+
+### Notes
+- Relates to IDEA-004 (new vs existing)
+- Relates to IDEA-003 (/spec folder - code came from there)
+- The "analyze.sh must pass" gate makes sense for NEW code, not imported code
+
+---
+
+## IDEA-009: Starter Kit Files Ship to Derived Projects
+**Status:** new
+**Added:** 2025-12-10
+
+Template clone includes starter-kit-specific files that confuse derived projects.
+
+### Details
+When `gh repo create --template` runs, derived projects get:
+- `feature_list.json` with 43 starter kit features (CC just overwrites without asking)
+- `ideas.md` with our shower thoughts
+- `claude-progress.txt` with our session notes
+
+These should be deleted as part of setup, or not shipped at all.
+
+### Possible Fixes
+1. Add cleanup to README Quick Start: `rm feature_list.json ideas.md claude-progress.txt`
+2. Create `setup-derived-project.sh` that handles all swaps/deletes
+3. Add these to .gitignore (but then we lose tracking for starter kit itself)
+4. Rename our tracking files (e.g., `starter-features.json`)
+
+### Notes
+- CC saw starter kit features and just replaced them without asking
+- Need guard in init: "If feature_list.json exists with content, ask before overwriting"
+
+---
+
 ## IDEA-001: Template
 **Status:** new
 **Added:** YYYY-MM-DD
