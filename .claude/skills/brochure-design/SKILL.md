@@ -158,7 +158,22 @@ Use CSS custom properties for consistent sizing:
 - Large text (>= 18px bold or >= 24px): 3:1 minimum contrast ratio
 - UI components and graphics: 3:1 minimum
 
-Use tools like WebAIM Contrast Checker to verify.
+Use tools like WebAIM Contrast Checker to verify: https://webaim.org/resources/contrastchecker/
+
+### Accessible Color Variants
+
+Brand accent colors (gold, orange, coral, etc.) often fail WCAG AA contrast when used as text on white backgrounds. Always test accent colors and create "-accessible" variants for text use.
+
+**Example:**
+```css
+/* Gold accent - looks great for buttons/backgrounds but fails for text */
+--color-accent: #f59e0b;           /* 2.74:1 on white - FAILS */
+
+/* Darkened variant that passes for text use */
+--color-accent-accessible: #b45309; /* 4.51:1 on white - PASSES */
+```
+
+Use the standard `--color-accent` for backgrounds and decorative elements, but switch to `--color-accent-accessible` for text links or text on white backgrounds.
 
 ---
 
@@ -592,6 +607,42 @@ Before marking any feature complete, verify:
 - [ ] Required fields clearly indicated
 - [ ] Inline validation provides immediate feedback
 - [ ] Form submission feedback is announced to screen readers
+
+---
+
+## PHP Template Best Practices
+
+### Avoiding Trailing Whitespace
+
+When mixing PHP and HTML in templates, whitespace before a `<?php` tag becomes literal whitespace in the rendered HTML. This can cause `html-validate` to report "no-trailing-whitespace" errors.
+
+**Problem:**
+```php
+<div class="content">
+    Content here
+    <?php // Whitespace before <?php becomes trailing whitespace in HTML ?>
+</div>
+```
+
+**Solution:**
+Place `<?php` tags at column 0 (start of line) when they immediately follow HTML content:
+
+```php
+<div class="content">
+    Content here
+<?php // No trailing whitespace ?>
+</div>
+```
+
+Or use PHP to output the entire line:
+
+```php
+<?php
+echo '<div class="content">';
+echo '    Content here';
+echo '</div>';
+?>
+```
 
 ---
 

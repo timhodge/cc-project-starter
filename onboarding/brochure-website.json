@@ -31,6 +31,43 @@
           "example": "Legal services, family law, estate planning"
         },
         {
+          "id": "business_type_schema",
+          "question": "What type of business is this for Schema.org markup?",
+          "type": "select",
+          "required": true,
+          "note": "This helps search engines understand your business type for 'near me' searches",
+          "options": [
+            "Attorney/Lawyer",
+            "Accountant",
+            "Restaurant",
+            "Cafe/Coffee Shop",
+            "Bar/Pub",
+            "Dentist",
+            "Doctor/Physician",
+            "Medical Practice",
+            "Real Estate Agent",
+            "Plumber",
+            "Electrician",
+            "HVAC",
+            "Auto Repair",
+            "Beauty Salon",
+            "Hair Salon",
+            "Spa",
+            "Gym/Health Club",
+            "Retail Store",
+            "Florist",
+            "Bakery",
+            "Travel Agency",
+            "Insurance Agency",
+            "Financial Service",
+            "Veterinarian",
+            "Pet Store",
+            "Photographer",
+            "General Local Business"
+          ],
+          "example": "Attorney/Lawyer"
+        },
+        {
           "id": "year_established",
           "question": "What year was the business established?",
           "type": "number",
@@ -426,5 +463,21 @@
     "Clarify ambiguous answers before proceeding",
     "Group related questions together",
     "Secrets should be stored in .env file, not committed"
+  ],
+  "deployment_questions": [
+    {
+      "id": "webserver_type",
+      "question": "What web server will you deploy to?",
+      "type": "select",
+      "required": false,
+      "note": "This determines which URL rewrite config to generate. OpenLiteSpeed uses .htaccess (like Apache), NGINX requires server block rules.",
+      "options": [
+        "OpenLiteSpeed/Apache (uses .htaccess)",
+        "NGINX (requires server config)",
+        "Unsure / Will decide later"
+      ],
+      "example": "OpenLiteSpeed/Apache (uses .htaccess)",
+      "default": "OpenLiteSpeed/Apache (uses .htaccess)"
+    }
   ]
 }

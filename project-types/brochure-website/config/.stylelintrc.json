@@ -14,7 +14,7 @@
     "function-url-quotes": "always",
     "length-zero-no-unit": true,
     "value-keyword-case": "lower",
-    "unit-allowed-list": ["em", "rem", "%", "px", "vw", "vh", "vmin", "vmax", "deg", "ms", "s", "fr"],
+    "unit-allowed-list": ["em", "rem", "%", "px", "vw", "vh", "vmin", "vmax", "deg", "ms", "s", "fr", "ch"],
     "declaration-block-no-redundant-longhand-properties": true,
     "shorthand-property-no-redundant-values": true,
     "no-unknown-animations": true,

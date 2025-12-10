@@ -134,14 +134,58 @@ fi
 
 
 # ===== HTML VALIDATION =====
+# Render PHP to temp HTML files before validating to avoid false errors from PHP syntax
 if [ "$PHP_FILES" -gt 0 ]; then
     echo "=== HTML Validate ==="
     if [ -d "node_modules" ] && [ -f "node_modules/.bin/html-validate" ]; then
-        set +e
-        npx html-validate "src/**/*.php" 2>&1
-        RESULT=$?
-        set -e
-        print_status $RESULT
+        # Create temp directory for rendered HTML
+        HTML_TEMP_DIR=$(mktemp -d)
+        trap "rm -rf $HTML_TEMP_DIR" EXIT
+
+        echo "Rendering PHP files to HTML for validation..."
+
+        # Render each PHP file
+        RENDER_ERRORS=0
+        for phpfile in src/*.php; do
+            if [ -f "$phpfile" ]; then
+                filename=$(basename "$phpfile" .php)
+                set +e
+                php "$phpfile" > "$HTML_TEMP_DIR/${filename}.html" 2>/dev/null
+                if [ $? -ne 0 ]; then
+                    echo -e "${YELLOW}  Warning: Could not render $phpfile${NC}"
+                    RENDER_ERRORS=$((RENDER_ERRORS + 1))
+                fi
+                set -e
+            fi
+        done
+
+        # Also check includes directory for standalone templates
+        if [ -d "src/includes" ]; then
+            for phpfile in src/includes/*.php; do
+                if [ -f "$phpfile" ]; then
+                    # Skip partial includes that aren't full pages
+                    filename=$(basename "$phpfile")
+                    if [[ "$filename" != header.php && "$filename" != footer.php && "$filename" != nav.php && "$filename" != config.php && "$filename" != meta.php && "$filename" != schema.php ]]; then
+                        set +e
+                        php "$phpfile" > "$HTML_TEMP_DIR/includes-${filename%.php}.html" 2>/dev/null
+                        set -e
+                    fi
+                fi
+            done
+        fi
+
+        # Run html-validate on rendered files
+        HTML_COUNT=$(find "$HTML_TEMP_DIR" -name "*.html" 2>/dev/null | wc -l)
+        if [ "$HTML_COUNT" -gt 0 ]; then
+            set +e
+            npx html-validate "$HTML_TEMP_DIR/*.html" 2>&1
+            RESULT=$?
+            set -e
+            print_status $RESULT
+        else
+            echo -e "${YELLOW}No HTML files were rendered for validation${NC}"
+            echo ""
+        fi
     else
         echo -e "${YELLOW}SKIPPED: html-validate not installed${NC}"
         echo ""

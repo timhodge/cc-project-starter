@@ -1,7 +1,7 @@
 {
-  "name": "brochure-starter",
-  "version": "1.0.0",
-  "description": "PHP brochure website starter kit with quality gates and Claude Code integration",
+  "name": "cc-project-starter",
+  "version": "2.0.0",
+  "description": "Universal project starter kit with quality gates and Claude Code integration",
   "private": true,
   "scripts": {
     "stylelint": "stylelint \"src/**/*.css\"",

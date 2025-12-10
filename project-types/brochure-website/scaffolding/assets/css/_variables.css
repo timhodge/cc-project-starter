@@ -14,6 +14,17 @@
 :root {
   /* ========================================
      COLORS
+
+     ACCESSIBILITY NOTE:
+     All text colors must meet WCAG AA contrast requirements:
+     - Normal text (< 18pt / 24px): 4.5:1 contrast ratio
+     - Large text (>= 18pt bold or 24px): 3:1 contrast ratio
+
+     Use a contrast checker: https://webaim.org/resources/contrastchecker/
+
+     Brand accent colors (gold, orange, etc.) often fail contrast when
+     used as text on white backgrounds. Create "-accessible" variants
+     for text use. Example: gold #f59e0b fails, but #b45309 passes.
      ======================================== */
 
   /* Primary brand color */
@@ -26,10 +37,13 @@
   --color-secondary-light: #94a3b8;
   --color-secondary-dark: #475569;
 
-  /* Accent color (CTAs, highlights) */
+  /* Accent color (CTAs, highlights)
+     WARNING: Accent colors may not meet contrast requirements for text.
+     Use --color-accent-accessible for text on white backgrounds. */
   --color-accent: #f59e0b;
   --color-accent-light: #fbbf24;
   --color-accent-dark: #d97706;
+  --color-accent-accessible: #b45309; /* Meets 4.5:1 on white for text use */
 
   /* Text colors */
   --color-text: #1e293b;

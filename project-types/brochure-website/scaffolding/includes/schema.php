@@ -28,15 +28,19 @@ declare(strict_types=1);
  *   logo?: string,
  *   image?: string,
  *   priceRange?: string,
- *   sameAs?: array<string>
+ *   sameAs?: array<string>,
+ *   businessType?: string
  * } $business Business data array
  * @return string JSON-LD script tag
  */
 function renderLocalBusinessSchema(array $business): string
 {
+    // Use specific business type if provided, otherwise generic LocalBusiness
+    $type = $business['businessType'] ?? 'LocalBusiness';
+
     $schema = [
         '@context' => 'https://schema.org',
-        '@type' => 'LocalBusiness',
+        '@type' => $type,
         'name' => $business['name'],
         'description' => $business['description'],
         'url' => $business['url'],
@@ -76,6 +80,125 @@ function renderLocalBusinessSchema(array $business): string
 
     if (isset($business['sameAs'])) {
         $schema['sameAs'] = $business['sameAs'];
+    }
+
+    return renderSchemaScript($schema);
+}
+
+/**
+ * Common Schema.org business types for LocalBusiness
+ *
+ * Use these values for the 'businessType' parameter in renderLocalBusinessSchema().
+ * Full list: https://schema.org/LocalBusiness#subtypes
+ *
+ * @var array<string, string> Map of common business types to Schema.org types
+ */
+const SCHEMA_BUSINESS_TYPES = [
+    'attorney' => 'Attorney',
+    'lawyer' => 'Attorney',
+    'accountant' => 'AccountingService',
+    'restaurant' => 'Restaurant',
+    'cafe' => 'CafeOrCoffeeShop',
+    'bar' => 'BarOrPub',
+    'dentist' => 'Dentist',
+    'doctor' => 'Physician',
+    'medical' => 'MedicalBusiness',
+    'real_estate' => 'RealEstateAgent',
+    'plumber' => 'Plumber',
+    'electrician' => 'Electrician',
+    'hvac' => 'HVACBusiness',
+    'auto_repair' => 'AutoRepair',
+    'beauty_salon' => 'BeautySalon',
+    'hair_salon' => 'HairSalon',
+    'spa' => 'DaySpa',
+    'gym' => 'HealthClub',
+    'store' => 'Store',
+    'florist' => 'Florist',
+    'bakery' => 'Bakery',
+    'travel_agency' => 'TravelAgency',
+    'insurance' => 'InsuranceAgency',
+    'financial' => 'FinancialService',
+    'veterinarian' => 'VeterinaryCare',
+    'pet_store' => 'PetStore',
+    'photographer' => 'Photographer',
+    'general' => 'LocalBusiness',
+];
+
+/**
+ * Get Schema.org type from business category
+ *
+ * @param string $category Business category (e.g., 'attorney', 'restaurant')
+ * @return string Schema.org type
+ */
+function getSchemaBusinessType(string $category): string
+{
+    $normalized = strtolower(trim($category));
+    return SCHEMA_BUSINESS_TYPES[$normalized] ?? 'LocalBusiness';
+}
+
+/**
+ * Render Attorney/LegalService schema with practice areas
+ *
+ * @param array{
+ *   name: string,
+ *   description: string,
+ *   url: string,
+ *   phone: string,
+ *   email: string,
+ *   address: array{street: string, city: string, state: string, zip: string},
+ *   geo: array{lat: float, lng: float},
+ *   practiceAreas?: array<string>,
+ *   hours?: array<string, string>,
+ *   logo?: string,
+ *   image?: string,
+ *   sameAs?: array<string>
+ * } $attorney Attorney/firm data
+ * @return string JSON-LD script tag
+ */
+function renderAttorneySchema(array $attorney): string
+{
+    $schema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'Attorney',
+        'name' => $attorney['name'],
+        'description' => $attorney['description'],
+        'url' => $attorney['url'],
+        'telephone' => $attorney['phone'],
+        'email' => $attorney['email'],
+        'address' => [
+            '@type' => 'PostalAddress',
+            'streetAddress' => $attorney['address']['street'],
+            'addressLocality' => $attorney['address']['city'],
+            'addressRegion' => $attorney['address']['state'],
+            'postalCode' => $attorney['address']['zip'],
+            'addressCountry' => 'US',
+        ],
+        'geo' => [
+            '@type' => 'GeoCoordinates',
+            'latitude' => $attorney['geo']['lat'],
+            'longitude' => $attorney['geo']['lng'],
+        ],
+    ];
+
+    // Add practice areas as knowsAbout
+    if (isset($attorney['practiceAreas']) && count($attorney['practiceAreas']) > 0) {
+        $schema['knowsAbout'] = $attorney['practiceAreas'];
+    }
+
+    if (isset($attorney['hours'])) {
+        $schema['openingHoursSpecification'] = formatOpeningHours($attorney['hours']);
+    }
+
+    if (isset($attorney['logo'])) {
+        $schema['logo'] = $attorney['logo'];
+    }
+
+    if (isset($attorney['image'])) {
+        $schema['image'] = $attorney['image'];
+    }
+
+    if (isset($attorney['sameAs'])) {
+        $schema['sameAs'] = $attorney['sameAs'];
     }
 
     return renderSchemaScript($schema);

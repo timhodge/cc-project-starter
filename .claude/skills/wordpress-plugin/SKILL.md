@@ -576,3 +576,138 @@ function my_plugin_action_links( $links ) {
 }
 add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'my_plugin_action_links' );
 ```
+
+---
+
+## PHP to WordPress Function Reference
+
+Always use WordPress wrapper functions instead of native PHP equivalents. PHPCS will flag issues, but sometimes its suggestions are context-blind. Use this reference to determine the correct WordPress function.
+
+### File System Operations
+
+| PHP Function | WordPress Function | Notes |
+|--------------|-------------------|-------|
+| `file_get_contents()` (local) | `WP_Filesystem` API | Use for local file reads |
+| `file_get_contents()` (remote) | `wp_remote_get()` | Use for HTTP requests |
+| `file_put_contents()` | `WP_Filesystem` API | Use `$wp_filesystem->put_contents()` |
+| `fopen()` / `fread()` / `fclose()` | `WP_Filesystem` API | Initialize with `WP_Filesystem()` |
+| `file_exists()` | `$wp_filesystem->exists()` | Or use native for simple checks |
+| `is_readable()` / `is_writable()` | `$wp_filesystem->is_readable()` / `->is_writable()` | |
+| `mkdir()` | `wp_mkdir_p()` | Creates parent directories too |
+| `unlink()` | `$wp_filesystem->delete()` | |
+
+### HTTP Requests
+
+| PHP Function | WordPress Function | Notes |
+|--------------|-------------------|-------|
+| `file_get_contents($url)` | `wp_remote_get()` | Returns WP_Error on failure |
+| `curl_*` functions | `wp_remote_get()` / `wp_remote_post()` | WordPress HTTP API |
+| `stream_context_create()` | `wp_remote_*` args array | Pass headers, timeout, etc. |
+
+```php
+<?php
+// CORRECT: WordPress HTTP API
+$response = wp_remote_get( 'https://api.example.com/data', array(
+    'timeout' => 15,
+    'headers' => array( 'Authorization' => 'Bearer ' . $token ),
+) );
+
+if ( is_wp_error( $response ) ) {
+    return; // Handle error
+}
+
+$body = wp_remote_retrieve_body( $response );
+$data = json_decode( $body, true );
+```
+
+### JSON Operations
+
+| PHP Function | WordPress Function | Notes |
+|--------------|-------------------|-------|
+| `json_encode()` | `wp_json_encode()` | Ensures proper encoding |
+| `json_decode()` | Use native | No WordPress wrapper needed |
+
+### Email
+
+| PHP Function | WordPress Function | Notes |
+|--------------|-------------------|-------|
+| `mail()` | `wp_mail()` | Respects WordPress mail settings |
+
+### URLs and Paths
+
+| PHP Approach | WordPress Function | Notes |
+|--------------|-------------------|-------|
+| `$_SERVER['DOCUMENT_ROOT']` | `ABSPATH` | WordPress root directory |
+| Manual path building | `plugin_dir_path()` | Plugin's directory path |
+| | `plugin_dir_url()` | Plugin's URL |
+| | `get_template_directory()` | Theme directory |
+| `parse_url()` | Use native | No wrapper needed |
+| | `home_url()` | Site's home URL |
+| | `admin_url()` | Admin URL |
+| | `content_url()` | wp-content URL |
+
+### Date/Time
+
+| PHP Function | WordPress Function | Notes |
+|--------------|-------------------|-------|
+| `date()` | `wp_date()` | Respects site timezone |
+| `time()` | `time()` | Native is fine for timestamps |
+| `strtotime()` | `strtotime()` | Native is fine |
+| | `current_time( 'mysql' )` | Current time in MySQL format |
+| | `current_time( 'timestamp' )` | Current timestamp (site timezone) |
+
+### Redirects
+
+| PHP Function | WordPress Function | Notes |
+|--------------|-------------------|-------|
+| `header('Location: ...')` | `wp_redirect()` | Use `wp_safe_redirect()` for user input |
+| `exit` after redirect | `exit` | Still needed after `wp_redirect()` |
+
+```php
+<?php
+// CORRECT: Safe redirect
+wp_safe_redirect( admin_url( 'options-general.php?page=my-plugin&updated=1' ) );
+exit;
+```
+
+### Including Files
+
+| PHP Function | WordPress Function | Notes |
+|--------------|-------------------|-------|
+| `include` / `require` | Use native | Native is fine |
+| | `locate_template()` | For theme templates |
+| | `get_template_part()` | For theme template parts |
+
+### When Native PHP is Acceptable
+
+Some native PHP functions are fine to use in WordPress:
+
+- `json_decode()` - No wrapper exists
+- `array_*` functions - No wrappers exist
+- `str_*` / `preg_*` functions - No wrappers exist
+- `in_array()`, `array_key_exists()` - No wrappers
+- `file_exists()` - For simple checks (not writes)
+- `is_readable()` - For simple permission checks
+
+### Handling PHPCS Warnings
+
+When PHPCS flags a function:
+
+1. **First, find the WordPress equivalent** - Use the tables above
+2. **Use the WordPress way** - Always prefer the WordPress function
+
+```php
+<?php
+// CORRECT: Use WordPress HTTP API instead of file_get_contents
+$response = wp_remote_get( $url );
+
+// CORRECT: Use WP_Filesystem for local files
+global $wp_filesystem;
+if ( ! function_exists( 'WP_Filesystem' ) ) {
+    require_once ABSPATH . 'wp-admin/includes/file.php';
+}
+WP_Filesystem();
+$contents = $wp_filesystem->get_contents( $file_path );
+```
+
+3. **If no WordPress equivalent truly exists** - Ask the user before adding `phpcs:ignore`. Do NOT add ignore comments without explicit user approval - this is cheating the quality gate.

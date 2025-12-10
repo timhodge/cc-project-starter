@@ -126,19 +126,103 @@
       "id": "end-to-end-test-brochure",
       "name": "End-to-End Test: Brochure Website",
       "description": "Test full flow: onboarding → scaffolding → build → quality gates",
-      "passes": false
+      "passes": true
     },
     {
       "id": "end-to-end-test-wordpress",
       "name": "End-to-End Test: WordPress Plugin",
       "description": "Test full flow for WordPress plugin creation",
-      "passes": false
+      "passes": true
     },
     {
       "id": "end-to-end-test-laravel",
       "name": "End-to-End Test: Laravel App",
       "description": "Test full flow for Laravel app creation",
       "passes": false
+    },
+    {
+      "id": "lesson-claude-no-lower-standards",
+      "name": "CLAUDE.md: Never lower test standards",
+      "description": "Add instruction that Claude must fix code, not weaken quality gates to pass tests",
+      "passes": true
+    },
+    {
+      "id": "lesson-claude-feature-immutability",
+      "name": "CLAUDE.md: Feature list immutability",
+      "description": "Add instruction that only 'passes' field can be changed, never names/descriptions without user approval",
+      "passes": true
+    },
+    {
+      "id": "lesson-claude-verify-gates-first",
+      "name": "CLAUDE.md: Verify quality gates after scaffolding",
+      "description": "Add instruction to run analyze.sh immediately after scaffolding, before building features",
+      "passes": true
+    },
+    {
+      "id": "lesson-claude-ask-install-tools",
+      "name": "CLAUDE.md: Ask user to install missing tools",
+      "description": "Add instruction to ask user to install missing system tools rather than creating workarounds",
+      "passes": true
+    },
+    {
+      "id": "lesson-brochure-schema-org",
+      "name": "Brochure: Add Schema.org by default",
+      "description": "Add schema.php to scaffolding, add onboarding question for business type (Attorney, Restaurant, etc.)",
+      "passes": true
+    },
+    {
+      "id": "lesson-brochure-analyze-render-php",
+      "name": "Brochure: analyze.sh render PHP before HTML validation",
+      "description": "Render PHP to temp HTML files before running html-validate to avoid false errors",
+      "passes": true
+    },
+    {
+      "id": "lesson-brochure-stylelint-ch",
+      "name": "Brochure: Add 'ch' unit to Stylelint",
+      "description": "Add 'ch' to unit-allowed-list in .stylelintrc.json",
+      "passes": true
+    },
+    {
+      "id": "lesson-brochure-pa11y-config",
+      "name": "Brochure: Add pa11y config with Chromium flags",
+      "description": "Add .pa11yci.json with sandbox flags for WSL/Docker/CI environments",
+      "passes": true
+    },
+    {
+      "id": "lesson-brochure-accessible-colors",
+      "name": "Brochure: Add accessible color guidance",
+      "description": "Add comments in variables.css about WCAG AA contrast, update skill file",
+      "passes": true
+    },
+    {
+      "id": "lesson-brochure-router-php",
+      "name": "Brochure: Add router.php for local dev",
+      "description": "Add router.php for clean URLs with PHP built-in server, exclude from deployment",
+      "passes": true
+    },
+    {
+      "id": "lesson-brochure-webserver-question",
+      "name": "Brochure: Ask about web server type",
+      "description": "Add onboarding question for OpenLiteSpeed vs NGINX for URL rewrite config",
+      "passes": true
+    },
+    {
+      "id": "lesson-brochure-php-whitespace",
+      "name": "Brochure Skill: PHP whitespace note",
+      "description": "Add note about placing <?php at column 0 to avoid trailing whitespace in rendered HTML",
+      "passes": true
+    },
+    {
+      "id": "lesson-wp-function-reference",
+      "name": "WordPress Skill: PHP to WP function reference",
+      "description": "Add reference of PHP functions and their WordPress equivalents (file_get_contents -> wp_remote_get, etc.)",
+      "passes": true
+    },
+    {
+      "id": "lessons-learned-workflow",
+      "name": "Formalize lessons-learned workflow",
+      "description": "Document the process: 1) Pull lessons-learned.json from derived projects, 2) Add to feature_list.json, 3) Discuss and prioritize with user, 4) Implement changes, 5) Mark addressed in source project's lessons-learned.json with starter version",
+      "passes": true
     }
   ]
 }

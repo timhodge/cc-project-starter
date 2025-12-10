@@ -162,3 +162,71 @@ Each session entry should include:
 ### Stats
 - Features completed: 20/23
 - Remaining: 3 end-to-end tests
+
+---
+
+## Session: 2025-12-09 (lessons learned implementation)
+
+### Completed
+- Added "Critical Behavioral Rules" section to CLAUDE.md:
+  1. Never lower test standards to pass tests
+  2. Feature list immutability (only `passes` field can change)
+  3. Verify quality gates after scaffolding before building features
+  4. Ask user to install missing tools instead of creating workarounds
+- Brochure website improvements:
+  - Renamed schema.php.example to schema.php (now included by default)
+  - Added business type question to onboarding for Schema.org markup
+  - Added Attorney schema function and SCHEMA_BUSINESS_TYPES constant
+  - Updated analyze.sh to render PHP to HTML before html-validate runs
+  - Added 'ch' unit to Stylelint unit-allowed-list
+  - Created .pa11yci.json with Chromium sandbox flags for WSL/Docker/CI
+  - Added accessible color guidance to _variables.css with --color-accent-accessible
+  - Created router.php for clean URL support with PHP built-in server
+  - Added webserver type question to onboarding (OpenLiteSpeed vs NGINX)
+- Brochure Skill updates:
+  - Added "PHP Template Best Practices" section about trailing whitespace
+  - Added "Accessible Color Variants" section with examples
+- WordPress Skill updates:
+  - Added comprehensive "PHP to WordPress Function Reference" section
+  - Tables for file system, HTTP, JSON, email, URLs, date/time, redirects
+  - Clear guidance that phpcs:ignore requires user approval
+
+### In Progress
+- None
+
+### Blockers
+- None
+
+### Next Steps
+- End-to-end testing of Laravel app flow (only remaining e2e test)
+- Formalize lessons-learned workflow documentation
+
+### Stats
+- Features completed: 35/37
+- Remaining: 2 (Laravel e2e test, lessons-learned workflow formalization)
+
+---
+
+## Session: 2025-12-09 (CLAUDE.md restructure)
+
+### Completed
+- Formalized lessons-learned workflow in CLAUDE.md (now CLAUDE.start.md)
+- Updated package.json to version 2.0.0, renamed to cc-project-starter
+- Closed the loop on all 13 lessons:
+  - caponigrolaw-site: 11 lessons marked addressed (v2.0.0)
+  - bwg-post-grid: 2 lessons marked addressed (v2.0.0)
+- Restructured CLAUDE files:
+  - `CLAUDE.md` - Now for starter kit development only
+  - `CLAUDE.start.md` - Template for derived projects (was the old CLAUDE.md)
+  - `CLAUDE.project.md` - Template for project-specific notes
+
+### In Progress
+- None
+
+### Next Steps
+- End-to-end test Laravel app flow (last remaining feature)
+- Consider adding the CLAUDE restructure as a feature to track
+
+### Stats
+- Features: 36/37 passing
+- Only remaining: end-to-end-test-laravel
