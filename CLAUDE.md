@@ -221,4 +221,4 @@ Update `claude-progress.txt` at session end:
 
 ## Version
 
-Starter Kit Version: 2.0.0
+Starter Kit Version: 2.1.0

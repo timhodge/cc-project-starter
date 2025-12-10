@@ -3,7 +3,7 @@
   "$comment": "Template for capturing lessons learned during project development. Copy this to derived projects and populate as you discover improvements for cc-project-starter.",
   "project_name": "",
   "project_type": "",
-  "starter_version_used": "2.0.0",
+  "starter_version_used": "2.1.0",
   "lessons": [
     {
       "id": "example-001",

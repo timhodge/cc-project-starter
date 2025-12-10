@@ -169,7 +169,7 @@ Re-initialization is a conversation, not a reset button.
   "project_name": "My Project",
   "project_slug": "my-project",
   "created_at": "2025-12-09",
-  "starter_version": "2.0.0",
+  "starter_version": "2.1.0",
   "scripts": {
     "init": "project-types/brochure-website/init.sh",
     "analyze": "project-types/brochure-website/analyze.sh"
@@ -297,7 +297,7 @@ Before marking `passes: true` in `feature_list.json`:
 1. Ask user to confirm write access to source project
 2. Update source project's `lessons-learned.json`:
    - Set `"addressed": true`
-   - Set `"addressed_in_starter_version"` to current version (e.g., "2.0.0")
+   - Set `"addressed_in_starter_version"` to current version (e.g., "2.1.0")
 3. Then mark `passes: true` in starter kit's `feature_list.json`
 
 **Important:** Do NOT mark a lesson as `passes: true` until the source project's file has been updated. This prevents re-processing the same lesson.

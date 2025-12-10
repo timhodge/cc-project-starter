@@ -1,6 +1,6 @@
 {
   "$comment": "Self-referencing features for building the universal project starter kit. These track what needs to be made fully functional.",
-  "template_version": "2.0.0",
+  "template_version": "2.1.0",
   "features": [
     {
       "id": "directory-structure",
