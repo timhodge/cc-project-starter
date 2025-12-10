@@ -282,11 +282,61 @@ Each project type has its own architectural rules and quality gates. After `proj
 
 ---
 
-## File Structure
+## Project Structure: Workshop vs Product
+
+This project follows a clear separation between **workshop** (tooling) and **product** (deliverable code):
 
 ```
-cc-project-starter/
+project-root/                  ← WORKSHOP (development tooling)
+├── CLAUDE.md
+├── feature_list.json
+├── project-config.json
+├── analyze.sh
+├── init.sh
+├── vendor/                    ← Dev dependencies (not shipped)
+├── node_modules/              ← Dev dependencies (not shipped)
+│
+├── src/                       ← PRODUCT (shipping code)
+│   └── ... your actual code
+│
+└── dist/                      ← DISTRIBUTION (packaged releases)
+    └── my-project-v1.0.0.zip
+```
+
+### Key Principles
+
+1. **All deliverable code lives in `src/`**
+   - WordPress plugins: `src/` IS the plugin folder
+   - Laravel apps: `src/` contains the full Laravel structure (`src/app/`, `src/routes/`, etc.)
+   - Brochure sites: `src/` IS the website root
+
+2. **`analyze.sh` only scans `src/`**
+   - Workshop files are never scanned
+   - This prevents template placeholders or dev tooling from causing false failures
+
+3. **Distribution packages go in `dist/`**
+   - When releasing, package `src/` contents into `dist/`
+   - Example: `dist/my-plugin-v1.0.0.zip`
+
+4. **Deployment pushes `src/` contents**
+   - Deploy `src/` to your server, not the repo root
+   - Workshop tooling stays in the repo, never ships
+
+### Why This Matters
+
+- Clean separation prevents accidental inclusion of dev files in production
+- Quality gates focus only on code that actually ships
+- Workshop can evolve without affecting the product
+- Distribution is straightforward: package what's in `src/`
+
+---
+
+## Full File Structure
+
+```
+project-root/
 ├── CLAUDE.md                          # This file
+├── CLAUDE.project.md                  # Project-specific notes (create as needed)
 ├── feature_list.json                  # Features to build
 ├── project-config.json                # Project configuration (after onboarding)
 ├── project-brief.json                 # Discovery answers (after onboarding)
@@ -295,32 +345,15 @@ cc-project-starter/
 ├── init.sh                            # Delegator → type-specific init
 ├── analyze.sh                         # Delegator → type-specific analyze
 │
-├── onboarding/
-│   ├── initial-onboarding.json        # Project type + common questions
-│   ├── brochure-website.json
-│   ├── wordpress-plugin.json
-│   ├── laravel-app.json
-│   ├── complex-website.json
-│   └── bespoke-project.json
+├── src/                               # YOUR CODE (the product)
+│   └── ...                            # Structure depends on project type
 │
-├── project-types/
-│   ├── brochure-website/
-│   │   ├── init.sh
-│   │   ├── analyze.sh
-│   │   ├── config/                    # Linter configs
-│   │   └── scaffolding/               # Template files
-│   ├── wordpress-plugin/
-│   ├── laravel-app/
-│   ├── complex-website/
-│   └── bespoke-project/
+├── dist/                              # Packaged releases
+│   └── ...
 │
-├── templates/
-│   └── github-actions/
-│       ├── push-to-runcloud.yml
-│       ├── create-release-zip.yml
-│       ├── laravel-deploy.yml
-│       ├── wordpress-plugin-release.yml
-│       └── run-tests.yml
+├── onboarding/                        # Setup questions (can delete after init)
+├── project-types/                     # Type configs (can delete after init)
+├── templates/                         # Action templates (can delete after init)
 │
 └── .claude/
     └── skills/

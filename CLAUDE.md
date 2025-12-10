@@ -59,6 +59,42 @@ Track progress in `feature_list.json`. Mark `passes: true` only when fully compl
 
 ---
 
+## Project Structure Convention
+
+Derived projects follow a **workshop/product separation**:
+
+```
+derived-project/
+├── CLAUDE.md, analyze.sh, etc.    ← Workshop (tooling)
+├── src/                            ← Product (shipping code)
+└── dist/                           ← Distribution (packaged releases)
+```
+
+### Implications for Scaffolding
+
+When creating scaffolding in `project-types/*/scaffolding/`:
+
+1. **Scaffolding contents get copied to `src/`** in derived projects
+2. **Design scaffolding as the product structure**, not the repo root
+3. **`analyze.sh` scripts scan `src/` only** - they won't see workshop files
+
+Example for WordPress plugin:
+```
+scaffolding/                  → Copied to → derived-project/src/
+├── plugin-name.php                        ├── plugin-name.php
+├── includes/                              ├── includes/
+└── readme.txt                             └── readme.txt
+```
+
+### Why This Matters
+
+- Prevents scaffolding templates (with `{{PLACEHOLDERS}}`) from being scanned
+- Clean separation between dev tooling and shipping code
+- Deployment is simple: push `src/` contents to server
+- Distribution is simple: package `src/` into `dist/`
+
+---
+
 ## Lessons Learned Workflow
 
 When the user says "Fetch lessons from ~/projects/project-name":
