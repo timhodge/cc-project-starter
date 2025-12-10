@@ -236,6 +236,13 @@
       "description": "Establish clear separation: repo root is the workshop (tooling, configs, CLAUDE.md), src/ is the product (shipping code). All analyze.sh scripts scan src/ only. Distribution packages go in dist/. This applies to all project types - WordPress plugins, Laravel apps, brochure sites all put their deliverable code in src/, whatever internal structure that takes.",
       "passes": true,
       "source": "bwg-post-grid"
+    },
+    {
+      "id": "lesson-fresh-zip-files",
+      "name": "Always create fresh zip files for distribution",
+      "description": "When creating dist zip files, always 'rm -f' the old zip before creating a new one. The 'zip -r' command updates existing archives rather than replacing them, so removed/renamed files persist and the archive becomes corrupted. Add guidance to CLAUDE.md or deployment docs.",
+      "passes": false,
+      "source": "bwg-post-grid"
     }
   ]
 }
