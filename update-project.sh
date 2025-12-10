@@ -35,9 +35,10 @@ else
     read -p "Enter path to derived project: " TARGET
 fi
 
-# Expand path
+# Expand tilde and resolve path
+TARGET="${TARGET/#\~/$HOME}"
 TARGET=$(cd "$TARGET" 2>/dev/null && pwd) || {
-    echo -e "${RED}ERROR: Cannot find directory: $1${NC}"
+    echo -e "${RED}ERROR: Cannot find directory: $TARGET${NC}"
     exit 1
 }
 
