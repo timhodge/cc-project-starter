@@ -17,7 +17,8 @@
       "Bash(gh repo edit:*)",
       "WebFetch(domain:github.com)",
       "Bash(git -C /home/th/projects/cc-project-starter log --oneline -5)",
-      "Bash(./analyze.sh:*)"
+      "Bash(./analyze.sh:*)",
+      "Bash(ls:*)"
     ],
     "deny": [],
     "ask": []

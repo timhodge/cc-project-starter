@@ -1,7 +1,7 @@
 {
-  "name": "cc-project-starter",
+  "name": "{{PROJECT_SLUG}}/{{PROJECT_SLUG}}",
   "version": "2.0.0",
-  "description": "Universal project starter kit with quality gates and Claude Code integration",
+  "description": "{{PROJECT_DESCRIPTION}}",
   "private": true,
   "scripts": {
     "stylelint": "stylelint \"src/**/*.css\"",
