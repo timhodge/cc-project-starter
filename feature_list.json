@@ -223,6 +223,12 @@
       "name": "Formalize lessons-learned workflow",
       "description": "Document the process: 1) Pull lessons-learned.json from derived projects, 2) Add to feature_list.json, 3) Discuss and prioritize with user, 4) Implement changes, 5) Mark addressed in source project's lessons-learned.json with starter version",
       "passes": true
+    },
+    {
+      "id": "consider-spec-driven-planning",
+      "name": "Consider spec-driven planning for complex projects",
+      "description": "Evaluate GitHub's spec-kit (github.com/github/spec-kit) for Laravel and complex website types. These project types may benefit from structured specification before scaffolding. Options: 1) Keep separate - use spec-kit externally when needed, 2) Create lightweight 'spec mode' for complex projects, 3) Pull useful concepts into onboarding. Test spec-kit on a real Laravel project first to see if it adds value over freeform Claude conversation.",
+      "passes": false
     }
   ]
 }
