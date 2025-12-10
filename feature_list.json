@@ -243,6 +243,12 @@
       "description": "When creating dist zip files, always 'rm -f' the old zip before creating a new one. The 'zip -r' command updates existing archives rather than replacing them, so removed/renamed files persist and the archive becomes corrupted. Add guidance to CLAUDE.md or deployment docs.",
       "passes": false,
       "source": "bwg-post-grid"
+    },
+    {
+      "id": "update-project-script",
+      "name": "Create update-project.sh script",
+      "description": "Script that lives in cc-project-starter and pushes starter-kit-owned files (CLAUDE.md, skills, project-types, docs) to a derived project. Usage: ./update-project.sh ~/projects/my-project",
+      "passes": true
     }
   ]
 }
