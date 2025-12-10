@@ -249,6 +249,24 @@
       "name": "Create update-project.sh script",
       "description": "Script that lives in cc-project-starter and pushes starter-kit-owned files (CLAUDE.md, skills, project-types, docs) to a derived project. Usage: ./update-project.sh ~/projects/my-project",
       "passes": true
+    },
+    {
+      "id": "spec-folder-init-flow",
+      "name": "Add /spec folder to init flow",
+      "description": "Add /spec as a user-managed input folder. At init start, CC checks /spec for specs, proposals, existing code, or assets. If content exists, analyze and use to pre-fill onboarding. If empty, prompt user to drop materials. CC only reads/copies from /spec, never modifies. Implements IDEA-002 (init first) and IDEA-003 (/spec folder).",
+      "passes": true
+    },
+    {
+      "id": "new-vs-existing-discovery",
+      "name": "Add new vs existing discovery question",
+      "description": "Add onboarding question: Is this a new project or importing existing code? Answer shapes what TODOs get generated - new projects get scaffolding TODOs, existing projects get analysis TODOs. Implements IDEA-004.",
+      "passes": true
+    },
+    {
+      "id": "organization-branding-question",
+      "name": "Add organization branding question",
+      "description": "Add onboarding question: Who is putting their name on this project? (BWG or Off Walter). Answer captured in project-brief.json and used to populate plugin headers, copyright notices, author fields. Implements IDEA-005.",
+      "passes": true
     }
   ]
 }

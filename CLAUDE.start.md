@@ -37,6 +37,23 @@ On every session start:
 
 **Purpose**: Conduct discovery, determine project type, scaffold appropriate structure.
 
+### Phase 0: Check /spec Folder
+
+Before asking questions, check what the user has already provided:
+
+1. **If `/spec` has content:**
+   - Analyze what's there (proposals, existing code, assets, etc.)
+   - Use findings to pre-fill onboarding questions
+   - Ask confirming questions: "It looks like this is a BWG WordPress plugin project. Is that right?"
+   - Continue through remaining discovery using spec as context
+
+2. **If `/spec` is empty:**
+   - Prompt: "Do you have a spec, proposal, or any assets you can drop in `/spec` now? I'll wait. Tell me about what you put there."
+   - User can describe what they added: "Look in spec/ for a proposal and an existing plugin"
+   - If user has nothing: "No problem - we'll work through discovery together."
+
+**Important:** The `/spec` folder is user-managed. You may only read from it and copy files out to `src/`. Never modify, delete, or add files to `/spec`.
+
 ### Phase 1: Initial Discovery
 
 1. **Greet the user** and explain you'll ask some questions to set up their project
@@ -92,21 +109,31 @@ On every session start:
    - `feature_list.json` - Features to build (all `passes: false`)
    - Copy `lessons-learned.json` template for this project
 
-7. **Copy type-specific scaffolding** from `project-types/{type}/scaffolding/`
+   **Shaping feature_list.json based on new vs existing code:**
 
-8. **Copy type-specific configs** from `project-types/{type}/config/` to project root
+   If `has_existing_code` is **true** (importing existing code from `/spec`):
+   - Add analysis TODOs: "Analyze existing code structure", "Identify dependencies to exclude", "Review for compatibility with tooling"
+   - Add migration TODOs: "Copy code from /spec to src/", "Update namespace/paths if needed"
 
-9. **Run `./analyze.sh`** to verify scaffolding passes quality gates
-   - **If it fails, you are not done initializing.** Fix the issues before proceeding.
-   - Do not move to BUILDER mode until analyze.sh passes cleanly.
+   If `has_existing_code` is **false** (new project from scratch):
+   - Add scaffolding TODOs based on project type
+   - Standard feature TODOs from discovery
 
-10. **Setup GitHub Actions** if requested:
+8. **Copy type-specific scaffolding** from `project-types/{type}/scaffolding/`
+
+9. **Copy type-specific configs** from `project-types/{type}/config/` to project root
+
+10. **Run `./analyze.sh`** to verify scaffolding passes quality gates
+    - **If it fails, you are not done initializing.** Fix the issues before proceeding.
+    - Do not move to BUILDER mode until analyze.sh passes cleanly.
+
+11. **Setup GitHub Actions** if requested:
     - Copy appropriate templates from `templates/github-actions/`
     - Customize based on deployment target
 
-11. **Commit**: `git commit -m "Initial project setup: {project_type}"`
+12. **Commit**: `git commit -m "Initial project setup: {project_type}"`
 
-12. **Update `claude-progress.txt`** with session summary
+13. **Update `claude-progress.txt`** with session summary
 
 ### Staying Focused During Init
 
@@ -324,12 +351,24 @@ project-root/                  ← WORKSHOP (development tooling)
 ├── vendor/                    ← Dev dependencies (not shipped)
 ├── node_modules/              ← Dev dependencies (not shipped)
 │
+├── spec/                      ← INPUT (user-provided materials)
+│   └── ... proposals, existing code, assets
+│
 ├── src/                       ← PRODUCT (shipping code)
 │   └── ... your actual code
 │
 └── dist/                      ← DISTRIBUTION (packaged releases)
     └── my-project-v1.0.0.zip
 ```
+
+### Folder Ownership
+
+| Folder | User | Claude | Purpose |
+|--------|------|--------|---------|
+| `/spec` | read/write | **read only** | Input materials - specs, proposals, existing code |
+| `/src` | read | read/write | Product code - the deliverable |
+| `/dist` | read | write | Packaged releases |
+| workshop root | read | read/write | Tooling, configs, CLAUDE.md |
 
 ### Key Principles
 
@@ -397,6 +436,9 @@ project-root/
 ├── claude-progress.txt                # Session handoff
 ├── init.sh                            # Delegator → type-specific init
 ├── analyze.sh                         # Delegator → type-specific analyze
+│
+├── spec/                              # INPUT: Specs, proposals, existing code (user-managed)
+│   └── ...                            # CC reads only, never modifies
 │
 ├── src/                               # YOUR CODE (the product)
 │   └── ...                            # Structure depends on project type

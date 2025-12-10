@@ -93,7 +93,32 @@
             "question": "Where is the existing code located?",
             "type": "text",
             "example": "/path/to/existing/code or GitHub URL"
-          }
+          },
+          "note": "If yes, code should be placed in /spec folder for init to process"
+        },
+        {
+          "id": "organization",
+          "question": "Who is putting their name on this project?",
+          "type": "select",
+          "required": true,
+          "options": [
+            {
+              "value": "bwg",
+              "label": "Boston Web Group",
+              "description": "Work project - BWG branding, copyright, and author info"
+            },
+            {
+              "value": "off-walter",
+              "label": "Off Walter",
+              "description": "Personal project - Off Walter branding, copyright, and author info"
+            },
+            {
+              "value": "other",
+              "label": "Other",
+              "description": "Different organization - will specify details"
+            }
+          ],
+          "note": "Used to populate plugin headers, copyright notices, package author fields"
         }
       ]
     },

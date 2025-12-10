@@ -22,8 +22,9 @@ Speculative ideas for improving the starter kit. Not committed work - just captu
 ---
 
 ## IDEA-002: Init Must Run First, Even With Existing Code
-**Status:** new
+**Status:** promoted
 **Added:** 2025-12-10
+**Implemented:** 2025-12-10 - Via spec-folder-init-flow feature (existing code goes in /spec, init runs, then code copied to src/)
 
 When importing existing code, initialization must still run first to establish the workshop structure.
 
@@ -38,8 +39,9 @@ The lesson: even when you're bringing in your own code, run INITIALIZER first to
 ---
 
 ## IDEA-003: /spec Folder for Bringing Your Own Stuff
-**Status:** exploring
+**Status:** promoted
 **Added:** 2025-12-10
+**Implemented:** 2025-12-10 - Via spec-folder-init-flow feature in CLAUDE.start.md
 
 A designated place to drop specs, assets, or existing code BEFORE initialization processes it.
 
@@ -85,8 +87,9 @@ Where do these go? A `/spec` folder that CC checks at the START of INITIALIZER.
 ---
 
 ## IDEA-004: WordPress Plugin - New vs Existing
-**Status:** exploring
+**Status:** promoted
 **Added:** 2025-12-10
+**Implemented:** 2025-12-10 - Via new-vs-existing-discovery feature. Question already in onboarding, added guidance on shaping TODOs.
 
 Discovery question that affects what TODOs get generated, not necessarily the init path itself.
 
@@ -109,8 +112,9 @@ The work doesn't happen AT init - just triggers appropriate TODOs for BUILD phas
 ---
 
 ## IDEA-005: BWG vs Off Walter Branding
-**Status:** exploring
+**Status:** promoted
 **Added:** 2025-12-10
+**Implemented:** 2025-12-10 - Added organization question to initial-onboarding.json
 
 Onboarding question: who's putting their name on the project?
 
