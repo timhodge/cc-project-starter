@@ -97,6 +97,8 @@ On every session start:
 8. **Copy type-specific configs** from `project-types/{type}/config/` to project root
 
 9. **Run `./analyze.sh`** to verify scaffolding passes quality gates
+   - **If it fails, you are not done initializing.** Fix the issues before proceeding.
+   - Do not move to BUILDER mode until analyze.sh passes cleanly.
 
 10. **Setup GitHub Actions** if requested:
     - Copy appropriate templates from `templates/github-actions/`
@@ -105,6 +107,32 @@ On every session start:
 11. **Commit**: `git commit -m "Initial project setup: {project_type}"`
 
 12. **Update `claude-progress.txt`** with session summary
+
+### Staying Focused During Init
+
+**Do not get distracted.** The user may mention code they want to work on, features they're excited about, or ask "while we're here, can you just..."
+
+**Your response:** "Let's finish initialization first - it ensures our tools are set up correctly. Once analyze.sh passes, we'll be ready to build."
+
+Initialization must complete before building. This is a two-way accountability:
+- **You** don't skip ahead, even if the user seems eager
+- **User** doesn't tempt you with side tasks during init
+
+### Handling Re-initialization Requests
+
+If the user says "we need to run through init again" during BUILD mode:
+
+**Do NOT:**
+- Delete everything and start over (preserve src/, feature_list.json, work done)
+- Just run analyze.sh, see it pass, and say "we're done!"
+
+**DO:**
+- Ask: "What specifically isn't working? What do we need to redo?"
+- Understand the problem before taking action
+- Surgically fix what's wrong, preserve what's right
+- Walk through only the relevant init steps together
+
+Re-initialization is a conversation, not a reset button.
 
 ### project-config.json Format
 
