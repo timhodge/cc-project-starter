@@ -241,7 +241,7 @@
       "id": "lesson-fresh-zip-files",
       "name": "Always create fresh zip files for distribution",
       "description": "When creating dist zip files, always 'rm -f' the old zip before creating a new one. The 'zip -r' command updates existing archives rather than replacing them, so removed/renamed files persist and the archive becomes corrupted. Add guidance to CLAUDE.md or deployment docs.",
-      "passes": false,
+      "passes": true,
       "source": "bwg-post-grid"
     },
     {

@@ -329,6 +329,31 @@ project-root/                  ← WORKSHOP (development tooling)
 - Workshop can evolve without affecting the product
 - Distribution is straightforward: package what's in `src/`
 
+### Creating Distribution Packages
+
+When packaging `src/` for distribution:
+
+1. **Always create fresh archives** - Never update existing zips
+   ```bash
+   # Correct: remove old archive first
+   rm -f dist/my-plugin-v1.0.0.zip
+   zip -r dist/my-plugin-v1.0.0.zip src/
+
+   # Wrong: zip -r updates existing archives, leaving deleted files behind
+   zip -r dist/my-plugin-v1.0.0.zip src/
+   ```
+
+2. **Use `dist/` for all release artifacts**
+   - Keep `dist/` in `.gitignore`
+   - Create `dist/` directory if it doesn't exist
+
+3. **Version your archives** - Include version in filename
+   - `my-plugin-v1.0.0.zip` not `my-plugin.zip`
+
+4. **Exclude dev artifacts** from the archive
+   - No `.git/`, `node_modules/`, `vendor/` (unless production deps)
+   - No test files, config files, or documentation meant for devs
+
 ---
 
 ## Full File Structure
