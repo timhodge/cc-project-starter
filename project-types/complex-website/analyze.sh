@@ -1,6 +1,12 @@
 #!/bin/bash
 # analyze.sh - Complex Website Quality Gates
 # Runs quality gates for both frontend and backend stacks
+#
+# Project structure:
+#   repo-root/        <- Workshop (tooling, configs)
+#   └── src/          <- Product
+#       ├── frontend/ (or client/, web/)
+#       └── backend/  (or api/, server/)
 
 set -e
 
@@ -27,24 +33,33 @@ print_status() {
     echo ""
 }
 
-# Detect project structure
+# Check for src/ directory (the product)
+if [ ! -d "src" ]; then
+    echo -e "${RED}ERROR: src/ directory not found${NC}"
+    echo ""
+    echo "The project code should live in src/"
+    echo "This separates your deliverable from workshop tooling."
+    exit 1
+fi
+
+# Detect project structure within src/
 FRONTEND_DIR=""
 BACKEND_DIR=""
 
-if [ -d "frontend" ]; then
-    FRONTEND_DIR="frontend"
-elif [ -d "client" ]; then
-    FRONTEND_DIR="client"
-elif [ -d "web" ]; then
-    FRONTEND_DIR="web"
+if [ -d "src/frontend" ]; then
+    FRONTEND_DIR="src/frontend"
+elif [ -d "src/client" ]; then
+    FRONTEND_DIR="src/client"
+elif [ -d "src/web" ]; then
+    FRONTEND_DIR="src/web"
 fi
 
-if [ -d "backend" ]; then
-    BACKEND_DIR="backend"
-elif [ -d "api" ]; then
-    BACKEND_DIR="api"
-elif [ -d "server" ]; then
-    BACKEND_DIR="server"
+if [ -d "src/backend" ]; then
+    BACKEND_DIR="src/backend"
+elif [ -d "src/api" ]; then
+    BACKEND_DIR="src/api"
+elif [ -d "src/server" ]; then
+    BACKEND_DIR="src/server"
 fi
 
 # ===== FRONTEND CHECKS =====

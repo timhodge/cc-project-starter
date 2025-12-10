@@ -232,9 +232,9 @@
     },
     {
       "id": "lesson-analyze-scope-shipping-code",
-      "name": "analyze.sh: Only scan shipping code",
-      "description": "Root analyze.sh scans entire project including scaffolding templates with placeholder syntax like {{PLUGIN_SLUG}}.php, causing false failures. Scope scanning to project source directories only (e.g., src/plugin/ for WordPress). Exclude project-types/, templates/, and scaffolding directories.",
-      "passes": false,
+      "name": "Standardize on src/ as deliverable location",
+      "description": "Establish clear separation: repo root is the workshop (tooling, configs, CLAUDE.md), src/ is the product (shipping code). All analyze.sh scripts scan src/ only. Distribution packages go in dist/. This applies to all project types - WordPress plugins, Laravel apps, brochure sites all put their deliverable code in src/, whatever internal structure that takes.",
+      "passes": true,
       "source": "bwg-post-grid"
     }
   ]

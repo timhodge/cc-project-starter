@@ -1,6 +1,10 @@
 #!/bin/bash
 # analyze.sh - Bespoke Project Quality Gates
 # Runs appropriate checks based on detected project type
+#
+# Project structure:
+#   repo-root/        <- Workshop (tooling, configs)
+#   └── src/          <- Product (your code)
 
 set -e
 
@@ -26,19 +30,28 @@ print_status() {
     echo ""
 }
 
-# Detect primary language/framework
+# Check for src/ directory (the product)
+if [ ! -d "src" ]; then
+    echo -e "${RED}ERROR: src/ directory not found${NC}"
+    echo ""
+    echo "The project code should live in src/"
+    echo "This separates your deliverable from workshop tooling."
+    exit 1
+fi
+
+# Detect primary language/framework from src/
 detect_project_type() {
-    if [ -f "composer.json" ]; then
+    if [ -f "src/composer.json" ]; then
         echo "php"
-    elif [ -f "package.json" ]; then
+    elif [ -f "src/package.json" ]; then
         echo "node"
-    elif [ -f "requirements.txt" ] || [ -f "pyproject.toml" ] || [ -f "setup.py" ]; then
+    elif [ -f "src/requirements.txt" ] || [ -f "src/pyproject.toml" ] || [ -f "src/setup.py" ]; then
         echo "python"
-    elif [ -f "Cargo.toml" ]; then
+    elif [ -f "src/Cargo.toml" ]; then
         echo "rust"
-    elif [ -f "go.mod" ]; then
+    elif [ -f "src/go.mod" ]; then
         echo "go"
-    elif [ -f "Gemfile" ]; then
+    elif [ -f "src/Gemfile" ]; then
         echo "ruby"
     else
         echo "unknown"
@@ -61,35 +74,35 @@ case $PROJECT_TYPE in
                 php -l "$file"
                 SYNTAX_ERRORS=1
             fi
-        done < <(find . -name "*.php" -not -path "./vendor/*" -print0 2>/dev/null)
+        done < <(find src -name "*.php" -not -path "src/vendor/*" -print0 2>/dev/null)
         set -e
         print_status $SYNTAX_ERRORS
 
         # PHPStan
-        if [ -f "vendor/bin/phpstan" ]; then
+        if [ -f "src/vendor/bin/phpstan" ]; then
             echo "=== PHPStan ==="
             set +e
-            vendor/bin/phpstan analyse 2>&1
+            (cd src && vendor/bin/phpstan analyse) 2>&1
             RESULT=$?
             set -e
             print_status $RESULT
         fi
 
         # PHPCS
-        if [ -f "vendor/bin/phpcs" ]; then
+        if [ -f "src/vendor/bin/phpcs" ]; then
             echo "=== PHPCS ==="
             set +e
-            vendor/bin/phpcs 2>&1
+            (cd src && vendor/bin/phpcs) 2>&1
             RESULT=$?
             set -e
             print_status $RESULT
         fi
 
         # PHPUnit
-        if [ -f "vendor/bin/phpunit" ]; then
+        if [ -f "src/vendor/bin/phpunit" ]; then
             echo "=== PHPUnit ==="
             set +e
-            vendor/bin/phpunit 2>&1
+            (cd src && vendor/bin/phpunit) 2>&1
             RESULT=$?
             set -e
             print_status $RESULT
@@ -98,11 +111,11 @@ case $PROJECT_TYPE in
 
     node)
         # TypeScript
-        if [ -f "tsconfig.json" ]; then
+        if [ -f "src/tsconfig.json" ]; then
             echo "=== TypeScript ==="
-            if [ -f "node_modules/.bin/tsc" ]; then
+            if [ -f "src/node_modules/.bin/tsc" ]; then
                 set +e
-                npx tsc --noEmit 2>&1
+                (cd src && npx tsc --noEmit) 2>&1
                 RESULT=$?
                 set -e
                 print_status $RESULT
@@ -113,27 +126,27 @@ case $PROJECT_TYPE in
         fi
 
         # ESLint
-        if [ -f "node_modules/.bin/eslint" ]; then
+        if [ -f "src/node_modules/.bin/eslint" ]; then
             echo "=== ESLint ==="
             set +e
-            npx eslint . --ext .js,.jsx,.ts,.tsx 2>&1
+            (cd src && npx eslint . --ext .js,.jsx,.ts,.tsx) 2>&1
             RESULT=$?
             set -e
             print_status $RESULT
         fi
 
         # Tests
-        if [ -f "node_modules/.bin/jest" ]; then
+        if [ -f "src/node_modules/.bin/jest" ]; then
             echo "=== Jest ==="
             set +e
-            npx jest 2>&1
+            (cd src && npx jest) 2>&1
             RESULT=$?
             set -e
             print_status $RESULT
-        elif [ -f "node_modules/.bin/vitest" ]; then
+        elif [ -f "src/node_modules/.bin/vitest" ]; then
             echo "=== Vitest ==="
             set +e
-            npx vitest run 2>&1
+            (cd src && npx vitest run) 2>&1
             RESULT=$?
             set -e
             print_status $RESULT
@@ -150,22 +163,22 @@ case $PROJECT_TYPE in
             if [ $? -ne 0 ]; then
                 SYNTAX_ERRORS=1
             fi
-        done < <(find . -name "*.py" -not -path "./venv/*" -not -path "./.venv/*" -print0 2>/dev/null)
+        done < <(find src -name "*.py" -not -path "src/venv/*" -not -path "src/.venv/*" -print0 2>/dev/null)
         set -e
         print_status $SYNTAX_ERRORS
 
         # Activate venv if exists
-        if [ -f "venv/bin/activate" ]; then
-            source venv/bin/activate
-        elif [ -f ".venv/bin/activate" ]; then
-            source .venv/bin/activate
+        if [ -f "src/venv/bin/activate" ]; then
+            source src/venv/bin/activate
+        elif [ -f "src/.venv/bin/activate" ]; then
+            source src/.venv/bin/activate
         fi
 
         # Ruff (fast Python linter)
         if command -v ruff &> /dev/null; then
             echo "=== Ruff ==="
             set +e
-            ruff check . 2>&1
+            ruff check src/ 2>&1
             RESULT=$?
             set -e
             print_status $RESULT
@@ -173,17 +186,17 @@ case $PROJECT_TYPE in
         elif command -v flake8 &> /dev/null; then
             echo "=== Flake8 ==="
             set +e
-            flake8 . 2>&1
+            flake8 src/ 2>&1
             RESULT=$?
             set -e
             print_status $RESULT
         fi
 
         # MyPy
-        if command -v mypy &> /dev/null && [ -f "mypy.ini" ] || [ -f "pyproject.toml" ]; then
+        if command -v mypy &> /dev/null && [ -f "src/mypy.ini" ] || [ -f "src/pyproject.toml" ]; then
             echo "=== MyPy ==="
             set +e
-            mypy . 2>&1
+            mypy src/ 2>&1
             RESULT=$?
             set -e
             print_status $RESULT
@@ -193,7 +206,7 @@ case $PROJECT_TYPE in
         if command -v pytest &> /dev/null; then
             echo "=== Pytest ==="
             set +e
-            pytest 2>&1
+            (cd src && pytest) 2>&1
             RESULT=$?
             set -e
             print_status $RESULT
@@ -203,21 +216,21 @@ case $PROJECT_TYPE in
     rust)
         echo "=== Cargo Check ==="
         set +e
-        cargo check 2>&1
+        (cd src && cargo check) 2>&1
         RESULT=$?
         set -e
         print_status $RESULT
 
         echo "=== Cargo Clippy ==="
         set +e
-        cargo clippy -- -D warnings 2>&1
+        (cd src && cargo clippy -- -D warnings) 2>&1
         RESULT=$?
         set -e
         print_status $RESULT
 
         echo "=== Cargo Test ==="
         set +e
-        cargo test 2>&1
+        (cd src && cargo test) 2>&1
         RESULT=$?
         set -e
         print_status $RESULT
@@ -226,7 +239,7 @@ case $PROJECT_TYPE in
     go)
         echo "=== Go Vet ==="
         set +e
-        go vet ./... 2>&1
+        (cd src && go vet ./...) 2>&1
         RESULT=$?
         set -e
         print_status $RESULT
@@ -234,7 +247,7 @@ case $PROJECT_TYPE in
         if command -v golangci-lint &> /dev/null; then
             echo "=== GolangCI-Lint ==="
             set +e
-            golangci-lint run 2>&1
+            (cd src && golangci-lint run) 2>&1
             RESULT=$?
             set -e
             print_status $RESULT
@@ -242,7 +255,7 @@ case $PROJECT_TYPE in
 
         echo "=== Go Test ==="
         set +e
-        go test ./... 2>&1
+        (cd src && go test ./...) 2>&1
         RESULT=$?
         set -e
         print_status $RESULT
@@ -252,16 +265,16 @@ case $PROJECT_TYPE in
         if command -v rubocop &> /dev/null; then
             echo "=== RuboCop ==="
             set +e
-            rubocop 2>&1
+            (cd src && rubocop) 2>&1
             RESULT=$?
             set -e
             print_status $RESULT
         fi
 
-        if [ -d "spec" ] && command -v rspec &> /dev/null; then
+        if [ -d "src/spec" ] && command -v rspec &> /dev/null; then
             echo "=== RSpec ==="
             set +e
-            rspec 2>&1
+            (cd src && rspec) 2>&1
             RESULT=$?
             set -e
             print_status $RESULT
@@ -269,10 +282,10 @@ case $PROJECT_TYPE in
         ;;
 
     *)
-        echo "Could not detect project type."
+        echo "Could not detect project type in src/."
         echo "No automated quality gates available."
         echo ""
-        echo "Consider adding:"
+        echo "Consider adding to src/:"
         echo "  - package.json (Node.js)"
         echo "  - composer.json (PHP)"
         echo "  - requirements.txt (Python)"

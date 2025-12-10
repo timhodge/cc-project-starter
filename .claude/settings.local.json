@@ -14,7 +14,10 @@
       "Bash(xargs ls:*)",
       "Bash(composer lint:*)",
       "Bash(composer analyse:*)",
-      "Bash(gh repo edit:*)"
+      "Bash(gh repo edit:*)",
+      "WebFetch(domain:github.com)",
+      "Bash(git -C /home/th/projects/cc-project-starter log --oneline -5)",
+      "Bash(./analyze.sh:*)"
     ],
     "deny": [],
     "ask": []

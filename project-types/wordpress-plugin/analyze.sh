@@ -1,6 +1,13 @@
 #!/bin/bash
 # analyze.sh - WordPress Plugin Quality Gates
 # Runs WPCS and PHPStan. Exits non-zero on failure.
+#
+# Project structure:
+#   repo-root/        <- Workshop (tooling, configs)
+#   └── src/          <- Product (the actual plugin)
+#       ├── plugin-name.php
+#       ├── src/
+#       └── ...
 
 set -e
 
@@ -27,33 +34,29 @@ print_status() {
     echo ""
 }
 
+# Check for src/ directory (the product)
+if [ ! -d "src" ]; then
+    echo -e "${RED}ERROR: src/ directory not found${NC}"
+    echo ""
+    echo "The plugin code should live in src/"
+    echo "This separates your deliverable from workshop tooling."
+    exit 1
+fi
+
 # Check if dependencies are installed
 if [ ! -d "vendor" ]; then
     echo -e "${YELLOW}WARNING: Composer dependencies not installed. Run ./init.sh first.${NC}"
     echo ""
 fi
 
-# Determine source directory (could be src/, includes/, or root)
-if [ -d "src" ]; then
-    SOURCE_DIR="src"
-elif [ -d "includes" ]; then
-    SOURCE_DIR="includes"
-else
-    SOURCE_DIR="."
-fi
-
-# Find main plugin file
-MAIN_FILE=$(find . -maxdepth 1 -name "*.php" -type f | head -1)
-
-# Count PHP files
-PHP_FILES=$(find . -name "*.php" -not -path "./vendor/*" -not -path "./node_modules/*" 2>/dev/null | wc -l)
+# Count PHP files in src/
+PHP_FILES=$(find src -name "*.php" 2>/dev/null | wc -l)
 if [ "$PHP_FILES" -eq 0 ]; then
-    echo -e "${RED}ERROR: No PHP files found${NC}"
+    echo -e "${RED}ERROR: No PHP files found in src/${NC}"
     exit 1
 fi
 
-echo "Found $PHP_FILES PHP file(s) to analyze"
-echo "Source directory: $SOURCE_DIR"
+echo "Found $PHP_FILES PHP file(s) to analyze in src/"
 echo ""
 
 
@@ -67,7 +70,7 @@ while IFS= read -r -d '' file; do
         php -l "$file"
         SYNTAX_ERRORS=1
     fi
-done < <(find . -name "*.php" -not -path "./vendor/*" -not -path "./node_modules/*" -print0)
+done < <(find src -name "*.php" -print0)
 set -e
 print_status $SYNTAX_ERRORS
 
@@ -76,7 +79,7 @@ print_status $SYNTAX_ERRORS
 echo "=== PHPCS (WordPress Coding Standards) ==="
 if [ -d "vendor" ] && [ -f "vendor/bin/phpcs" ]; then
     set +e
-    vendor/bin/phpcs 2>&1
+    vendor/bin/phpcs src/ 2>&1
     RESULT=$?
     set -e
     print_status $RESULT
@@ -91,7 +94,7 @@ fi
 echo "=== PHPStan (Static Analysis) ==="
 if [ -d "vendor" ] && [ -f "vendor/bin/phpstan" ]; then
     set +e
-    vendor/bin/phpstan analyse --memory-limit=512M 2>&1
+    vendor/bin/phpstan analyse src/ --memory-limit=512M 2>&1
     RESULT=$?
     set -e
     print_status $RESULT
@@ -103,14 +106,14 @@ fi
 
 
 # ===== PHPUnit (if tests exist) =====
-if [ -d "tests" ] && [ -f "vendor/bin/phpunit" ]; then
+if [ -d "src/tests" ] && [ -f "vendor/bin/phpunit" ]; then
     echo "=== PHPUnit ==="
     set +e
     vendor/bin/phpunit 2>&1
     RESULT=$?
     set -e
     print_status $RESULT
-elif [ -d "tests" ]; then
+elif [ -d "src/tests" ]; then
     echo "=== PHPUnit ==="
     echo -e "${YELLOW}SKIPPED: PHPUnit not installed${NC}"
     echo "Run: composer require --dev phpunit/phpunit"
