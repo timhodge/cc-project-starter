@@ -66,14 +66,6 @@
       "status": "pending",
       "depends_on": ["FEAT-054"],
       "references": []
-    },
-    {
-      "id": "FEAT-064",
-      "name": "Move completed items to archive",
-      "description": "When marking a feature complete, move it from feature_list.json to feature_list_archive.md. Could be manual process or automated in /todo command.",
-      "status": "pending",
-      "depends_on": [],
-      "references": ["IDEA-020"]
     }
   ]
 }

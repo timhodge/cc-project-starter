@@ -1,6 +1,6 @@
 ---
 description: Add or list feature_list.json todos
-argument-hint: [description] or --list
+argument-hint: [description] or --list or complete FEAT-XXX
 ---
 
 **Arguments:** $ARGUMENTS
@@ -60,3 +60,23 @@ Add a new feature to feature_list.json:
 
 4. Confirm what was added: "Added FEAT-XXX: [name]"
 5. Ask if user wants to add dependencies or references
+
+---
+
+## If arguments start with "complete" followed by a FEAT-XXX ID:
+
+Mark a feature complete and move it to the archive:
+
+1. Find the feature in feature_list.json by ID
+2. If not found, report error and stop
+3. Remove the feature object from feature_list.json
+4. Append to feature_list_archive.md in this format:
+   ```
+   ## FEAT-XXX: [name]
+   [description]
+   - Depends on: [deps if any]
+   - References: [refs if any]
+   ```
+5. Confirm: "Completed and archived FEAT-XXX: [name]"
+
+**Note:** This is the standard way to complete a feature. Do NOT just change status to "complete" - always use this flow to keep feature_list.json lean.

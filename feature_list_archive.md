@@ -205,3 +205,7 @@ Move completed features to feature_list_archive.md and promoted/parked/rejected 
 ## FEAT-063: /todo handle archived dependencies
 Update /todo command logic to treat archived dependencies as satisfied. Only active items in feature_list.json can block; missing = archived = satisfied.
 - Depends on: FEAT-062
+
+## FEAT-064: Move completed items to archive
+When marking a feature complete, move it from feature_list.json to feature_list_archive.md. Implemented as `/todo complete FEAT-XXX` command.
+- References: IDEA-020
