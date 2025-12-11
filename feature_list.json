@@ -436,6 +436,54 @@
       "status": "complete",
       "depends_on": [],
       "references": ["IDEA-009"]
+    },
+    {
+      "id": "FEAT-055",
+      "name": "Update update-project.sh for startup/",
+      "description": "Update update-project.sh to work with new startup/ folder structure.",
+      "status": "pending",
+      "depends_on": ["FEAT-054"],
+      "references": []
+    },
+    {
+      "id": "FEAT-056",
+      "name": "/todo slash command",
+      "description": "Create /todo command to add items to feature_list.json (like /idea). Support switches like --list for listing todos.",
+      "status": "complete",
+      "depends_on": [],
+      "references": []
+    },
+    {
+      "id": "FEAT-057",
+      "name": "Update bwg-post-grid-wp feature_list",
+      "description": "Update bwg-post-grid-wp project with new feature_list.json architecture (FEAT-XXX IDs, status, depends_on, references).",
+      "status": "pending",
+      "depends_on": ["FEAT-053"],
+      "references": []
+    },
+    {
+      "id": "FEAT-058",
+      "name": "Update coponigrolaw-site feature_list",
+      "description": "Update coponigrolaw-site project with new feature_list.json architecture (FEAT-XXX IDs, status, depends_on, references).",
+      "status": "pending",
+      "depends_on": ["FEAT-053"],
+      "references": []
+    },
+    {
+      "id": "FEAT-059",
+      "name": "Update dope-wars-cle feature_list",
+      "description": "Update dope-wars-cle project with new feature_list.json architecture (FEAT-XXX IDs, status, depends_on, references).",
+      "status": "pending",
+      "depends_on": ["FEAT-053"],
+      "references": []
+    },
+    {
+      "id": "FEAT-060",
+      "name": "Update letters-to-claus feature_list",
+      "description": "Update letters-to-claus project with new feature_list.json architecture (FEAT-XXX IDs, status, depends_on, references).",
+      "status": "pending",
+      "depends_on": ["FEAT-053"],
+      "references": []
     }
   ]
 }
