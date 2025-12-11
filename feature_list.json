@@ -457,7 +457,7 @@
       "id": "FEAT-057",
       "name": "Update bwg-post-grid-wp feature_list",
       "description": "Update bwg-post-grid-wp project with new feature_list.json architecture (FEAT-XXX IDs, status, depends_on, references).",
-      "status": "pending",
+      "status": "complete",
       "depends_on": ["FEAT-053"],
       "references": []
     },
