@@ -465,7 +465,7 @@
       "id": "FEAT-058",
       "name": "Update coponigrolaw-site feature_list",
       "description": "Update coponigrolaw-site project with new feature_list.json architecture (FEAT-XXX IDs, status, depends_on, references).",
-      "status": "pending",
+      "status": "complete",
       "depends_on": ["FEAT-053"],
       "references": []
     },
@@ -473,7 +473,7 @@
       "id": "FEAT-059",
       "name": "Update dope-wars-cle feature_list",
       "description": "Update dope-wars-cle project with new feature_list.json architecture (FEAT-XXX IDs, status, depends_on, references).",
-      "status": "pending",
+      "status": "blocked",
       "depends_on": ["FEAT-053"],
       "references": []
     },
@@ -481,7 +481,7 @@
       "id": "FEAT-060",
       "name": "Update letters-to-claus feature_list",
       "description": "Update letters-to-claus project with new feature_list.json architecture (FEAT-XXX IDs, status, depends_on, references).",
-      "status": "pending",
+      "status": "complete",
       "depends_on": ["FEAT-053"],
       "references": []
     },
