@@ -9,12 +9,16 @@ argument-hint: [description] or --list
 
 ## If arguments contain "--list" or "-l":
 
-Display todos from feature_list.json in two sections:
+Display todos from feature_list.json in two sections.
+
+**Dependency logic:** Only active (in feature_list.json) incomplete items can block. If a dependency ID is NOT found in feature_list.json, it's archived and therefore complete/satisfied.
 
 ### Section 1: Ready to Work On
 Features where:
 - `status` is `pending` or `in_progress`
-- All items in `depends_on` have `status: "complete"` (or `depends_on` is empty)
+- All items in `depends_on` are either:
+  - Not found in feature_list.json (archived = satisfied), OR
+  - Empty array
 
 Format as a table:
 ```
@@ -26,19 +30,17 @@ Format as a table:
 ### Section 2: Waiting on Dependencies
 Features where:
 - `status` is `pending` or `in_progress`
-- At least one item in `depends_on` does NOT have `status: "complete"`
+- At least one item in `depends_on` IS found in feature_list.json (still active = blocking)
 
 Format as:
 ```
 | ID | Name | Waiting On |
 |----|------|------------|
-| FEAT-XXX | Name here | FEAT-YYY (incomplete) |
+| FEAT-XXX | Name here | FEAT-YYY (pending) |
 ```
 
-Group by the blocking dependency if possible, or just list with the blocker noted.
-
 ### Section 3: Summary
-Show counts: "X ready, Y blocked, Z complete"
+Show counts: "X ready, Y blocked, Z complete (archived)"
 
 ---
 

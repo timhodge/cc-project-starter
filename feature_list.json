@@ -68,20 +68,12 @@
       "references": []
     },
     {
-      "id": "FEAT-062",
-      "name": "Archive completed features and ideas",
-      "description": "Move completed features to feature_list_archive.md and promoted/parked/rejected ideas to ideas_archive.md. Reduces token burn on /todo operations.",
-      "status": "complete",
+      "id": "FEAT-064",
+      "name": "Move completed items to archive",
+      "description": "When marking a feature complete, move it from feature_list.json to feature_list_archive.md. Could be manual process or automated in /todo command.",
+      "status": "pending",
       "depends_on": [],
       "references": ["IDEA-020"]
-    },
-    {
-      "id": "FEAT-063",
-      "name": "/todo handle archived dependencies",
-      "description": "Update /todo command logic to treat archived dependencies as satisfied. Currently shows 'FEAT-XXX (archived)' as blocking when it should be treated as complete.",
-      "status": "pending",
-      "depends_on": ["FEAT-062"],
-      "references": []
     }
   ]
 }

@@ -197,3 +197,11 @@ Update letters-to-claus project with new feature_list.json architecture (FEAT-XX
 
 ## FEAT-061: Test item for feature list
 this is a test item to add to the feature list
+
+## FEAT-062: Archive completed features and ideas
+Move completed features to feature_list_archive.md and promoted/parked/rejected ideas to ideas_archive.md. Reduces token burn on /todo operations.
+- References: IDEA-020
+
+## FEAT-063: /todo handle archived dependencies
+Update /todo command logic to treat archived dependencies as satisfied. Only active items in feature_list.json can block; missing = archived = satisfied.
+- Depends on: FEAT-062
