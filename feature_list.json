@@ -1,6 +1,6 @@
 {
   "$schema": "./feature_list.schema.json",
-  "$comment": "Feature tracking for cc-project-starter. FEAT-XXX IDs are sequential and permanent. Completed items archived in feature_list_archive.md.",
+  "$comment": "Feature tracking for cc-project-starter. FEAT-XXX IDs are sequential and permanent. Completed items archived in feature_list_archive.json.",
   "template_version": "2.2.0",
   "features": [
     {

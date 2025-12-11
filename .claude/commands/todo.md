@@ -70,13 +70,9 @@ Mark a feature complete and move it to the archive:
 1. Find the feature in feature_list.json by ID
 2. If not found, report error and stop
 3. Remove the feature object from feature_list.json
-4. Append to feature_list_archive.md in this format:
-   ```
-   ## FEAT-XXX: [name]
-   [description]
-   - Depends on: [deps if any]
-   - References: [refs if any]
-   ```
-5. Confirm: "Completed and archived FEAT-XXX: [name]"
+4. Read feature_list_archive.json
+5. Add the feature object to the archive's features array with `"status": "complete"`
+6. Write updated feature_list_archive.json
+7. Confirm: "Completed and archived FEAT-XXX: [name]"
 
 **Note:** This is the standard way to complete a feature. Do NOT just change status to "complete" - always use this flow to keep feature_list.json lean.

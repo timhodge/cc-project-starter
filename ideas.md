@@ -322,6 +322,22 @@ Reading increasingly lengthy feature_list.json and ideas.md burns tokens on old 
 
 ---
 
+## IDEA-021: ClickUp Integration
+**Status:** new
+**Added:** 2025-12-11
+
+Add ClickUp integration to possibly replace feature_list.json and ideas.md.
+
+### Details
+
+
+### Notes
+- Would solve the JSON vs markdown archive question entirely
+- ClickUp has API - could sync or just use directly
+- Relates to IDEA-019 (ow-ops-dash) and IDEA-020 (token burn)
+
+---
+
 ## IDEA-001: Template
 **Status:** new
 **Added:** YYYY-MM-DD
