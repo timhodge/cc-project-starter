@@ -145,11 +145,11 @@ For each lesson:
 
 ### Step 3: Implement
 1. Make the changes
-2. Mark `passes: true` in `feature_list.json`
+2. Mark `status: "complete"` in `feature_list.json`
 
 **Key distinction:**
 - `addressed: true` in source project = "we've captured this, won't lose it"
-- `passes: true` in feature_list.json = "we've actually implemented the fix"
+- `status: "complete"` in feature_list.json = "we've actually implemented the fix"
 
 ---
 
@@ -173,11 +173,11 @@ Fix the code, not the quality gate.
 
 ### 2. Feature List Immutability
 
-Only modify the `passes` field. Never edit names, descriptions, or requirements without user approval.
+Only modify the `status` field without approval. Never edit names, descriptions, or requirements without user approval.
 
 **You may NOT:**
 - Change "Postmark integration" to "email integration"
-- Mark `passes: true` with caveats like "mostly done"
+- Mark `status: "complete"` with caveats like "mostly done"
 - Add or remove features without asking
 
 ### 3. Verify Quality Gates Early

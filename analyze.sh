@@ -65,7 +65,7 @@ check_feature_dependencies() {
         echo -e "${MAGENTA}║  ⚠  STOP AND ASK: Unmet Feature Dependencies                  ║${NC}"
         echo -e "${MAGENTA}╚════════════════════════════════════════════════════════════════╝${NC}"
         echo ""
-        echo -e "${YELLOW}The following in_progress features have dependencies that are not passing:${NC}"
+        echo -e "${YELLOW}The following in_progress features have dependencies that are not complete:${NC}"
         echo -e "$unmet_report"
         echo ""
         echo -e "${YELLOW}Options:${NC}"

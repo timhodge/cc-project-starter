@@ -198,7 +198,7 @@
     {
       "id": "FEAT-025",
       "name": "Rule: Feature list immutability",
-      "description": "CLAUDE.md instruction that only 'passes' field can be changed, never names/descriptions without user approval",
+      "description": "CLAUDE.md instruction that only 'status' field can be changed without approval, never names/descriptions",
       "status": "complete",
       "depends_on": [],
       "references": []

@@ -203,7 +203,7 @@ Re-initialization is a conversation, not a reset button.
 For each session, repeat:
 
 1. **Read `feature_list.json`**
-2. **Select ONE feature** where `passes: false`
+2. **Select ONE feature** where `status` is `"pending"` or `"in_progress"`
 3. **Implement the feature**:
    - For complex features, delegate to sub-agent
    - Follow type-specific architectural rules
