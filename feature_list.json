@@ -472,8 +472,8 @@
     {
       "id": "FEAT-059",
       "name": "Update dope-wars-cle feature_list",
-      "description": "Update dope-wars-cle project with new feature_list.json architecture (FEAT-XXX IDs, status, depends_on, references).",
-      "status": "blocked",
+      "description": "Update dope-wars-cle project with new feature_list.json architecture (FEAT-XXX IDs, status, depends_on, references). N/A - project not set up with cc-project-starter.",
+      "status": "complete",
       "depends_on": ["FEAT-053"],
       "references": []
     },
