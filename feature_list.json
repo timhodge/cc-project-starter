@@ -449,7 +449,7 @@
       "id": "FEAT-056",
       "name": "/todo slash command",
       "description": "Create /todo command to add items to feature_list.json (like /idea). Support switches like --list for listing todos.",
-      "status": "complete",
+      "status": "in_progress",
       "depends_on": [],
       "references": []
     },
