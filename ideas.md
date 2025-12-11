@@ -610,6 +610,22 @@ Implemented additions:
 
 ---
 
+## IDEA-019: ow-ops-dash for Project Command and Control
+**Status:** new
+**Added:** 2025-12-11
+
+Consider creating a new project ow-ops-dash for command and control of entire projects structure. Use THAT to build the cc-starter-kit as a true template that exists only to BE a template and not ALSO run itself. ow-ops could also track things like lists of known projects and personal workflows.
+
+### Details
+
+
+### Notes
+- Would separate "meta tooling" from "project template"
+- cc-project-starter could become a pure template with no self-management concerns
+- ow-ops-dash could manage: project registry, cross-project updates, personal workflows
+
+---
+
 ## IDEA-001: Template
 **Status:** new
 **Added:** YYYY-MM-DD
