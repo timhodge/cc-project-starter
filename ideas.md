@@ -309,7 +309,7 @@ Consider creating a new project ow-ops-dash for command and control of entire pr
 **Status:** new
 **Added:** 2025-12-11
 
-Reading increasingly lengthy feature_list.json and ideas.md burns tokens on old information we don't need. Finding 1 pending task requires reading 63 complete tasks. Options: a) move to SQLite for dynamic queries, or b) archive completed items to separate files (feature_list_archive.md, ideas_complete.md).
+Reading increasingly lengthy feature_list.json and ideas.md burns tokens on old information we don't need. Finding 1 pending task requires reading 63 complete tasks. Options: a) move to SQLite for dynamic queries, or b) archive completed items to separate files (feature_list_archive.json, ideas_archive.md).
 
 ### Details
 
