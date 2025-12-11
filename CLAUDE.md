@@ -13,7 +13,7 @@ Your job is to improve the templates, scaffolding, quality gates, skills, and wo
 | File | Purpose |
 |------|---------|
 | `CLAUDE.md` | This file - instructions for working on the starter kit |
-| `CLAUDE.start.md` | Template that becomes CLAUDE.md in derived projects |
+| `startup/` | Templates for derived projects (CLAUDE.md, feature_list.json, etc.) |
 | `CLAUDE.project.md` | Template for project-specific notes in derived projects |
 | `feature_list.json` | Tracks starter kit features to build/improve |
 | `claude-progress.txt` | Session handoff notes |
@@ -26,7 +26,7 @@ Your job is to improve the templates, scaffolding, quality gates, skills, and wo
 When a user creates a new project from this kit:
 
 1. Clone/copy the repo (or use `gh repo create --template`)
-2. Run: `rm CLAUDE.md && mv CLAUDE.start.md CLAUDE.md`
+2. Run: `./startup/startup.sh` (copies templates to root, then deletes itself)
 3. The new project now has builder instructions, not kit-builder instructions
 4. User runs through INITIALIZER mode (onboarding, scaffolding)
 5. User enters BUILDER mode (feature development)
@@ -51,7 +51,7 @@ When a user creates a new project from this kit:
 - **Skills** (`.claude/skills/*/SKILL.md`) - Type-specific guidance
 - **GitHub Actions** (`templates/github-actions/`) - CI/CD workflow templates
 - **Documentation** (`docs/`) - Quality gates palette, security patterns, etc.
-- **CLAUDE.start.md** - The template for derived projects' instructions
+- **startup/** - Templates for derived projects (CLAUDE.md.template, etc.)
 
 ### Feature Tracking
 

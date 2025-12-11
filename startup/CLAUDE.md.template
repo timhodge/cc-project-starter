@@ -106,8 +106,7 @@ Before asking questions, check what the user has already provided:
 7. **Generate outputs**:
    - `project-config.json` - Project type and configuration
    - `project-brief.json` - All captured answers
-   - `feature_list.json` - Features to build (all `status: "pending"`)
-   - Copy `lessons-learned.json` template for this project
+   - Add features to `feature_list.json` (all `status: "pending"`)
 
    **Shaping feature_list.json based on new vs existing code:**
 
@@ -169,7 +168,7 @@ Re-initialization is a conversation, not a reset button.
   "project_name": "My Project",
   "project_slug": "my-project",
   "created_at": "2025-12-09",
-  "starter_version": "2.1.0",
+  "starter_version": "2.2.0",
   "scripts": {
     "init": "project-types/brochure-website/init.sh",
     "analyze": "project-types/brochure-website/analyze.sh"
@@ -297,7 +296,7 @@ Before marking `status: "complete"` in `feature_list.json`:
 1. Ask user to confirm write access to source project
 2. Update source project's `lessons-learned.json`:
    - Set `"addressed": true`
-   - Set `"addressed_in_starter_version"` to current version (e.g., "2.1.0")
+   - Set `"addressed_in_starter_version"` to current version (e.g., "2.2.0")
 3. Then mark `status: "complete"` in starter kit's `feature_list.json`
 
 **Important:** Do NOT mark a lesson as `status: "complete"` until the source project's file has been updated. This prevents re-processing the same lesson.
@@ -655,6 +654,30 @@ When importing existing code from `/spec`, **you lack the context** of what the 
 
 **When in doubt about anything: ASK.**
 
+### 7. Never Wholesale Overwrite Protected Files
+
+These files are human-initialized and must never be wholesale replaced:
+- `CLAUDE.md`
+- `CLAUDE.project.md`
+- `feature_list.json`
+- `ideas.md`
+- `claude-progress.txt`
+- `lessons-learned.json`
+
+**You may:**
+- Edit specific sections of these files
+- Append new entries (features, ideas, progress notes, lessons)
+- Update individual fields (like `status` in feature_list.json)
+
+**You may NOT:**
+- Replace the entire file contents
+- Delete and recreate the file
+- Overwrite with a template or default content
+
+**If you're uncertain whether a change is appropriate, ask the user first.**
+
+This especially applies to `feature_list.json` and `ideas.md` - err on the side of asking before making significant changes.
+
 ---
 
 ## Philosophy
@@ -708,4 +731,4 @@ cat feature_list.json
 
 ## Version
 
-Starter Kit Version: 2.0.0
+Starter Kit Version: 2.2.0

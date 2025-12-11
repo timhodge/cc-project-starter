@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "Capture lessons learned during project development. These get ported back to cc-project-starter.",
+  "project_name": "",
+  "project_type": "",
+  "starter_version_used": "2.2.0",
+  "lessons": [
+    {
+      "id": "example-001",
+      "category": "quality-gates",
+      "title": "Example: Add rule for X",
+      "description": "This is an example entry. Delete this and add real lessons as you discover them during development.",
+      "suggested_change": "What should be changed in cc-project-starter",
+      "files_affected": ["path/to/file.json"],
+      "priority": "medium",
+      "addressed": false,
+      "addressed_in_starter_version": null,
+      "discovered_date": "YYYY-MM-DD"
+    }
+  ],
+  "categories_reference": {
+    "onboarding": "Improvements to discovery questions or onboarding flow",
+    "scaffolding": "New files, templates, or project structure improvements",
+    "quality-gates": "Linting rules, test configurations, analyze.sh improvements",
+    "deployment": "GitHub Actions, deployment scripts, CI/CD improvements",
+    "skills": "Claude skill files (.claude/skills/) improvements",
+    "documentation": "CLAUDE.md, README, or other documentation improvements",
+    "architectural-rules": "Coding standards, patterns, or architectural guidelines"
+  },
+  "usage_notes": [
+    "Add entries as you discover improvements during project development",
+    "Be specific about what should change and where",
+    "Periodically review this file and port improvements back to cc-project-starter",
+    "Mark 'addressed: true' once ported to starter, note the version",
+    "Keep examples concrete - include file paths and specific changes"
+  ]
+}

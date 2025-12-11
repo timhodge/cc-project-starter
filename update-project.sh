@@ -62,9 +62,9 @@ echo ""
 echo -e "${BLUE}Updating starter-kit-owned files...${NC}"
 echo ""
 
-# CLAUDE.start.md → CLAUDE.md
+# startup/CLAUDE.md.template → CLAUDE.md
 echo -n "  CLAUDE.md ... "
-cp "$SCRIPT_DIR/CLAUDE.start.md" "$TARGET/CLAUDE.md"
+cp "$SCRIPT_DIR/startup/CLAUDE.md.template" "$TARGET/CLAUDE.md"
 echo -e "${GREEN}done${NC}"
 
 # .claude/skills/

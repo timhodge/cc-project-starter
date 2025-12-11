@@ -2,7 +2,7 @@
 
 A universal project starter kit for Claude Code. Supports multiple project types with guided onboarding, quality gates, and deployment templates.
 
-**Version:** 2.1.0
+**Version:** 2.2.0
 
 ## Supported Project Types
 
@@ -25,8 +25,8 @@ A universal project starter kit for Claude Code. Supports multiple project types
 gh repo create my-project --template timhodge/cc-project-starter --private --clone
 cd my-project
 
-# Swap the CLAUDE files (builder instructions, not kit-builder instructions)
-rm CLAUDE.md && mv CLAUDE.start.md CLAUDE.md
+# Run the startup script (creates CLAUDE.md, feature_list.json, ideas.md, etc.)
+./startup/startup.sh
 ```
 
 ### 2. (Optional) Add Your Materials to /spec
@@ -164,7 +164,7 @@ GitHub Actions templates in `templates/github-actions/`.
 
 ## Documentation
 
-- [CLAUDE.start.md](CLAUDE.start.md) - Full instructions for Claude (becomes CLAUDE.md in derived projects)
+- [startup/CLAUDE.md.template](startup/CLAUDE.md.template) - Full instructions for Claude (copied to CLAUDE.md by startup.sh)
 - [docs/quality-gates-palette.md](docs/quality-gates-palette.md) - Available quality tools by project type
 - [docs/security-patterns.md](docs/security-patterns.md) - Security best practices
 

@@ -1,0 +1,15 @@
+{
+  "$schema": "./feature_list.schema.json",
+  "$comment": "Feature tracking for this project. FEAT-XXX IDs are sequential and permanent.",
+  "template_version": "2.2.0",
+  "features": [
+    {
+      "id": "FEAT-001",
+      "name": "Review feature tracking",
+      "description": "Review this task to understand how feature tracking works. Read CLAUDE.md Critical Rule #2 for the schema and rules. Then mark this task complete.",
+      "status": "pending",
+      "depends_on": [],
+      "references": []
+    }
+  ]
+}

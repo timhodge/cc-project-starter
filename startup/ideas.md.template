@@ -1,0 +1,37 @@
+# Ideas
+
+Speculative ideas for this project. Not committed work - just captured thoughts.
+
+## Quick Reference
+
+| Status | Meaning |
+|--------|---------|
+| `new` | Just captured, not yet discussed |
+| `exploring` | Actively thinking through |
+| `promoted` | Moved to feature_list.json |
+| `parked` | Good idea, not now |
+| `rejected` | Decided against (keep for context) |
+
+## Workflow
+
+1. Capture quickly - just title + description is fine
+2. Reference by ID: "let's explore IDEA-003"
+3. Add notes as we discuss
+4. Promote to feature_list.json when ready to commit
+
+---
+
+## IDEA-001: Template
+**Status:** new
+**Added:** YYYY-MM-DD
+
+One-liner description.
+
+### Details
+More context if needed.
+
+### Notes
+- Discussion points go here
+
+---
+

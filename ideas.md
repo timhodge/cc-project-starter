@@ -250,28 +250,31 @@ Maybe init step shouldn't run the full test suite on imported code. Instead:
 ---
 
 ## IDEA-009: Starter Kit Files Ship to Derived Projects
-**Status:** new
+**Status:** promoted
 **Added:** 2025-12-10
+**Promoted:** 2025-12-11 - Implemented as FEAT-054 (startup/ folder)
 
 Template clone includes starter-kit-specific files that confuse derived projects.
 
 ### Details
 When `gh repo create --template` runs, derived projects get:
-- `feature_list.json` with 43 starter kit features (CC just overwrites without asking)
+- `feature_list.json` with 53 starter kit features (CC just overwrites without asking)
 - `ideas.md` with our shower thoughts
 - `claude-progress.txt` with our session notes
 
-These should be deleted as part of setup, or not shipped at all.
+### Solution Implemented
+Created `startup/` folder with:
+- `startup.sh` - Human runs ONCE after clone, copies templates to root, then deletes itself
+- `CLAUDE.md.template` - Clean instructions for derived projects
+- `feature_list.json.template` - Empty feature list with sample task
+- `ideas.md.template` - Clean ideas file
+- `claude-progress.txt.template` - Fresh progress file
 
-### Possible Fixes
-1. Add cleanup to README Quick Start: `rm feature_list.json ideas.md claude-progress.txt`
-2. Create `setup-derived-project.sh` that handles all swaps/deletes
-3. Add these to .gitignore (but then we lose tracking for starter kit itself)
-4. Rename our tracking files (e.g., `starter-features.json`)
+Also added Critical Rule #7: "Never Wholesale Overwrite Protected Files"
 
 ### Notes
-- CC saw starter kit features and just replaced them without asking
-- Need guard in init: "If feature_list.json exists with content, ask before overwriting"
+- Human-only action ensures Claude never wholesale overwrites these files
+- startup/ folder deletes itself after running to prevent accidental re-runs
 
 ---
 

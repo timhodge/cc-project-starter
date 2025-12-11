@@ -428,6 +428,14 @@
       "status": "complete",
       "depends_on": [],
       "references": ["IDEA-017"]
+    },
+    {
+      "id": "FEAT-054",
+      "name": "startup/ folder for project initialization",
+      "description": "Human-run startup.sh creates CLAUDE.md, feature_list.json, ideas.md, claude-progress.txt from templates. Deletes itself after. Replaces CLAUDE.start.md approach.",
+      "status": "complete",
+      "depends_on": [],
+      "references": ["IDEA-009"]
     }
   ]
 }

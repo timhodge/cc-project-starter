@@ -1,0 +1,23 @@
+# Project-Specific Notes
+
+This file is for project-specific knowledge that shouldn't be in the main CLAUDE.md. Add information here that's unique to this project.
+
+**This file will never be overwritten by starter kit updates.**
+
+---
+
+## Examples of What to Put Here
+
+- API key locations ("Postmark API key is in 1Password under 'Project X'")
+- Deployment notes ("Always deploy to staging first, client reviews on Tuesdays")
+- Client preferences ("Client prefers blue over green", "No stock photos of people")
+- Environment quirks ("Dev server runs on port 3000, not 8000")
+- Contact information ("Form submissions go to jane@client.com")
+- Third-party service details ("Using Cloudflare for DNS, RunCloud for hosting")
+
+---
+
+## Project Notes
+
+<!-- Add your project-specific notes below -->
+
