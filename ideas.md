@@ -275,6 +275,61 @@ These should be deleted as part of setup, or not shipped at all.
 
 ---
 
+## IDEA-011: Spec-Driven Planning for Complex Projects
+**Status:** new
+**Added:** 2025-12-10
+
+Evaluate spec-driven approaches for Laravel and complex website types.
+
+### Details
+These project types may benefit from structured specification before scaffolding.
+
+**Candidates to evaluate:**
+1. GitHub's spec-kit (github.com/github/spec-kit)
+2. Fission AI's OpenSpec (github.com/Fission-AI/OpenSpec)
+
+**Options if we decide to integrate:**
+a) Keep separate - use externally when needed
+b) Create lightweight 'spec mode' for complex projects
+c) Pull useful concepts into onboarding
+
+### Notes
+- Test on a real project first to see if it adds value over freeform Claude conversation
+- Originally added directly to feature_list.json, moved here since it's exploratory
+
+---
+
+## IDEA-013: Auto-Track User Requests in feature_list.json
+**Status:** promoted
+**Added:** 2025-12-10
+**Implemented:** 2025-12-10 - Added "On Tracking Work" section to both CLAUDE.md and CLAUDE.start.md
+
+When user asks for something to be done, CC should add it (or ask if user wants to add it) to feature_list.json so it's in the record.
+
+### Details
+Currently work can get done without being tracked. This would ensure all completed work is recorded.
+
+### Notes
+- Implemented as mutual accountability guidance, not a strict rule
+- Both parties can suggest tracking - shared responsibility
+
+---
+
+## IDEA-012: Custom Fields Package for Laravel/Filament Projects
+**Status:** new
+**Added:** 2025-12-10
+
+Include or recommend a custom fields package (like relaticle.com/custom-fields) for easy dynamic field creation in Laravel Filament projects.
+
+### Details
+Reference: https://custom-fields.relaticle.com/v2/introduction
+
+### Notes
+- Would apply to Laravel app type when using Filament admin panel
+- Could be an optional onboarding question: "Will you need dynamic/user-defined custom fields?"
+
+---
+
 ## IDEA-001: Template
 **Status:** new
 **Added:** YYYY-MM-DD

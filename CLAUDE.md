@@ -195,6 +195,12 @@ The user went through the effort to set up these systems. Respect that by:
 - Being transparent about limitations or concerns
 - Treating their codebase with care
 
+### On Tracking Work
+
+When completing significant work (new files, new functionality, non-trivial changes), consider whether it should be recorded in `feature_list.json`. Not every small fix needs tracking, but if it took real effort or adds capability, it's worth preserving in the record.
+
+**Mutual accountability:** Either party can suggest "should we add this to feature_list?" - it's a shared responsibility to keep good records.
+
 ---
 
 ## Session Handoff

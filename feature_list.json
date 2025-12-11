@@ -225,12 +225,6 @@
       "passes": true
     },
     {
-      "id": "consider-spec-driven-planning",
-      "name": "Consider spec-driven planning for complex projects",
-      "description": "Evaluate GitHub's spec-kit (github.com/github/spec-kit) for Laravel and complex website types. These project types may benefit from structured specification before scaffolding. Options: 1) Keep separate - use spec-kit externally when needed, 2) Create lightweight 'spec mode' for complex projects, 3) Pull useful concepts into onboarding. Test spec-kit on a real Laravel project first to see if it adds value over freeform Claude conversation.",
-      "passes": false
-    },
-    {
       "id": "lesson-analyze-scope-shipping-code",
       "name": "Standardize on src/ as deliverable location",
       "description": "Establish clear separation: repo root is the workshop (tooling, configs, CLAUDE.md), src/ is the product (shipping code). All analyze.sh scripts scan src/ only. Distribution packages go in dist/. This applies to all project types - WordPress plugins, Laravel apps, brochure sites all put their deliverable code in src/, whatever internal structure that takes.",
@@ -266,6 +260,18 @@
       "id": "organization-branding-question",
       "name": "Add organization branding question",
       "description": "Add onboarding question: Who is putting their name on this project? (BWG or Off Walter). Answer captured in project-brief.json and used to populate plugin headers, copyright notices, author fields. Implements IDEA-005.",
+      "passes": true
+    },
+    {
+      "id": "idea-slash-command",
+      "name": "Create /idea slash command",
+      "description": "Quick capture command that adds ideas to ideas.md with auto-incrementing IDEA-XXX IDs. Located at .claude/commands/idea.md.",
+      "passes": true
+    },
+    {
+      "id": "track-work-guidance",
+      "name": "Add guidance for tracking significant work",
+      "description": "Added 'On Tracking Work' section to CLAUDE.md and CLAUDE.start.md - mutual accountability for recording completed work in feature_list.json. Implements IDEA-013.",
       "passes": true
     }
   ]
