@@ -74,3 +74,6 @@ phpstan.neon.dist.cache
 *.key
 credentials.json
 secrets.json
+
+# Claude Code local settings (user-specific overrides)
+.claude/settings.local.json

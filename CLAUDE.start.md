@@ -106,7 +106,7 @@ Before asking questions, check what the user has already provided:
 7. **Generate outputs**:
    - `project-config.json` - Project type and configuration
    - `project-brief.json` - All captured answers
-   - `feature_list.json` - Features to build (all `passes: false`)
+   - `feature_list.json` - Features to build (all `status: "pending"`)
    - Copy `lessons-learned.json` template for this project
 
    **Shaping feature_list.json based on new vs existing code:**
@@ -213,7 +213,7 @@ For each session, repeat:
    - **Errors IN SCOPE** (in files you just touched): Fix and re-run
    - **Errors OUT OF SCOPE** (pre-existing issues): STOP, report to user, do NOT commit
    - **All checks pass**: Continue
-6. **Update `feature_list.json`**: Set `passes: true` for completed feature
+6. **Update `feature_list.json`**: Set `status: "complete"` for completed feature
 7. **Commit**: `git commit -m "feat: [feature name]"`
 8. **Update `claude-progress.txt`**
 9. **Check for lessons learned** (see below)
@@ -293,14 +293,14 @@ For each imported lesson:
 4. Proceed to Step 3
 
 #### Step 3: Close the Loop
-Before marking `passes: true` in `feature_list.json`:
+Before marking `status: "complete"` in `feature_list.json`:
 1. Ask user to confirm write access to source project
 2. Update source project's `lessons-learned.json`:
    - Set `"addressed": true`
    - Set `"addressed_in_starter_version"` to current version (e.g., "2.1.0")
-3. Then mark `passes: true` in starter kit's `feature_list.json`
+3. Then mark `status: "complete"` in starter kit's `feature_list.json`
 
-**Important:** Do NOT mark a lesson as `passes: true` until the source project's file has been updated. This prevents re-processing the same lesson.
+**Important:** Do NOT mark a lesson as `status: "complete"` until the source project's file has been updated. This prevents re-processing the same lesson.
 
 ---
 
@@ -534,24 +534,47 @@ When quality gates fail, you must **fix the code**, not weaken the quality gate.
 2. Get explicit approval BEFORE making any config change
 3. Document why the change was made in a comment
 
-### 2. Feature List Immutability
+### 2. Feature List Schema and Rules
 
-The `feature_list.json` is immutable except for the `passes` field.
+Features are tracked in `feature_list.json` with sequential IDs and dependency management.
 
-**You may only:**
-- Set `passes: true` when a feature is **fully complete** as originally defined
-- Set `passes: false` if a previously passing feature regresses
+**Schema:**
+```json
+{
+  "id": "FEAT-001",
+  "name": "Brief descriptive name",
+  "description": "What this feature does",
+  "status": "pending|in_progress|complete|blocked",
+  "depends_on": ["FEAT-000"],
+  "references": ["IDEA-001", "FEAT-002"]
+}
+```
 
-**You may NOT:**
+**Fields:**
+- `id` - Sequential ID (FEAT-XXX), permanent once assigned
+- `name` - Brief name (3-5 words)
+- `description` - What this feature does
+- `status` - `pending`, `in_progress`, `complete`, or `blocked`
+- `depends_on` - FEAT-XXX IDs that must be `complete` before work can start (enforced by analyze.sh)
+- `references` - IDEA-XXX this implements, or related FEAT-XXX (informational)
+
+**You may only change `status` without asking:**
+- `pending` → `in_progress` when starting work
+- `in_progress` → `complete` when fully complete
+- `in_progress` → `blocked` if stuck
+- `complete` → `in_progress` if regression found
+
+**You may NOT without user approval:**
 - Edit feature names, descriptions, or requirements
-- Change "Postmark integration" to "email integration"
-- Mark `passes: true` with caveats like "mostly done" or "sub-items pending"
-- Add new features without user approval
-- Remove features without user approval
+- Add or remove `depends_on` entries
+- Add new features
+- Remove features
+- Mark `status: "complete"` with caveats like "mostly done"
 
-**If a feature definition seems wrong:**
-1. Discuss with the user
-2. Get explicit approval before modifying anything other than `passes`
+**Dependency enforcement:**
+- analyze.sh checks dependencies before running quality gates
+- If any `in_progress` feature has dependencies that aren't `complete`, it triggers STOP AND ASK
+- Resolve by: completing the dependency, removing incorrect dependency, or getting user approval to proceed
 
 ### 3. Verify Quality Gates After Scaffolding
 

@@ -55,7 +55,33 @@ When a user creates a new project from this kit:
 
 ### Feature Tracking
 
-Track progress in `feature_list.json`. Mark `passes: true` only when fully complete.
+Features are tracked in `feature_list.json` with sequential IDs and dependency management.
+
+**Schema:**
+```json
+{
+  "id": "FEAT-001",
+  "name": "Brief descriptive name",
+  "description": "What this feature does",
+  "status": "pending|in_progress|complete|blocked",
+  "depends_on": ["FEAT-000"],
+  "references": ["IDEA-001", "FEAT-002"]
+}
+```
+
+**Fields:**
+- `id` - Sequential ID (FEAT-XXX), permanent once assigned
+- `name` - Brief name (3-5 words)
+- `description` - What this feature does
+- `status` - `pending`, `in_progress`, `complete`, or `blocked`
+- `depends_on` - FEAT-XXX IDs that must be `complete` before work can start
+- `references` - IDEA-XXX this implements, or related FEAT-XXX (informational)
+
+**Rules:**
+- Only change `status` without asking; other fields need user approval
+- `depends_on` is enforced by analyze.sh - unmet dependencies trigger STOP AND ASK
+- New features get the next sequential FEAT-XXX ID
+- IDs are permanent - never reuse or renumber
 
 ---
 
