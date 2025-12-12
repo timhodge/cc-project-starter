@@ -350,3 +350,40 @@ b) Archive completed items to separate files - implemented
 - Archive files preserve full schema structure (JSON for features)
 - Active files stay lean and focused on pending work
 - Templates added to startup/ for derived projects
+
+---
+
+## IDEA-016: Onboarding Existing Laravel Projects
+**Status:** promoted
+**Added:** 2025-12-11
+**Promoted:** 2025-12-11 - Covered by FEAT-046, FEAT-048, FEAT-050
+
+Handle importing/inheriting existing Laravel codebases - different from new project scaffolding.
+
+### The Problem
+
+Existing projects come with:
+- Unknown dev environment (README may not match reality)
+- Unknown prod environment (where's the actual latest code?)
+- Pre-chosen dependencies (Spatie permissions, JWT, etc. - we inherit them)
+- Unknown testing status (tests may not exist or may not pass)
+- Technical debt (code on server differs from repo)
+
+We can't apply "new project" rules. We need discovery-first onboarding.
+
+### Coverage by Features
+
+- **FEAT-046** (Laravel onboarding): Discovery questions for existing projects (goal, dev needs, prod location, testing expectations, database situation, safe zones)
+- **FEAT-048** (Laravel discovery docs): Document findings in CLAUDE.project.md (tech stack, deployment, tech debt, safe zones)
+- **FEAT-050** (Laravel quality gates): Graduated quality gate levels 0-3 for existing projects
+
+### Quality Gates for Existing Projects (from this idea)
+
+**Level 0: Survival Mode** - No quality gates, manual testing
+**Level 1: Basic Hygiene** - Pint autofix, manual testing
+**Level 2: Standard** - Pint + PHPStan at inherited level + run existing tests
+**Level 3: Full** - All quality gates from new project template
+
+### Informed By
+
+- **bwg-event-hub**: Laravel 11 + Filament + JWT API, Sail in README but unclear if used, cPanel deployment config, repo behind prod

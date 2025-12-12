@@ -20,11 +20,19 @@
       "references": ["IDEA-015", "IDEA-016"]
     },
     {
+      "id": "FEAT-066",
+      "name": "Enhance Laravel skill with TALL patterns",
+      "description": "Expand .claude/skills/laravel/SKILL.md with TALL stack patterns: Livewire (components, wire:model, events, polling), Alpine.js (x-data, x-show, keyboard shortcuts), Policy authorization, PHP 8.1+ enum best practices, Tinker-first workflow, mobile-first Tailwind, Reverb/broadcasting, multi-DB connections, RunCloud checklist. Nice-to-have dependency for scaffolding quality.",
+      "status": "pending",
+      "depends_on": ["FEAT-046"],
+      "references": ["IDEA-015"]
+    },
+    {
       "id": "FEAT-047",
       "name": "Laravel scaffolding for new projects",
       "description": "Generate files based on onboarding answers: .env.example, Role enum, Policy stubs, Livewire structure.",
       "status": "pending",
-      "depends_on": ["FEAT-046"],
+      "depends_on": ["FEAT-066"],
       "references": ["IDEA-015"]
     },
     {
@@ -32,7 +40,7 @@
       "name": "Laravel discovery docs for existing projects",
       "description": "Document findings in CLAUDE.project.md: actual tech stack, deployment, tech debt, safe zones.",
       "status": "pending",
-      "depends_on": ["FEAT-046"],
+      "depends_on": ["FEAT-066"],
       "references": ["IDEA-016"]
     },
     {
