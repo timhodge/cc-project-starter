@@ -2,7 +2,7 @@
 
 Speculative ideas for improving the starter kit. Not committed work - just captured thoughts.
 
-Promoted, parked, and rejected ideas are archived in `ideas_archive.md`.
+**Archive:** Promoted, parked, and rejected ideas are moved to `ideas_archive.md` to keep this file lean.
 
 ## Quick Reference
 

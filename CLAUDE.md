@@ -15,7 +15,10 @@ Your job is to improve the templates, scaffolding, quality gates, skills, and wo
 | `CLAUDE.md` | This file - instructions for working on the starter kit |
 | `startup/` | Templates for derived projects (CLAUDE.md, feature_list.json, etc.) |
 | `CLAUDE.project.md` | Template for project-specific notes in derived projects |
-| `feature_list.json` | Tracks starter kit features to build/improve |
+| `feature_list.json` | Active starter kit features (pending, in_progress, blocked) |
+| `feature_list_archive.json` | Completed features (for reference) |
+| `ideas.md` | Speculative ideas to explore |
+| `ideas_archive.md` | Promoted/parked/rejected ideas |
 | `claude-progress.txt` | Session handoff notes |
 | `lessons-learned.json` | Template, also captures lessons from THIS project |
 
@@ -55,7 +58,13 @@ When a user creates a new project from this kit:
 
 ### Feature Tracking
 
-Features are tracked in `feature_list.json` with sequential IDs and dependency management.
+Features are tracked in `feature_list.json` with sequential IDs and dependency management. Completed features are moved to `feature_list_archive.json` to keep the active file lean.
+
+**Archive System:**
+- `feature_list.json` - Active features only (pending, in_progress, blocked)
+- `feature_list_archive.json` - Completed features (for reference)
+- Use `/todo complete FEAT-XXX` to mark complete AND move to archive in one step
+- Use `/todo -l` to list active features (checks archive for dependency resolution)
 
 **Schema:**
 ```json
@@ -145,11 +154,11 @@ For each lesson:
 
 ### Step 3: Implement
 1. Make the changes
-2. Mark `status: "complete"` in `feature_list.json`
+2. Use `/todo complete FEAT-XXX` to mark complete and move to archive
 
 **Key distinction:**
 - `addressed: true` in source project = "we've captured this, won't lose it"
-- `status: "complete"` in feature_list.json = "we've actually implemented the fix"
+- `complete` in feature_list_archive.json = "we've actually implemented the fix"
 
 ---
 
@@ -253,4 +262,4 @@ Update `claude-progress.txt` at session end:
 
 ## Version
 
-Starter Kit Version: 2.1.0
+Starter Kit Version: 2.2.0

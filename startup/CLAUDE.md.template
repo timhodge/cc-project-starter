@@ -212,7 +212,7 @@ For each session, repeat:
    - **Errors IN SCOPE** (in files you just touched): Fix and re-run
    - **Errors OUT OF SCOPE** (pre-existing issues): STOP, report to user, do NOT commit
    - **All checks pass**: Continue
-6. **Update `feature_list.json`**: Set `status: "complete"` for completed feature
+6. **Complete the feature**: Use `/todo complete FEAT-XXX` to mark complete and move to archive
 7. **Commit**: `git commit -m "feat: [feature name]"`
 8. **Update `claude-progress.txt`**
 9. **Check for lessons learned** (see below)
@@ -428,7 +428,10 @@ When packaging `src/` for distribution:
 project-root/
 ├── CLAUDE.md                          # This file
 ├── CLAUDE.project.md                  # Project-specific notes (create as needed)
-├── feature_list.json                  # Features to build
+├── feature_list.json                  # Active features to build
+├── feature_list_archive.json          # Completed features (for reference)
+├── ideas.md                           # Speculative ideas
+├── ideas_archive.md                   # Archived ideas (promoted/parked/rejected)
 ├── project-config.json                # Project configuration (after onboarding)
 ├── project-brief.json                 # Discovery answers (after onboarding)
 ├── lessons-learned.json               # Feedback for starter kit
@@ -535,7 +538,13 @@ When quality gates fail, you must **fix the code**, not weaken the quality gate.
 
 ### 2. Feature List Schema and Rules
 
-Features are tracked in `feature_list.json` with sequential IDs and dependency management.
+Features are tracked in `feature_list.json` with sequential IDs and dependency management. Completed features are moved to `feature_list_archive.json` to keep the active file lean.
+
+**Archive System:**
+- `feature_list.json` - Active features only (pending, in_progress, blocked)
+- `feature_list_archive.json` - Completed features (for reference)
+- Use `/todo complete FEAT-XXX` to mark complete AND move to archive in one step
+- Use `/todo -l` to list active features (checks archive for dependency resolution)
 
 **Schema:**
 ```json

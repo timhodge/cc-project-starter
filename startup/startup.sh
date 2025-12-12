@@ -40,7 +40,7 @@ fi
 
 # Check for existing files that would be overwritten
 EXISTING_FILES=""
-for file in CLAUDE.md CLAUDE.project.md feature_list.json ideas.md claude-progress.txt lessons-learned.json; do
+for file in CLAUDE.md CLAUDE.project.md feature_list.json feature_list_archive.json ideas.md ideas_archive.md claude-progress.txt lessons-learned.json; do
     if [ -f "$PROJECT_ROOT/$file" ]; then
         EXISTING_FILES="$EXISTING_FILES $file"
     fi
@@ -70,8 +70,14 @@ echo "  Created CLAUDE.project.md"
 cp "$SCRIPT_DIR/feature_list.json.template" "$PROJECT_ROOT/feature_list.json"
 echo "  Created feature_list.json"
 
+cp "$SCRIPT_DIR/feature_list_archive.json.template" "$PROJECT_ROOT/feature_list_archive.json"
+echo "  Created feature_list_archive.json"
+
 cp "$SCRIPT_DIR/ideas.md.template" "$PROJECT_ROOT/ideas.md"
 echo "  Created ideas.md"
+
+cp "$SCRIPT_DIR/ideas_archive.md.template" "$PROJECT_ROOT/ideas_archive.md"
+echo "  Created ideas_archive.md"
 
 cp "$SCRIPT_DIR/claude-progress.txt.template" "$PROJECT_ROOT/claude-progress.txt"
 echo "  Created claude-progress.txt"

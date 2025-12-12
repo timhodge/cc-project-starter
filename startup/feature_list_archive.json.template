@@ -1,0 +1,5 @@
+{
+  "$schema": "./feature_list.schema.json",
+  "$comment": "Archived completed features. Use /todo complete FEAT-XXX to move items here.",
+  "features": []
+}
