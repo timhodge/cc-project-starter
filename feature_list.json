@@ -58,14 +58,6 @@
       "status": "pending",
       "depends_on": ["FEAT-050"],
       "references": ["IDEA-015", "IDEA-016"]
-    },
-    {
-      "id": "FEAT-055",
-      "name": "Update update-project.sh for startup/",
-      "description": "Update update-project.sh to work with new startup/ folder structure.",
-      "status": "pending",
-      "depends_on": ["FEAT-054"],
-      "references": []
     }
   ]
 }

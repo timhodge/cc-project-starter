@@ -74,6 +74,27 @@ rm -rf "$TARGET/.claude/skills"
 cp -r "$SCRIPT_DIR/.claude/skills" "$TARGET/.claude/"
 echo -e "${GREEN}done${NC}"
 
+# .claude/commands/
+echo -n "  .claude/commands/ ... "
+mkdir -p "$TARGET/.claude"
+rm -rf "$TARGET/.claude/commands"
+cp -r "$SCRIPT_DIR/.claude/commands" "$TARGET/.claude/"
+echo -e "${GREEN}done${NC}"
+
+# .claude/settings.json (not settings.local.json)
+echo -n "  .claude/settings.json ... "
+cp "$SCRIPT_DIR/.claude/settings.json" "$TARGET/.claude/settings.json"
+echo -e "${GREEN}done${NC}"
+
+# Root delegator scripts
+echo -n "  init.sh ... "
+cp "$SCRIPT_DIR/init.sh" "$TARGET/init.sh"
+echo -e "${GREEN}done${NC}"
+
+echo -n "  analyze.sh ... "
+cp "$SCRIPT_DIR/analyze.sh" "$TARGET/analyze.sh"
+echo -e "${GREEN}done${NC}"
+
 # project-types/
 echo -n "  project-types/ ... "
 rm -rf "$TARGET/project-types"

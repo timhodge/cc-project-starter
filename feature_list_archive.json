@@ -532,6 +532,14 @@
       "status": "complete",
       "depends_on": [],
       "references": ["IDEA-020"]
+    },
+    {
+      "id": "FEAT-055",
+      "name": "Update update-project.sh for startup/",
+      "description": "Update update-project.sh to work with new startup/ folder structure. Added .claude/commands/, .claude/settings.json, init.sh, and analyze.sh.",
+      "status": "complete",
+      "depends_on": ["FEAT-054"],
+      "references": []
     }
   ]
 }
