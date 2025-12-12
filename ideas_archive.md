@@ -387,3 +387,53 @@ We can't apply "new project" rules. We need discovery-first onboarding.
 ### Informed By
 
 - **bwg-event-hub**: Laravel 11 + Filament + JWT API, Sail in README but unclear if used, cPanel deployment config, repo behind prod
+
+---
+
+## IDEA-015: Enhanced Laravel Starter with TALL Stack Patterns
+**Status:** promoted
+**Added:** 2025-12-10
+**Promoted:** 2025-12-11 - Decomposed into FEAT-046, FEAT-066, FEAT-047, FEAT-049, FEAT-050, FEAT-051
+
+Establish a clear, opinionated Laravel starter based on real-world projects (fun-bobby, bwg-ops-dash).
+
+### The Standard Stack (TALL)
+
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| **T**ailwind CSS | Styling | Mobile-first, utility classes |
+| **A**lpine.js | Micro-interactions | Dropdowns, modals, toggles, keyboard shortcuts |
+| **L**aravel 11 | Backend | Auth, ORM, queues, policies |
+| **L**ivewire 3 | Reactive UI | Forms, tables, real-time updates without JS framework |
+
+**Optional additions:**
+- **Filament** → Admin panel / CRUD generation
+- **Reverb** → Real-time WebSocket features (collaborative boards, live updates)
+
+### Coverage by Features
+
+- **FEAT-046** (onboarding): Database, admin panel, reactive UI, real-time, roles, external DB questions
+- **FEAT-066** (skill patterns): Livewire, Alpine.js, Policies, Enums, Tinker, Tailwind, Reverb, multi-DB, RunCloud
+- **FEAT-047** (scaffolding): .env.example, Role enum, Policy stubs, Livewire structure
+- **FEAT-049** (dev env): Laravel Herd, match dev to prod
+- **FEAT-050** (quality gates): Pint + Larastan + tests
+- **FEAT-051** (deployment): RunCloud setup, GitHub Actions
+
+### Environment Setup
+
+| Environment | Tool | Database |
+|-------------|------|----------|
+| **Local dev** | Laravel Herd | Match production |
+| **Production** | RunCloud | SQLite or MariaDB |
+
+### Authentication Pattern
+
+All Laravel projects use:
+- **Laravel Breeze** for scaffolding
+- **Role enum** on users table
+- **Policies** for authorization (no Spatie needed)
+
+### Informed By
+
+- **fun-bobby**: Personal app, SQLite, Livewire UI, privacy scopes
+- **bwg-ops-dash**: Team app, MariaDB, Reverb real-time, external DB integration, complex roles
