@@ -324,3 +324,29 @@ Tools to consider for persistent access:
 - Dramatically reduces approval fatigue
 - User already trusts Claude to work in their codebase
 - Could be configured per-project in settings or CLAUDE.md
+
+---
+
+## IDEA-020: Reduce Token Burn on Large Tracking Files
+**Status:** promoted
+**Added:** 2025-12-11
+**Promoted:** 2025-12-11 - Implemented as FEAT-062, FEAT-063, FEAT-064, FEAT-065 (archive system)
+
+Reading increasingly lengthy feature_list.json and ideas.md burns tokens on old information we don't need. Finding 1 pending task requires reading 63 complete tasks.
+
+### Details
+Options evaluated:
+a) Move to SQLite for dynamic queries - rejected (can't diff in git)
+b) Archive completed items to separate files - implemented
+
+### Implementation
+- `feature_list_archive.json` - Completed features moved here
+- `ideas_archive.md` - Promoted/parked/rejected ideas moved here
+- `/todo complete FEAT-XXX` command to mark complete AND archive in one step
+- Dependency logic updated: missing from active file = archived = satisfied
+- Reduced feature_list.json from 505 lines to ~70 lines (84% reduction)
+
+### Notes
+- Archive files preserve full schema structure (JSON for features)
+- Active files stay lean and focused on pending work
+- Templates added to startup/ for derived projects
